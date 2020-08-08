@@ -69,15 +69,14 @@ export function fetchTeams (allData) {
 			const homeRoster = playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.home.triCode);
 			homeRoster.forEach(function(team) { 
 				if(team.alternateCaptain === true) {
-					playerNamesHome.push([team.primaryNumber, team.fullName + ' (A) '])
+					playerNamesHome.push([team.primaryNumber, team.fullName, ' (A) '])
 				} else if(team.captain === true){
-					playerNamesHome.push([team.primaryNumber, team.fullName + ' (C) '])
+					playerNamesHome.push([team.primaryNumber, team.fullName, ' (C) '])
 				} else {
 					playerNamesHome.push([team.primaryNumber, team.fullName])
 				}
 			});
 			teams.push(playerNamesHome);
-
 			
 			return teams;
 }

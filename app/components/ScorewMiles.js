@@ -7,79 +7,34 @@ import { FaPlayCircle } from 'react-icons/fa'
 function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 	if(allData && content){
 
-		// const milestones =[];
-		// const otherstones = [];
-		// Object.entries(content.media.milestones).length !== 0
-		// 	? content.media.milestones.items.forEach((play) => {
-		// 			if(play.title === "Goal"){
-		// 				milestones.push(play);
-		// 			} else if (play.title !=="Goal" && play.highlight.playbacks){
-		// 				otherstones.push(play);
-		// 			}
-		// 		})
-		// 	: null
-
-		const scoreVidRaw =[];
-		Object.entries(content.highlights.scoreboard).length !== 0
-			? content.highlights.scoreboard.items.forEach((play) => {
-					if(
-						play.blurb.includes("scores") 
-						|| play.blurb.includes("home") 
-						|| play.blurb.includes("net")
-						|| play.blurb.includes("lead")
-						|| play.blurb.includes("goal")
-						|| play.blurb.includes("past")												
-						|| play.blurb.includes("PPG")
-						|| play.blurb.includes("beats")						
-						|| play.blurb.includes("roofs")						
-						|| play.blurb.includes("finish")
-						|| play.blurb.includes("finishes") 
-						|| play.blurb.includes("scoring") 						
-						|| play.title.includes("scoring") 
-						|| play.title.includes("goal")
-						|| play.title.includes("score")
-						|| play.title.includes("home")
-						|| play.title.includes("buries")
-						|| play.title.includes("winner")																		
-						|| play.description.includes("home")
-						|| play.description.includes("scoring")						
-						|| play.description.includes("top shelf")
-						|| play.description.includes("lead")
-						|| play.description.includes("past")												
-						|| play.description.includes("tie")						
-						|| play.description.includes("goal")){
-						scoreVidRaw.push(play);
-				}})
+		const milestones =[];
+		const otherstones = [];
+		Object.entries(content.media.milestones).length !== 0
+			? content.media.milestones.items.forEach((play) => {
+					if(play.title === "Goal"){
+						milestones.push(play);
+					} else if (play.title !=="Goal" && play.highlight.playbacks){
+						otherstones.push(play);
+					}
+				})
 			: null
 
-		const scoreVid = scoreVidRaw.filter(play => 
-			!play.blurb.includes("deny") 
-			&& !play.title.includes("stop")
-			&& !play.title.includes("save")
-			&& !play.title.includes("Pens score two PPGs in 59 seconds")
-			&& !play.description.includes("save"));
-
-		scoreVid.sort((a, b) => {
-			return a.id - b.id;
-		});
-		console.log(scoreVid);
-
-			// console.log(otherstones);
+			console.log(otherstones);
 
 		const scoringPlaysDescription = [];
 		scoringPlays.forEach((play, index) => (
 			scoringPlaysDescription.push({
 				period: allData.liveData.plays.allPlays[play].about.period,
 				description: allData.liveData.plays.allPlays[play].result.description + " @ " + allData.liveData.plays.allPlays[play].about.periodTimeRemaining,
-				highlight: scoreVid[index] && scoreVid[index].playbacks ? scoreVid[index].playbacks[3].url : null
+				highlight: milestones[index] && milestones[index].highlight.playbacks ? milestones[index].highlight.playbacks[3].url : null
 				})
 		))
-
-		console.log(scoringPlaysDescription)
 
 		const condensedGame = content.media.epg[2].items[0] && content.media.epg[2].items[0].playbacks
 			? content.media.epg[2].items[0].playbacks[3].url
 			: null
+
+		console.log(condensedGame !== null);
 
 		const condensedGameButton = condensedGame !== null
 			?	<li key='condensedGame'><br/><h3>Condensed Game
@@ -168,8 +123,6 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						<FaPlayCircle />
 					</button>
 				</li>
-			} else {
-				return <li key={play}>{play.description}</li>
 			}
 		})
 
@@ -193,8 +146,6 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						<FaPlayCircle />
 					</button>
 				</li>
-			} else {
-				return <li key={play}>{play.description}</li>
 			}
 		})
 
@@ -217,8 +168,6 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						<FaPlayCircle />
 					</button>
 				</li>
-			} else {
-				return <li key={play}>{play.description}</li>
 			}
 		})
 
@@ -241,42 +190,27 @@ export default class Score extends React.Component {
 	constructor(props){
 		super(props)
 
+			this.state = {
+				url: null
+			}
+
 			this.updateVid = this.updateVid.bind(this)
-			this.handleVidClose = this.handleVidClose.bind(this)
 		}
 
-		updateVid(burl) {
-			this.props.onUpdateVid(burl)
-
-			console.log(burl)
-
-			// this.setState({
-			// 	url,
-			// 	vidVis: true,
-			// })
+		updateVid(url) {
+		this.setState({
+			url
+		})
 	}
 
-		handleVidClose() {
-			this.props.onVidClose({
-				vidVis: false
-			})
-
-			// this.setState({
-			// 	vidVis: false
-			// })
-		}
-
 	render(){
-		const { allData, scoringPlays, content, vidVis, vidUrl } = this.props
-
+		const {allData, scoringPlays, content} = this.props
 		return(
 			<React.Fragment>
-			{vidVis === true
-				?<Video 
-					url={vidUrl}
-					closeVid={this.handleVidClose}/>
-				: null}
 				{scoringPlays ? <h2>Scoring Summary</h2> : null}
+			{this.state.url
+				?<Video url={this.state.url}/>
+				: null}
 				<RenderGoals
 					allData={allData}
 					scoringPlays={scoringPlays}

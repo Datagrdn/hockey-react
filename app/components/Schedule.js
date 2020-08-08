@@ -14,14 +14,19 @@ export default class Schedule extends React.Component {
 	handleSubmit(gameID) {
 		clearInterval(this.interval);
 		this.props.onSubmit(gameID);
+		this.props.closeVid();
 
 		this.interval = setInterval(() => {
 			this.props.onSubmit(gameID)
-		}, 1000000)
+		}, 5000)
 	}
 
 	componentDidMount(){
 		this.props.fetchSchedule();
+
+		this.schedInterval = setInterval(() => {
+			this.props.fetchSchedule();
+		}, 10000)
 	}
 
 	convertTime(date) {
@@ -70,40 +75,49 @@ export default class Schedule extends React.Component {
 		const { schedule, incrementFunc, decrementFunc } = this.props
 		return(
 			<React.Fragment>
-			<div class="schedule">
-				<button
-				className='btn-clear'
-				onClick={this.handleDecrement}>
-				<FaAngleDoubleLeft size={20}/>
-			</button>
-			{schedule
-				? schedule.dates[0].games.map((game) => (
-						<li key={game}>
-							<button
-								className='btn-clear onIce-link'
-								onClick={() => this.handleSubmit(game.gamePk)}>
-								{game.teams.away.team.name}<br/>
-								{game.teams.home.team.name}<br/>
-								{game.status.detailedState === "Scheduled" ? this.convertTime(game.gameDate)
-									: game.status.detailedState === "Final"
-										? game.teams.away.score + " - " + game.teams.home.score + " Final"
-									: game.teams.away.score + " - " + game.teams.home.score}
-							</button>
-						</li>
-					))
-				: null}
-				<button
-				className='btn-clear'
-				onClick={this.handleIncrement}>
-				<FaAngleDoubleRight size={20}/>
-			</button>
-			</div>
-			<br/>
-			<center>
-			{schedule
-				? <h3>{this.addDate()}</h3>
-				: null}
-			</center>
+						<div class='schedule'>
+							{schedule
+								? schedule.dates[0].games.map((game) => (
+										<li key={game}>
+											<button
+												className='btn-clear onIce-link'
+												onClick={() => this.handleSubmit(game.gamePk)}>
+												{game.teams.away.team.name}<br/>
+												{game.teams.home.team.name}<br/>
+												{game.status.detailedState === "Scheduled" ? this.convertTime(game.gameDate)
+													: game.status.detailedState === "Final"
+														? game.teams.away.score + " - " + game.teams.home.score + " Final"
+													: game.teams.away.score + " - " + game.teams.home.score}
+											</button>
+										</li>
+									))
+								: null}
+							</div>
+			<table border='0' width='100%'>
+				<tr>
+					<td width='37%'>
+					</td>
+					<td width='26%'>
+						<div class='dates'>
+						<button
+							className='btn-clear'
+							onClick={this.handleDecrement}>
+							<FaAngleDoubleLeft size={20}/>
+						</button>
+						{schedule
+							? <h3>{this.addDate()}</h3>
+							: null}
+						<button
+							className='btn-clear'
+							onClick={this.handleIncrement}>
+							<FaAngleDoubleRight size={20}/>
+						</button>
+						</div>
+					</td>
+					<td width='37%'>
+					</td>
+				</tr>
+			</table>
 			</React.Fragment>
 		)
 	}

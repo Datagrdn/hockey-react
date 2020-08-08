@@ -46,6 +46,8 @@ export default class Game extends React.Component {
 			content: null,
 			error: null,
 			rendered: false,
+			vidVis:false,
+			vidUrl: null,
 		}
 
 		this.updateStat = this.updateStat.bind(this)
@@ -59,9 +61,26 @@ export default class Game extends React.Component {
 		this.scheduleState = this.scheduleState.bind(this)
 		this.incrementDate = this.incrementDate.bind(this)
 		this.decrementDate = this.decrementDate.bind(this)
+		this.updateVid = this.updateVid.bind(this)
+		this.vidClose = this.vidClose.bind(this)
+	}
+
+	updateVid(vidUrl) {
+
+		this.setState({
+			vidUrl,
+			vidVis: true,
+		})
+	}
+
+	vidClose() {
+		this.setState({
+			vidVis: false
+		})
 	}
 
 	gameChanged(newGame) {
+		console.log(newGame)
 		this.setState({
 			newGame
 		})
@@ -150,6 +169,7 @@ export default class Game extends React.Component {
 				teams,
 				rosterAway: teams[2],
 				rosterHome: teams[3],
+				selectedTeam: [0, teams[0]],
 				erorr: null,
 			}, () => this.setState({
 				onIce: onIce(this.state.allData)}, () => this.setState({
@@ -168,7 +188,7 @@ export default class Game extends React.Component {
 
 	handleSubmit(gameID) {
 		this.setState({
-			gameID
+			gameID,
 		}, () => this.apiCall())
 	}
 
@@ -205,6 +225,7 @@ export default class Game extends React.Component {
 				increment={increment}
 				incrementFunc={this.incrementDate}
 				decrementFunc={this.decrementDate}
+		  	closeVid={this.vidClose}				
 			/>
 			</table>
 			<table border='0' width='100%'>
@@ -293,6 +314,10 @@ export default class Game extends React.Component {
 		  		scoringPlays={scoringPlays}
 		  		gameID={gameID}
 		  		content={content}
+		  		onVidClose={this.vidClose}
+		  		onUpdateVid={this.updateVid}
+		  		vidVis={this.state.vidVis}
+		  		vidUrl={this.state.vidUrl}
 		  	/>
 				{error && <p>{error}</p>}
 				</center>
