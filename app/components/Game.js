@@ -52,7 +52,7 @@ export default class Game extends React.Component {
 
 		this.updateStat = this.updateStat.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
-		this.gameChanged = this.gameChanged.bind(this)
+		// this.gameChanged = this.gameChanged.bind(this)
 		this.playerChanged = this.playerChanged.bind(this)
 		this.teamChanged = this.teamChanged.bind(this)
 		this.clearStats = this.clearStats.bind(this)
@@ -79,12 +79,12 @@ export default class Game extends React.Component {
 		})
 	}
 
-	gameChanged(newGame) {
-		console.log(newGame)
-		this.setState({
-			newGame
-		})
-	}
+	// gameChanged(newGame) {
+	// 	console.log(newGame)
+	// 	this.setState({
+	// 		newGame
+	// 	})
+	// }
 
 	playerChanged(newPlayer) {
 		const { allData, selectedPlayer } = this.state
@@ -128,7 +128,7 @@ export default class Game extends React.Component {
 					erorr: null,
 				}, () => this.setState({
 					scoreBoard: fetchScoreboard(this.state.allData, this.state.gameState)
-					}, this.setTeams())
+					}, this.setTeams(this.state.gameID))
 				))
 				.catch(() => {
 					console.warn('Error fetching game data', error)
@@ -149,7 +149,7 @@ export default class Game extends React.Component {
 		}))
 	}
 
-	setTeams () {
+	setTeams (newID) {
 		const teams = fetchTeams(this.state.allData);
 		if(this.state.rendered === false){
 			this.setState({
@@ -164,15 +164,15 @@ export default class Game extends React.Component {
 					shots: shots(this.state.allData),
 				})
 			))
-		} else {
+		} else if(this.state.gameID !== this.state.gameIDP) {
 			this.setState({
-				teams,
-				rosterAway: teams[2],
-				rosterHome: teams[3],
-				selectedTeam: [0, teams[0]],
-				erorr: null,
-			}, () => this.setState({
-				onIce: onIce(this.state.allData)}, () => this.setState({
+					teams,
+					rosterAway: teams[2],
+					rosterHome: teams[3],
+					selectedTeam: [0, teams[0]],
+					erorr: null
+				}, () => this.setState({
+					onIce: onIce(this.state.allData)}, () => this.setState({
 					shots: shots(this.state.allData)
 				})
 			))
@@ -187,9 +187,13 @@ export default class Game extends React.Component {
 	}
 
 	handleSubmit(gameID) {
-		this.setState({
-			gameID,
-		}, () => this.apiCall())
+		console.log('Refresh')
+		this.setState(prevState => {
+			const newState = {}
+				newState.gameID = gameID
+				newState.gameIDP = prevState.gameID
+				return newState
+			}, () => this.apiCall())
 	}
 
 	updatePlayer(newPlayer){
