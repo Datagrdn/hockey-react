@@ -4,6 +4,7 @@ import Roster from './Roster'
 import Score from './Score'
 import Schedule from './Schedule'
 import OnIce from './OnIce'
+import GameFlow from './GameFlow'
 import { FaTimesCircle } from 'react-icons/fa'
 import { setURL, fetchTeams, fetchScoreboard, fetchSchedule, fetchContent, fetchStats, fetchAllData, onIce, shots } from '../utils/api'
 
@@ -74,7 +75,7 @@ export default class Game extends React.Component {
 		if(this.state.gfVis === false){
 			this.setState({
 				gfVis: true,
-				gfURL: `https://embed.naturalstattrick.com/gameflow.php?season=20192020&game=${gameID.toString().substring(5, 10)}`
+				gfURL: `http://www.naturalstattrick.com/graphs/20192020-${gameID.toString().substring(5, 10)}-xgdiff-all.png`
 			})
 		} else {
 			this.setState({
@@ -290,14 +291,14 @@ export default class Game extends React.Component {
 						className='btn-clear nav-link'
 						onClick={() => this.updateGF(gameID)}>
 					{gfVis === false
-						?<p>Corsi Graphs</p>
+						?<p>Advanced Stats</p>
 						:<p><FaTimesCircle /></p>}
 					</button>
 				: null }
 				{gfVis === true
-					?<div class="embed-container">
-					<iframe frameBorder="0" src={gfURL}></iframe>
-					</div>
+					?<GameFlow
+						gameID={gameID}
+					/>
 					: null}
 				</center>
 				</td>
