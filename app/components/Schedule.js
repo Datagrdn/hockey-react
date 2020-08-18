@@ -59,8 +59,11 @@ export default class Schedule extends React.Component {
 	}
 
 	addDate(){
-
-			return new Date(this.props.schedule.dates[0].date).toUTCString().substring(0, 11);
+			if(this.props.schedule.dates[0]) {
+				return new Date(this.props.schedule.dates[0].date).toUTCString().substring(0, 11);
+			} else {
+			return new Date().toUTCString().substring(0, 11)
+		}
 	}
 
 	handleIncrement() {
@@ -76,7 +79,7 @@ export default class Schedule extends React.Component {
 		return(
 			<React.Fragment>
 						<div class='schedule'>
-							{schedule
+							{schedule && schedule.dates[0]
 								? schedule.dates[0].games.map((game) => (
 										<li key={game}>
 											<button
@@ -91,6 +94,7 @@ export default class Schedule extends React.Component {
 											</button>
 										</li>
 									))
+								: schedule !== null ? <p>No games today, spend some time outside</p>
 								: null}
 							</div>
 			<table border='0' width='100%'>

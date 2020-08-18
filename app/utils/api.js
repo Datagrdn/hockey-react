@@ -34,6 +34,7 @@ export function fetchSchedule (increment) {
 			if (!schedule.dates) {
 				throw new Error('Error fetching schedule data')
 			}
+
 			return schedule;
 		})
 }

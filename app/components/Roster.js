@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { fetchGameData } from '../utils/api'
-import { fetchRoster } from '../utils/api'
+import { fetchStats } from '../utils/api'
 
 function RenderStats( {selectedStat, stats} ){
 	
@@ -10,6 +9,8 @@ function RenderStats( {selectedStat, stats} ){
 		} else 
 	if(stats){
 		const filteredStats = selectedStat[0] === 0 ? stats : stats.filter(play => play[0] === selectedStat[1]);
+
+		// console.log(filteredStats.length);
 
 		const period1Plays = []
 		filteredStats.forEach((play) => {
@@ -140,7 +141,20 @@ export default class Roster extends React.Component {
 	}
 
 	render(){
-		const { teams, selectedStat, selectedPlayer, rosterAway, rosterHome, selectedTeam, stats, rosterDisplay } = this.props
+		const { teams, selectedStat, selectedPlayer, rosterAway, rosterHome, selectedTeam, stats, rosterDisplay, allData } = this.props
+		const rosterDisplayStat = [];
+		rosterDisplay.forEach(player => {
+
+			const fetchedStats = fetchStats(allData, player[1]);
+			const statNumbers = selectedStat[0] === 0 
+				? fetchedStats.length 
+				: fetchedStats.filter(play => play[0] === selectedStat[1]).length;
+
+			rosterDisplayStat.push([statNumbers, player[0], player[1], player[2]])
+		});
+
+		rosterDisplayStat.sort((a,b)=>b[0]-a[0]);
+
 		return(
 					<table width="100%">
 						<tr>
@@ -156,16 +170,16 @@ export default class Roster extends React.Component {
 									</li>
 								))}
 								<br/>
-								{rosterDisplay.map((playerId) => (
+								{rosterDisplayStat.map((playerId) => (
 									<li key={playerId}>
-										{playerId[0]}
+										{playerId[1]}
 										<button
 										className='btn-clear nav-link'
-										style={playerId[1] === selectedPlayer ? { color: 'rgb(187, 46, 31)' } : null}
-										onClick={() => this.updatePlayer(playerId[1])}>
-										{playerId[2] 
-											? playerId[1] + playerId[2]
-											: playerId[1]}
+										style={playerId[2] === selectedPlayer ? { color: 'rgb(187, 46, 31)' } : null}
+										onClick={() => this.updatePlayer(playerId[2])}>
+										{playerId[3] 
+											? playerId[2] + playerId[3]
+											: playerId[2]}
 										</button>
 									</li>
 								))}
@@ -174,6 +188,7 @@ export default class Roster extends React.Component {
 								<RenderStats 
 									selectedStat={selectedStat}
 									stats={stats}
+									rosterDisplay={rosterDisplay}
 								/>
 							</td>
 						</tr>

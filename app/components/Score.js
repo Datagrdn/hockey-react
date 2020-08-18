@@ -44,6 +44,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						|| play.title.includes("winner")
 						|| play.title.includes("ties")																								
 						|| play.description.includes("home")
+						|| play.description.includes("buries")						
 						|| play.description.includes("winner")						
 						|| play.description.includes("scoring")						
 						|| play.description.includes("top shelf")
@@ -65,9 +66,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 		scoreVid.sort((a, b) => {
 			return a.id - b.id;
 		});
-		console.log(scoreVid);
-
-			// console.log(otherstones);
+		// console.log(scoreVid);
 
 		const scoringPlaysDescription = [];
 		scoringPlays.forEach((play, index) => (
@@ -78,7 +77,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 				})
 		))
 
-		console.log(scoringPlaysDescription)
+		// console.log(scoringPlaysDescription)
 
 		const condensedGame = content.media.epg[2].items[0] && content.media.epg[2].items[0].playbacks
 			? content.media.epg[2].items[0].playbacks[3].url
@@ -250,8 +249,6 @@ export default class Score extends React.Component {
 
 		updateVid(burl) {
 			this.props.onUpdateVid(burl)
-
-			console.log(burl)
 
 			// this.setState({
 			// 	url,

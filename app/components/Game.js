@@ -4,6 +4,7 @@ import Roster from './Roster'
 import Score from './Score'
 import Schedule from './Schedule'
 import OnIce from './OnIce'
+import { FaTimesCircle } from 'react-icons/fa'
 import { setURL, fetchTeams, fetchScoreboard, fetchSchedule, fetchContent, fetchStats, fetchAllData, onIce, shots } from '../utils/api'
 
 function RenderStatBar ({ selected, onUpdateStat}) {
@@ -48,6 +49,8 @@ export default class Game extends React.Component {
 			rendered: false,
 			vidVis:false,
 			vidUrl: null,
+			gfVis: false,
+			gfURL: null,
 		}
 
 		this.updateStat = this.updateStat.bind(this)
@@ -61,8 +64,23 @@ export default class Game extends React.Component {
 		this.scheduleState = this.scheduleState.bind(this)
 		this.incrementDate = this.incrementDate.bind(this)
 		this.decrementDate = this.decrementDate.bind(this)
+		this.updateGF = this.updateGF.bind(this)
 		this.updateVid = this.updateVid.bind(this)
 		this.vidClose = this.vidClose.bind(this)
+	}
+
+	updateGF(gameID) {
+
+		if(this.state.gfVis === false){
+			this.setState({
+				gfVis: true,
+				gfURL: `https://embed.naturalstattrick.com/gameflow.php?season=20192020&game=${gameID.toString().substring(5, 10)}`
+			})
+		} else {
+			this.setState({
+				gfVis: false,
+			})
+		}
 	}
 
 	updateVid(vidUrl) {
@@ -144,9 +162,11 @@ export default class Game extends React.Component {
 
 	scheduleState() {
 		fetchSchedule(this.state.increment)
-		.then((schedule) => this.setState({
+		.then((schedule) => {
+			this.setState({
 			schedule
-		}))
+		})
+			return schedule})
 	}
 
 	setTeams (newID) {
@@ -173,7 +193,8 @@ export default class Game extends React.Component {
 					erorr: null
 				}, () => this.setState({
 					onIce: onIce(this.state.allData)}, () => this.setState({
-					shots: shots(this.state.allData)
+					shots: shots(this.state.allData),
+					gfVis: false,
 				})
 			))
 		}
@@ -187,7 +208,7 @@ export default class Game extends React.Component {
 	}
 
 	handleSubmit(gameID) {
-		console.log('Refresh')
+		// console.log('Refresh')
 		this.setState(prevState => {
 			const newState = {}
 				newState.gameID = gameID
@@ -215,7 +236,7 @@ export default class Game extends React.Component {
 	}
 
 	render(){
-		const { allData, gameState, selectedStat, teams, scoreBoard, gameID, selectedPlayer, selectedTeam, rosterAway, rosterHome, rosterDisplay, stats, error, scoringPlays, onIce, shots, schedule, content, increment } = this.state
+		const { allData, gameState, selectedStat, teams, scoreBoard, gameID, selectedPlayer, selectedTeam, rosterAway, rosterHome, rosterDisplay, stats, error, scoringPlays, onIce, shots, schedule, content, increment, gfVis, gfURL } = this.state
 
 		return (
 			<React.Fragment>
@@ -264,6 +285,20 @@ export default class Game extends React.Component {
 					? [<h3>Current Play</h3>, <p>{allData.liveData.plays.currentPlay.result.description}</p>]
 					: allData && gameState === "Preview" ? [<h3>Current Play</h3>, <p>{gameState}</p>]
 					: null }
+				{scoreBoard.length !== 0 && gameState !== "Preview"
+				? <button
+						className='btn-clear nav-link'
+						onClick={() => this.updateGF(gameID)}>
+					{gfVis === false
+						?<p>Corsi Graphs</p>
+						:<p><FaTimesCircle /></p>}
+					</button>
+				: null }
+				{gfVis === true
+					?<div class="embed-container">
+					<iframe frameBorder="0" src={gfURL}></iframe>
+					</div>
+					: null}
 				</center>
 				</td>
 				<td width="20%">
@@ -304,6 +339,7 @@ export default class Game extends React.Component {
 		  		rosterAway={rosterAway}
 		  		rosterHome={rosterHome}
 		  		rosterDisplay={rosterDisplay}
+		  		allData={allData}
 		  		selectedTeam={selectedTeam}
 		  		onTeamChange={this.teamChanged} 
 		  		selectedStat={selectedStat}
