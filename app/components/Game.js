@@ -268,10 +268,10 @@ export default class Game extends React.Component {
 					onPlayerChange={this.playerChanged}
 					tri='0'
 				/>
-						<br/>
-					{shots && gameState !== "Preview"
-						? <p>SOG {shots[0]}</p>
-						: null}
+			<br/>
+				{shots && gameState !== "Preview"
+					? <p>SOG {shots[0]}</p>
+					: null}
 			</center>
 			</td>
 			<td width="60%">

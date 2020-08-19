@@ -30,51 +30,51 @@ export default class GameFlow extends React.Component {
 
 	render(){
 		const { gameID } = this.props;
-		console.log(gameID)
-		const url = `http://www.naturalstattrick.com/graphs/20192020-${gameID.toString().substring(5, 10)}-${this.state.selectedStat[1]}-${this.state.selectedSitch[1]}.png`
+		const asURL = `http://www.naturalstattrick.com/graphs/20192020-${gameID.toString().substring(5, 10)}-${this.state.selectedStat[1]}-${this.state.selectedSitch[1]}.png`
+		const scURL = `https://www.naturalstattrick.com/shiftcharts/games/20192020/20192020-${gameID.toString().substring(5, 10)}-shiftchart.png`
 		const { selectedSitch, selectedStat } = this.state;
-		const statArray = [['Corsi', 'cfdiff'], ['xG', 'xgdiff']];
+		const statArray = [['Corsi', 'cfdiff'], ['xG', 'xgdiff'], ['Shift Chart', 'shiftchart']];
 		const situationsArray = [['All','all'], ['EV', 'ev'], ['5v5', '5v5'], ['5v5 SVA', 'sva']];
 		return (
+		<React.Fragment>
 			<table>
-			<tr>
-			<td>
-			<ul className='flex-center'>
-				{statArray.map((stat, index) => (
-					<li key={stat}>
-						<button 
-							className='btn-clear nav-link'
-							style={index === selectedStat[0] ? { color: 'rgb(187, 46, 31)' } : null}
-							onClick={() => this.updateStat([index, stat[1]])}>
-							{stat[0]}
-						</button>
-					</li>
-				))}
-				</ul>
-				</td>
+				<tr>
+					<td>
+						<ul className='flex-center'>
+							{statArray.map((stat, index) => (
+								<li key={stat}>
+									<button 
+										className='btn-clear nav-link'
+										style={index === selectedStat[0] ? { color: 'rgb(187, 46, 31)' } : null}
+										onClick={() => this.updateStat([index, stat[1]])}>
+										{stat[0]}
+									</button>
+								</li>
+							))}
+							</ul>
+							<ul className='flex-center'>
+							{selectedStat[0] === 0 || selectedStat[0] === 1
+								? situationsArray.map((situation, index) => (
+								<li key={situation}>
+									<button 
+										className='btn-clear nav-link'
+										style={index === selectedSitch[0] ? { color: 'rgb(187, 46, 31)' } : null}
+										onClick={() => this.updateSituation([index, situation[1]])}>
+										{situation[0]}
+									</button>
+								</li>
+								))
+								: null}
+						</ul>
+					</td>
 				</tr>
 				<tr>
-				<td>
-				<ul className='flex-center'>
-				{situationsArray.map((situation, index) => (
-					<li key={situation}>
-						<button 
-							className='btn-clear nav-link'
-							style={index === selectedSitch[0] ? { color: 'rgb(187, 46, 31)' } : null}
-							onClick={() => this.updateSituation([index, situation[1]])}>
-							{situation[0]}
-						</button>
-					</li>
-					))}
-			</ul>
-			</td>
-			</tr>
-			<tr>
-			<td>
-			<img src={url} />
-			</td>
-			</tr>
+					<td>
+						<img src={ selectedStat[0] !== 2? asURL : scURL } />
+					</td>
+				</tr>
 			</table>
+		</React.Fragment>
 		)
 	}
 }

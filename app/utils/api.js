@@ -174,6 +174,7 @@ for(let i = 0; i < playersOnIceAway.length; i++){
 }
 
 export function shots (allData) {
+	console.log("Logging shots")
 	const shots = [];
 	shots.push(allData.liveData.linescore.teams.away.shotsOnGoal, allData.liveData.linescore.teams.home.shotsOnGoal);
 	return shots;
