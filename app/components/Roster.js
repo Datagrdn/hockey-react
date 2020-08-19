@@ -4,9 +4,6 @@ import { fetchStats } from '../utils/api'
 
 function RenderStats( {selectedStat, stats} ){
 	
-	if (stats && stats.length === 0){
-			return 'Scratch'
-		} else 
 	if(stats){
 		const filteredStats = selectedStat[0] === 0 ? stats : stats.filter(play => play[0] === selectedStat[1]);
 
@@ -141,7 +138,7 @@ export default class Roster extends React.Component {
 	}
 
 	render(){
-		const { teams, selectedStat, selectedPlayer, rosterAway, rosterHome, selectedTeam, stats, rosterDisplay, allData } = this.props
+		const { teams, selectedStat, selectedPlayer, rosterAway, rosterHome, selectedTeam, stats, rosterDisplay, scratchesDisplay, allData } = this.props
 		const rosterDisplayStat = [];
 		rosterDisplay.forEach(player => {
 
@@ -183,6 +180,20 @@ export default class Roster extends React.Component {
 										</button>
 									</li>
 								))}
+								{scratchesDisplay && scratchesDisplay.length > 0
+									? <p>Scratches</p>
+									: null}
+								{scratchesDisplay
+									? scratchesDisplay.map((playerId) => (
+									<li key={playerId}>
+										{playerId[0]}&nbsp;
+										<b>{playerId[2] 
+											? playerId[1] + playerId[2]
+											: playerId[1]}</b>
+									</li>
+								))
+									: null}								
+								<br/>
 							</td>
 							<td>
 								<RenderStats 

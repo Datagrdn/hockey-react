@@ -53,8 +53,11 @@ export function fetchTeams (allData) {
 			const playerKeys = Object.keys(dataArray[4].players);
 			playerKeys.forEach(key => playerArray.push(dataArray[4].players[key]));
 
+			const scratchedIDs = [];
+			scratchedIDs.push(allData.liveData.boxscore.teams.away.scratches, allData.liveData.boxscore.teams.home.scratches);
+
 			const playerNamesAway = [];
-			const awayRoster = playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.away.triCode);
+			const awayRoster = playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.away.triCode && !scratchedIDs[0].includes(player.id));
 			awayRoster.forEach(function(team) {
 				if(team.alternateCaptain === true) {
 					playerNamesAway.push([team.primaryNumber, team.fullName, ' (A) '])
@@ -67,7 +70,7 @@ export function fetchTeams (allData) {
 			teams.push(playerNamesAway);
 
 			const playerNamesHome = [];
-			const homeRoster = playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.home.triCode);
+			const homeRoster = playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.home.triCode && !scratchedIDs[1].includes(player.id));
 			homeRoster.forEach(function(team) { 
 				if(team.alternateCaptain === true) {
 					playerNamesHome.push([team.primaryNumber, team.fullName, ' (A) '])
@@ -78,6 +81,30 @@ export function fetchTeams (allData) {
 				}
 			});
 			teams.push(playerNamesHome);
+
+			const scratchesAway = [];
+			playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.away.triCode && scratchedIDs[0].includes(player.id)).forEach(function(team) {
+				if(team.alternateCaptain === true) {
+					scratchesAway.push([team.primaryNumber, team.fullName, ' (A) '])
+				} else if(team.captain === true) {
+					scratchesAway.push([team.primaryNumber, team.fullName, ' (C) '])
+				} else {
+					scratchesAway.push([team.primaryNumber, team.fullName])
+				}
+				});
+			teams.push(scratchesAway);
+
+			const scratchesHome = [];
+			playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.home.triCode && scratchedIDs[1].includes(player.id)).forEach(function(team) {
+				if(team.alternateCaptain === true) {
+					scratchesHome.push([team.primaryNumber, team.fullName, ' (A) '])
+				} else if(team.captain === true) {
+					scratchesHome.push([team.primaryNumber, team.fullName, ' (C) '])
+				} else {
+					scratchesHome.push([team.primaryNumber, team.fullName])
+				}
+				});
+			teams.push(scratchesHome);
 			
 			return teams;
 }

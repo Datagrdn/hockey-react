@@ -51,7 +51,6 @@ export default class Game extends React.Component {
 			vidVis:false,
 			vidUrl: null,
 			gfVis: false,
-			gfURL: null,
 		}
 
 		this.updateStat = this.updateStat.bind(this)
@@ -75,7 +74,6 @@ export default class Game extends React.Component {
 		if(this.state.gfVis === false){
 			this.setState({
 				gfVis: true,
-				gfURL: `http://www.naturalstattrick.com/graphs/20192020-${gameID.toString().substring(5, 10)}-xgdiff-all.png`
 			})
 		} else {
 			this.setState({
@@ -123,11 +121,13 @@ export default class Game extends React.Component {
 
 		if(this.state.selectedTeam[0] === 0){
 			this.setState({
-				rosterDisplay: this.state.rosterAway
+				rosterDisplay: this.state.teams[2],
+				scratchesDisplay: this.state.teams[4]
 			})
 		} else if(this.state.selectedTeam[0] === 1) {
 			this.setState({
-				rosterDisplay: this.state.rosterHome
+				rosterDisplay: this.state.teams[3],
+				scratchesDisplay: this.state.teams[5]
 			})
 		}
 	}
@@ -176,8 +176,6 @@ export default class Game extends React.Component {
 			this.setState({
 				teams,
 				selectedTeam: [0,teams[0]],
-				rosterAway: teams[2],
-				rosterHome: teams[3],
 				rendered: true,
 				erorr: null,
 			}, () => this.setState({
@@ -188,8 +186,6 @@ export default class Game extends React.Component {
 		} else if(this.state.gameID !== this.state.gameIDP) {
 			this.setState({
 					teams,
-					rosterAway: teams[2],
-					rosterHome: teams[3],
 					selectedTeam: [0, teams[0]],
 					erorr: null
 				}, () => this.setState({
@@ -237,7 +233,7 @@ export default class Game extends React.Component {
 	}
 
 	render(){
-		const { allData, gameState, selectedStat, teams, scoreBoard, gameID, selectedPlayer, selectedTeam, rosterAway, rosterHome, rosterDisplay, stats, error, scoringPlays, onIce, shots, schedule, content, increment, gfVis, gfURL } = this.state
+		const { allData, gameState, selectedStat, teams, scoreBoard, gameID, selectedPlayer, selectedTeam, rosterDisplay, scratchesDisplay, stats, error, scoringPlays, onIce, shots, schedule, content, increment, gfVis } = this.state
 
 		return (
 			<React.Fragment>
@@ -337,9 +333,8 @@ export default class Game extends React.Component {
 				/>
 				<Roster 
 		  		teams={teams ? [teams[0], teams[1]] : ["Away","Home"]}
-		  		rosterAway={rosterAway}
-		  		rosterHome={rosterHome}
 		  		rosterDisplay={rosterDisplay}
+		  		scratchesDisplay={scratchesDisplay}		  		
 		  		allData={allData}
 		  		selectedTeam={selectedTeam}
 		  		onTeamChange={this.teamChanged} 
