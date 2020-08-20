@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Score from './Score'
 import { fetchStats } from '../utils/api'
+import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
+
 
 function RenderStats( {selectedStat, stats} ){
 	
@@ -235,6 +237,11 @@ export default class Roster extends React.Component {
 											/>}
 							</td>
 							<td width="15%">
+								 <TwitterTimelineEmbed
+								  sourceType="profile"
+								  screenName="charlieo_conn"
+								  options={{height: 700}}
+								/>
 							</td>
 						</tr>
 					</table>
