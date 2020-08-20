@@ -60,7 +60,7 @@ export default class Game extends React.Component {
 		this.teamChanged = this.teamChanged.bind(this)
 		this.clearStats = this.clearStats.bind(this)
 		this.setTeams = this.setTeams.bind(this)
-		this.updatePlayer = this.updatePlayer.bind(this)
+		// this.updatePlayer = this.updatePlayer.bind(this)
 		this.scheduleState = this.scheduleState.bind(this)
 		this.incrementDate = this.incrementDate.bind(this)
 		this.decrementDate = this.decrementDate.bind(this)
@@ -68,6 +68,12 @@ export default class Game extends React.Component {
 		this.updateVid = this.updateVid.bind(this)
 		this.vidClose = this.vidClose.bind(this)
 	}
+
+		// updatePlayer(newPlayer){
+	// 	this.setState({
+	// 		selectedPlayer: newPlayer
+	// 	})
+	// }
 
 	updateGF(gameID) {
 
@@ -104,14 +110,24 @@ export default class Game extends React.Component {
 	// }
 
 	playerChanged(newPlayer) {
-		const { allData, selectedPlayer } = this.state
+		const { allData, selectedPlayer, selectedPlayerP } = this.state
 
-		this.setState(
-			newPlayer
+		this.setState(prevState => {
+
+			const newState = {};
+			newState.vidVis = false;
+
+			if(newPlayer.selectedPlayer != prevState.selectedPlayer){
+				newState.selectedPlayer = newPlayer.selectedPlayer;
+				newState.stats = fetchStats(allData, newPlayer.selectedPlayer);
+			} else {
+				newState.selectedPlayer = null;
+				newState.stats = null;
+			}
+
+			return newState;
+			}
 		)
-		this.setState({
-			stats: fetchStats(allData, selectedPlayer)
-		})
 	}
 
 	teamChanged(newTeam) {
@@ -212,12 +228,6 @@ export default class Game extends React.Component {
 				newState.gameIDP = prevState.gameID
 				return newState
 			}, () => this.apiCall())
-	}
-
-	updatePlayer(newPlayer){
-		this.setState({
-			selectedPlayer: newPlayer
-		})
 	}
 
 	incrementDate(){
@@ -344,8 +354,15 @@ export default class Game extends React.Component {
 		  		gameID={gameID}
 		  		selectedPlayer={selectedPlayer}
 		  		onPlayerChange={this.playerChanged}
+		  		scoringPlays={scoringPlays}
+					content={content}
+		  		onVidClose={this.vidClose}
+		  		onUpdateVid={this.updateVid}
+		  		vidVis={this.state.vidVis}
+		  		vidUrl={this.state.vidUrl}
 		  		/>
-		  	<Score
+		  	{stats !== null
+		  		? <Score
 		  		allData={allData}
 		  		scoringPlays={scoringPlays}
 		  		gameID={gameID}
@@ -354,7 +371,10 @@ export default class Game extends React.Component {
 		  		onUpdateVid={this.updateVid}
 		  		vidVis={this.state.vidVis}
 		  		vidUrl={this.state.vidUrl}
+		  		width={1003}
+		  		height={630}
 		  	/>
+		  		: null}
 				{error && <p>{error}</p>}
 				</center>
 			</React.Fragment>

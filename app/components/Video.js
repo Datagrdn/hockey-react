@@ -9,7 +9,7 @@ export default class Video extends React.Component {
 	}
 
 	render(){
-		const { url, closeVid } = this.props
+		const { url, closeVid, width, height } = this.props
 		// console.log(url)
 
 		return (
@@ -26,8 +26,8 @@ export default class Video extends React.Component {
 					controls={true}
 					pip={true}
 					playing={true}
-					width='803'
-					height='430'/>
+					width={width}
+					height={height}/>
 		   </React.Fragment>
 		)
 	}

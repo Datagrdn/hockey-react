@@ -267,14 +267,16 @@ export default class Score extends React.Component {
 		}
 
 	render(){
-		const { allData, scoringPlays, content, vidVis, vidUrl } = this.props
+		const { allData, scoringPlays, content, vidVis, vidUrl, width, height } = this.props
 
 		return(
 			<React.Fragment>
 			{vidVis === true
 				?<Video 
 					url={vidUrl}
-					closeVid={this.handleVidClose}/>
+					closeVid={this.handleVidClose}
+					width={width}
+					height={height}/>
 				: null}
 				{scoringPlays ? <h2>Scoring Summary</h2> : null}
 				<RenderGoals

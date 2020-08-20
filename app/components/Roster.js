@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Score from './Score'
 import { fetchStats } from '../utils/api'
 
 function RenderStats( {selectedStat, stats} ){
 	
 	if(stats){
 		const filteredStats = selectedStat[0] === 0 ? stats : stats.filter(play => play[0] === selectedStat[1]);
-
-		// console.log(filteredStats.length);
 
 		const period1Plays = []
 		filteredStats.forEach((play) => {
@@ -123,9 +122,9 @@ export default class Roster extends React.Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		if(this.props.selectedPlayer !== prevProps.selectedPlayer) {
-			this.updatePlayer(this.props.selectedPlayer)
-		}
+		// if(this.props.selectedPlayer !== prevProps.selectedPlayer) {
+		// 	this.updatePlayer(this.props.selectedPlayer)
+		// }
 
 		if(this.props.selectedTeam !== prevProps.selectedTeam) {
 			this.updateTeam(this.props.selectedTeam)
@@ -138,7 +137,23 @@ export default class Roster extends React.Component {
 	}
 
 	render(){
-		const { teams, selectedStat, selectedPlayer, rosterAway, rosterHome, selectedTeam, stats, rosterDisplay, scratchesDisplay, allData } = this.props
+		const { teams, 
+			selectedStat, 
+			selectedPlayer, 
+			rosterAway, 
+			rosterHome, 
+			selectedTeam, 
+			stats, 
+			rosterDisplay, 
+			scratchesDisplay, 
+			allData, 
+			scoringPlays,
+			content,
+			onVidClose,
+			onUpdateVid,
+			vidVis,
+			vidUrl } = this.props
+
 		const rosterDisplayStat = [];
 		rosterDisplay.forEach(player => {
 
@@ -153,7 +168,7 @@ export default class Roster extends React.Component {
 		rosterDisplayStat.sort((a,b)=>b[0]-a[0]);
 
 		return(
-					<table width="100%">
+					<table width="100%" border="0">
 						<tr>
 							<td width="25%">
 								{teams.map((team, index) =>(
@@ -196,11 +211,30 @@ export default class Roster extends React.Component {
 								<br/>
 							</td>
 							<td>
-								<RenderStats 
-									selectedStat={selectedStat}
-									stats={stats}
-									rosterDisplay={rosterDisplay}
-								/>
+								{stats === null
+									?	
+									<center>
+										<Score
+									  		allData={allData}
+									  		scoringPlays={scoringPlays}
+									  		gameID={gameID}
+									  		content={content}
+									  		onVidClose={onVidClose}
+									  		onUpdateVid={onUpdateVid}
+									  		vidVis={vidVis}
+									  		vidUrl={vidUrl}
+									  		width={803}
+									  		height={430}
+									  	/>
+								  	</center>
+
+									: <RenderStats 
+												selectedStat={selectedStat}
+												stats={stats}
+												rosterDisplay={rosterDisplay}
+											/>}
+							</td>
+							<td width="15%">
 							</td>
 						</tr>
 					</table>
