@@ -163,7 +163,7 @@ export default class Game extends React.Component {
 			CBJtwitter: 'cbjcannon',
 			TBLtwitter: 'RawCharge',
 			STLtwitter: 'StLouisGameTime',
-			VANtwitter: 'nucksmidconduct',
+			VANtwitter: 'nucksmisconduct',
 			VGKtwitter: 'knightsonice',
 			CHItwitter: '2ndCityHockey',
 			TORtwitter: 'PPPLeafs'
