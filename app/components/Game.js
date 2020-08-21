@@ -150,7 +150,7 @@ export default class Game extends React.Component {
 		}
 
 		const handles = {
-			PHItwitter: 'charlieo_conn',
+			PHItwitter: 'BroadStHockey',
 			NYItwitter: 'LHHockey',
 			WSHtwitter: 'JapersRink',
 			DALtwitter: 'DefendingBigD',
@@ -173,9 +173,13 @@ export default class Game extends React.Component {
 
 		this.setState(prevState =>{
 			const newState = {};
-			newState.handle = handle;
-			newState.phandle = prevState.handle;
 
+			if(handle != prevState.handle){
+				newState.handle = handle;
+				newState.phandle = prevState.handle;
+			} else {
+				newState.handle = null;
+			}
 			return newState;
 		})
 

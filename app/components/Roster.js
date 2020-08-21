@@ -272,11 +272,11 @@ export default class Roster extends React.Component {
 												rosterDisplay={rosterDisplay}
 											/>}
 							</td>
-							<td width="15%">
+							<td width="20%">
 								{handle != phandle && handle != 'temp'
 									? <TwitterTimelineEmbed
 										  sourceType="profile"
-										  screenName={this.props.handle ? this.props.handle : null}
+										  screenName={handle ? handle : null}
 										  options={{height: 700}}
 										/>
 									: null}
