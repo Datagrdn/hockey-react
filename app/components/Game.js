@@ -51,6 +51,7 @@ export default class Game extends React.Component {
 			vidVis:false,
 			vidUrl: null,
 			gfVis: false,
+			twitterIDCount: 0,
 		}
 
 		this.updateStat = this.updateStat.bind(this)
@@ -67,6 +68,8 @@ export default class Game extends React.Component {
 		this.updateGF = this.updateGF.bind(this)
 		this.updateVid = this.updateVid.bind(this)
 		this.vidClose = this.vidClose.bind(this)
+		this.incrementTwitterAccount = this.incrementTwitterAccount.bind(this)
+		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
 	}
 
 		// updatePlayer(newPlayer){
@@ -74,6 +77,28 @@ export default class Game extends React.Component {
 	// 		selectedPlayer: newPlayer
 	// 	})
 	// }
+
+	incrementTwitterAccount(){
+		const { handleArray, twitterIDCount } = this.state
+		console.log(twitterIDCount)
+
+		this.setState({
+			twitterIDCount: twitterIDCount + 1,
+			currentHandle: handleArray[twitterIDCount],
+		})
+		// console.log(handle[twitterIDCount]);
+	}
+
+	decrementTwitterAccount(){
+		const { handleArray, twitterIDCount } = this.state
+
+		this.setState({
+			twitterIDCount: twitterIDCount - 1,
+			// handle: handleArray[twitterIDCount],
+		})
+
+		console.log(handleArray[twitterIDCount]);
+	}
 
 	updateGF(gameID) {
 
@@ -150,35 +175,35 @@ export default class Game extends React.Component {
 		}
 
 		const handles = {
-			PHItwitter: 'BroadStHockey',
-			NYItwitter: 'LHHockey',
-			WSHtwitter: 'JapersRink',
-			DALtwitter: 'DefendingBigD',
-			CGYtwitter: 'MatchsticksCGY',
-			MTLtwitter: 'HabsEOTP',
+			PHItwitter: ['BroadStHockey', 'charlieo_conn', 'TimRiday', 'BILLadelphia1', '2Murphy8', 'JHallNBCS', 'brad_keffer', 'Kurt_BSH'],
+			NYItwitter: ['LHHockey', 'stapeathletic', 'RinksideView', 'jaredbook', 'AZadarski'],
+			WSHtwitter: ['JapersRink', 'Tarik_ElBashir'],
+			DALtwitter: ['DefendingBigD', 'seanshapiro'],
+			CGYtwitter: ['MatchsticksCGY', 'ByCruickshank'],
+			MTLtwitter: ['HabsEOTP', 'ArponBasu'],
 			COLtwitter: 'MileHighHockey',
 			ARItwitter: 'Five4Howling',
 			BOStwitter: 'cupofchowdah',
 			CARtwitter: 'CanesCountry',
 			CBJtwitter: 'cbjcannon',
 			TBLtwitter: 'RawCharge',
-			STLtwitter: 'StLouisGameTime',
-			VANtwitter: 'nucksmisconduct',
+			STLtwitter: ['StLouisGameTime', 'jprutherford'],
+			VANtwitter: ['nucksmisconduct', 'ThomasDrance'],
 			VGKtwitter: 'knightsonice',
 			CHItwitter: '2ndCityHockey',
 			TORtwitter: 'PPPLeafs'
 		};
 
-		const handle = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
+		const handleArray = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
 
 		this.setState(prevState =>{
 			const newState = {};
 
-			if(handle != prevState.handle){
-				newState.handle = handle;
-				newState.phandle = prevState.handle;
+			if(handleArray != prevState.handleArray){
+				newState.handleArray = handleArray;
+				newState.phandleArray = prevState.handleArray;
 			} else {
-				newState.handle = null;
+				newState.handleArray = null;
 			}
 			return newState;
 		})
@@ -265,6 +290,9 @@ export default class Game extends React.Component {
 			const newState = {}
 				newState.gameID = gameID
 				newState.gameIDP = prevState.gameID
+				if(gameID != prevState.gameID){
+					newState.twitterIDCount = 0
+				}
 				return newState
 			}, () => this.apiCall())
 	}
@@ -282,7 +310,26 @@ export default class Game extends React.Component {
 	}
 
 	render(){
-		const { allData, gameState, selectedStat, teams, scoreBoard, gameID, selectedPlayer, selectedTeam, rosterDisplay, scratchesDisplay, stats, error, scoringPlays, onIce, shots, schedule, content, increment, gfVis } = this.state
+		const { allData, 
+			gameState, 
+			selectedStat, 
+			teams, 
+			scoreBoard, 
+			gameID, 
+			selectedPlayer, 
+			selectedTeam, 
+			rosterDisplay, 
+			scratchesDisplay, 
+			stats, 
+			error, 
+			scoringPlays, 
+			onIce, 
+			shots, 
+			schedule, 
+			content, 
+			increment, 
+			gfVis,
+			handleArray } = this.state
 
 		return (
 			<React.Fragment>
@@ -381,7 +428,7 @@ export default class Game extends React.Component {
 					onChange={this.handleChange}
 				/>
 				<Roster 
-		  		teams={teams ? [teams[0], teams[1]] : ["Away","Home"]}
+		  		teams={teams ? [teams[0], teams[1]] : []}
 		  		rosterDisplay={rosterDisplay}
 		  		scratchesDisplay={scratchesDisplay}		  		
 		  		allData={allData}
@@ -399,8 +446,11 @@ export default class Game extends React.Component {
 		  		onUpdateVid={this.updateVid}
 		  		vidVis={this.state.vidVis}
 		  		vidUrl={this.state.vidUrl}
-		  		handle={this.state.handle}
-		  		phandle={this.state.phandle}
+		  		handle={handleArray != null ? handleArray[this.state.twitterIDCount] : null}
+		  		phandle={this.state.phandle != null ? this.state.phandleArray[this.state.twitterIDCount] : null}
+		  		incrementTwitterAccount={this.incrementTwitterAccount}
+		  		decrementTwitterAccount={this.decrementTwitterAccount}
+		  		handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
 		  		/>
 		  	{stats !== null
 		  		? <Score

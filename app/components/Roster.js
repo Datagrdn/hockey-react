@@ -2,16 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Score from './Score'
 import { fetchStats } from '../utils/api'
-import { TwitterTimelineEmbed, 
-				TwitterShareButton, 
-				TwitterFollowButton, 
-				TwitterHashtagButton, 
-				TwitterMentionButton, 
-				TwitterTweetEmbed, 
-				TwitterMomentShare, 
-				TwitterDMButton, 
-				TwitterVideoEmbed, 
-				TwitterOnAirButton } from 'react-twitter-embed';
+import { Timeline } from 'react-twitter-widgets'
+import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
+
 
 
 function RenderStats( {selectedStat, stats} ){
@@ -116,8 +109,15 @@ export default class Roster extends React.Component {
 	constructor(props) {
 		super(props)
 
+		this.state = {
+			twitterIDCount: 0
+		}
+
 		this.updatePlayer = this.updatePlayer.bind(this)
 		this.updateTeam = this.updateTeam.bind(this)
+		this.incrementTwitterAccount = this.incrementTwitterAccount.bind(this)
+		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
+
 	}
 
 	updatePlayer(newPlayer){
@@ -132,26 +132,23 @@ export default class Roster extends React.Component {
 		this.props.onTeamChange({
 			selectedTeam: newTeam
 		})
+	}
 
+	incrementTwitterAccount(){
+		this.props.incrementTwitterAccount()
+		// this.setState({twitterIDCount: this.state.twitterIDCount + 1})
+		// console.log(handle[twitterIDCount]);
+	}
 
-		// const handles = {
-		// 	PHItwitter: 'charlieo_conn',
-		// 	NYItwitter: 'LHHockey',
-		// 	WSHtwitter: 'JapersRink',
-		// 	DALtwitter: 'DefendingBigD',
-		// 	CGYtwitter: 'MatchsticksCGY',
-		// 	MTLtwitter: 'HabsEOTP',
-		// };
+	decrementTwitterAccount(){
+		this.props.decrementTwitterAccount()
 
-		// const handle = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
+		// const { handle } = this.props
+		// const { twitterIDCount } = this.state
+		// console.log(handle.length)
 
-		// this.setState(prevState =>{
-		// 	const newState = {};
-		// 	newState.handle = handle;
-		// 	newState.phandle = prevState.handle;
-
-		// 	return newState;
-		// })
+		// this.setState({twitterIDCount: this.state.twitterIDCount - 1})
+		// console.log(handle[twitterIDCount]);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -187,7 +184,14 @@ export default class Roster extends React.Component {
 			vidVis,
 			vidUrl,
 			handle,
-			phandle } = this.props;
+			phandle,
+			incrementTwitterAccount,
+			decrementTwitterAccount,
+			handleLengthInfo } = this.props;
+
+		const { twitterIDCount } = this.state;
+
+		console.log(handle)
 
 		// const { handle, phandle } = this.state;
 		// console.log(handle);
@@ -272,13 +276,44 @@ export default class Roster extends React.Component {
 												rosterDisplay={rosterDisplay}
 											/>}
 							</td>
-							<td width="20%">
-								{handle != phandle && handle != 'temp'
-									? <TwitterTimelineEmbed
-										  sourceType="profile"
-										  screenName={handle ? handle : null}
-										  options={{height: 700}}
-										/>
+							<td width="25%">
+								{handle != phandle && handle != null
+									? <React.Fragment>
+										<div class='twidget'>
+											<center>
+												{handleLengthInfo[0] > 0
+													? <button
+															onClick={() => this.decrementTwitterAccount()}
+															className='btn-clear nav-link'>
+														<FaAngleDoubleLeft size='14'/>
+														</button>
+													: <button
+															className='btn-clear nav-link'>
+														<FaAngleDoubleLeft size='14' color='grey'/>
+														</button>}
+												{selectedTeam[1]} Twitter
+												{handleLengthInfo[0] < handleLengthInfo[1]
+													? <button
+															onClick={() => this.incrementTwitterAccount()}
+															className='btn-clear nav-link'>
+														<FaAngleDoubleRight size='14'/>
+														</button>
+												: <button
+														className='btn-clear nav-link'>
+													<FaAngleDoubleRight size='14' color='grey'/>
+													</button>}
+											</center>
+											<Timeline
+											  dataSource={{
+											    sourceType: 'profile',
+											    screenName: handle
+											  }}
+											  options={{
+											    height: '400'
+											  }}
+											/>
+										</div>
+										</React.Fragment>
 									: null}
 							</td>
 						</tr>
