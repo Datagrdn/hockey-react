@@ -2,7 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Score from './Score'
 import { fetchStats } from '../utils/api'
-import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
+import { TwitterTimelineEmbed, 
+				TwitterShareButton, 
+				TwitterFollowButton, 
+				TwitterHashtagButton, 
+				TwitterMentionButton, 
+				TwitterTweetEmbed, 
+				TwitterMomentShare, 
+				TwitterDMButton, 
+				TwitterVideoEmbed, 
+				TwitterOnAirButton } from 'react-twitter-embed';
 
 
 function RenderStats( {selectedStat, stats} ){
@@ -118,9 +127,31 @@ export default class Roster extends React.Component {
 	}
 	
 	updateTeam(newTeam){
+		// const { selectedTeam } = this.props;
+
 		this.props.onTeamChange({
 			selectedTeam: newTeam
 		})
+
+
+		// const handles = {
+		// 	PHItwitter: 'charlieo_conn',
+		// 	NYItwitter: 'LHHockey',
+		// 	WSHtwitter: 'JapersRink',
+		// 	DALtwitter: 'DefendingBigD',
+		// 	CGYtwitter: 'MatchsticksCGY',
+		// 	MTLtwitter: 'HabsEOTP',
+		// };
+
+		// const handle = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
+
+		// this.setState(prevState =>{
+		// 	const newState = {};
+		// 	newState.handle = handle;
+		// 	newState.phandle = prevState.handle;
+
+		// 	return newState;
+		// })
 	}
 
 	componentDidUpdate(prevProps) {
@@ -154,7 +185,12 @@ export default class Roster extends React.Component {
 			onVidClose,
 			onUpdateVid,
 			vidVis,
-			vidUrl } = this.props
+			vidUrl,
+			handle,
+			phandle } = this.props;
+
+		// const { handle, phandle } = this.state;
+		// console.log(handle);
 
 		const rosterDisplayStat = [];
 		rosterDisplay.forEach(player => {
@@ -237,11 +273,13 @@ export default class Roster extends React.Component {
 											/>}
 							</td>
 							<td width="15%">
-								 <TwitterTimelineEmbed
-								  sourceType="profile"
-								  screenName="charlieo_conn"
-								  options={{height: 700}}
-								/>
+								{handle != phandle && handle != 'temp'
+									? <TwitterTimelineEmbed
+										  sourceType="profile"
+										  screenName={this.props.handle ? this.props.handle : null}
+										  options={{height: 700}}
+										/>
+									: null}
 							</td>
 						</tr>
 					</table>

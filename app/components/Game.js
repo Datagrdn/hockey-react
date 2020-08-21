@@ -131,6 +131,8 @@ export default class Game extends React.Component {
 	}
 
 	teamChanged(newTeam) {
+		const { selectedTeam } = this.state
+
 		this.setState(
 			newTeam,
 		)
@@ -146,6 +148,37 @@ export default class Game extends React.Component {
 				scratchesDisplay: this.state.teams[5]
 			})
 		}
+
+		const handles = {
+			PHItwitter: 'charlieo_conn',
+			NYItwitter: 'LHHockey',
+			WSHtwitter: 'JapersRink',
+			DALtwitter: 'DefendingBigD',
+			CGYtwitter: 'MatchsticksCGY',
+			MTLtwitter: 'HabsEOTP',
+			COLtwitter: 'MileHighHockey',
+			ARItwitter: 'Five4Howling',
+			BOStwitter: 'cupofchowdah',
+			CARtwitter: 'CanesCountry',
+			CBJtwitter: 'cbjcannon',
+			TBLtwitter: 'RawCharge',
+			STLtwitter: 'StLouisGameTime',
+			VANtwitter: 'nucksmidconduct',
+			VGKtwitter: 'knightsonice',
+			CHItwitter: '2ndCityHockey',
+			TORtwitter: 'PPPLeafs'
+		};
+
+		const handle = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
+
+		this.setState(prevState =>{
+			const newState = {};
+			newState.handle = handle;
+			newState.phandle = prevState.handle;
+
+			return newState;
+		})
+
 	}
 
 	clearStats() {
@@ -199,6 +232,7 @@ export default class Game extends React.Component {
 					shots: shots(this.state.allData),
 				})
 			))
+			this.teamChanged([0,teams[0]])
 		} else if(this.state.gameID !== this.state.gameIDP) {
 			this.setState({
 					teams,
@@ -210,6 +244,7 @@ export default class Game extends React.Component {
 					gfVis: false,
 				})
 			))
+			this.teamChanged([0,teams[0]])
 		}
 	}
 
@@ -360,6 +395,8 @@ export default class Game extends React.Component {
 		  		onUpdateVid={this.updateVid}
 		  		vidVis={this.state.vidVis}
 		  		vidUrl={this.state.vidUrl}
+		  		handle={this.state.handle}
+		  		phandle={this.state.phandle}
 		  		/>
 		  	{stats !== null
 		  		? <Score
