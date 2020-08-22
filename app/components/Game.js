@@ -72,11 +72,6 @@ export default class Game extends React.Component {
 		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
 	}
 
-		// updatePlayer(newPlayer){
-	// 	this.setState({
-	// 		selectedPlayer: newPlayer
-	// 	})
-	// }
 
 	incrementTwitterAccount(){
 		const { handleArray, twitterIDCount } = this.state
@@ -86,7 +81,6 @@ export default class Game extends React.Component {
 			twitterIDCount: twitterIDCount + 1,
 			currentHandle: handleArray[twitterIDCount],
 		})
-		// console.log(handle[twitterIDCount]);
 	}
 
 	decrementTwitterAccount(){
@@ -96,8 +90,6 @@ export default class Game extends React.Component {
 			twitterIDCount: twitterIDCount - 1,
 			// handle: handleArray[twitterIDCount],
 		})
-
-		console.log(handleArray[twitterIDCount]);
 	}
 
 	updateGF(gameID) {
@@ -126,13 +118,6 @@ export default class Game extends React.Component {
 			vidVis: false
 		})
 	}
-
-	// gameChanged(newGame) {
-	// 	console.log(newGame)
-	// 	this.setState({
-	// 		newGame
-	// 	})
-	// }
 
 	playerChanged(newPlayer) {
 		const { allData, selectedPlayer, selectedPlayerP } = this.state
@@ -165,33 +150,67 @@ export default class Game extends React.Component {
 		if(this.state.selectedTeam[0] === 0){
 			this.setState({
 				rosterDisplay: this.state.teams[2],
-				scratchesDisplay: this.state.teams[4]
+				scratchesDisplay: this.state.teams[4],
+				twitterIDCount: 0,
 			})
 		} else if(this.state.selectedTeam[0] === 1) {
 			this.setState({
 				rosterDisplay: this.state.teams[3],
-				scratchesDisplay: this.state.teams[5]
+				scratchesDisplay: this.state.teams[5],
+				twitterIDCount: 0,
 			})
 		}
 
 		const handles = {
-			PHItwitter: ['BroadStHockey', 'charlieo_conn', 'TimRiday', 'BILLadelphia1', '2Murphy8', 'JHallNBCS', 'brad_keffer', 'Kurt_BSH'],
-			NYItwitter: ['LHHockey', 'stapeathletic', 'RinksideView', 'jaredbook', 'AZadarski'],
+			PHItwitter: [
+			 'BroadStHockey',
+			 'charlieo_conn',
+			 'TimRiday',
+			 'BILLadelphia1',
+			 '2Murphy8',
+			 'JHallNBCS',
+			 'brad_keffer',
+			 'Kurt_BSH',
+			 'BroadStBull'],
+			NYItwitter: [
+			 'LHHockey',
+			 'stapeathletic',
+			 'AndyGraz_WFAN',
+			 'Shannon_Hogan',
+			 'BComptonNHL',
+			 'IslesBlog',
+			 'IslesTerritory',
+			 'IslesWhiteSUV',			 
+			 'NYIslesNation',
+			 'islandermania'],
 			WSHtwitter: ['JapersRink', 'Tarik_ElBashir'],
 			DALtwitter: ['DefendingBigD', 'seanshapiro'],
 			CGYtwitter: ['MatchsticksCGY', 'ByCruickshank'],
-			MTLtwitter: ['HabsEOTP', 'ArponBasu'],
-			COLtwitter: 'MileHighHockey',
-			ARItwitter: 'Five4Howling',
-			BOStwitter: 'cupofchowdah',
+			MTLtwitter: ['HabsEOTP', 'ArponBasu', 'EricEngels', 'RinksideView', 'jaredbook', 'AZadarski'],
+			COLtwitter: ['MileHighHockey'],
+			ARItwitter: ['Five4Howling'],
+			BOStwitter: [
+			 'cupofchowdah',
+			 'BruinsDaily',
+			 'FlutoShinzawa',
+			 'HackswithHaggs',
+			 'JoeyMacHockey',
+			 'BlackAndGold277',
+			 'ewalsh90'],
+			TBLtwitter: [
+				'RawCharge',
+				'JoeSmithTB',
+				'CaleyChelios',
+				'BBurnsNHL',
+				'Erik_Erlendsson',
+				''],
 			CARtwitter: 'CanesCountry',
-			CBJtwitter: 'cbjcannon',
-			TBLtwitter: 'RawCharge',
+			CBJtwitter: ['cbjcannon'],
 			STLtwitter: ['StLouisGameTime', 'jprutherford'],
-			VANtwitter: ['nucksmisconduct', 'ThomasDrance'],
-			VGKtwitter: 'knightsonice',
-			CHItwitter: '2ndCityHockey',
-			TORtwitter: 'PPPLeafs'
+			VANtwitter: ['nucksmisconduct', 'ThomasDrance', 'patersonjeff', 'TrevBeggs', 'harmandayal2'],
+			VGKtwitter: ['knightsonice'],
+			CHItwitter: ['2ndCityHockey'],
+			TORtwitter: ['PPPLeafs']
 		};
 
 		const handleArray = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
@@ -235,7 +254,8 @@ export default class Game extends React.Component {
 				})
 		fetchContent(this.state.gameID)
 		.then((content) => this.setState({
-			content
+			content,
+			shots: shots(this.state.allData)
 		}))
 	}
 
@@ -257,9 +277,7 @@ export default class Game extends React.Component {
 				rendered: true,
 				erorr: null,
 			}, () => this.setState({
-				onIce: onIce(this.state.allData)}, () => this.setState({
-					shots: shots(this.state.allData),
-				})
+				onIce: onIce(this.state.allData)}
 			))
 			this.teamChanged([0,teams[0]])
 		} else if(this.state.gameID !== this.state.gameIDP) {
@@ -269,7 +287,6 @@ export default class Game extends React.Component {
 					erorr: null
 				}, () => this.setState({
 					onIce: onIce(this.state.allData)}, () => this.setState({
-					shots: shots(this.state.allData),
 					gfVis: false,
 				})
 			))

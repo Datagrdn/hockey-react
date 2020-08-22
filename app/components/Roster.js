@@ -127,8 +127,6 @@ export default class Roster extends React.Component {
 	}
 	
 	updateTeam(newTeam){
-		// const { selectedTeam } = this.props;
-
 		this.props.onTeamChange({
 			selectedTeam: newTeam
 		})
@@ -136,26 +134,13 @@ export default class Roster extends React.Component {
 
 	incrementTwitterAccount(){
 		this.props.incrementTwitterAccount()
-		// this.setState({twitterIDCount: this.state.twitterIDCount + 1})
-		// console.log(handle[twitterIDCount]);
 	}
 
 	decrementTwitterAccount(){
 		this.props.decrementTwitterAccount()
-
-		// const { handle } = this.props
-		// const { twitterIDCount } = this.state
-		// console.log(handle.length)
-
-		// this.setState({twitterIDCount: this.state.twitterIDCount - 1})
-		// console.log(handle[twitterIDCount]);
 	}
 
 	componentDidUpdate(prevProps) {
-		// if(this.props.selectedPlayer !== prevProps.selectedPlayer) {
-		// 	this.updatePlayer(this.props.selectedPlayer)
-		// }
-
 		if(this.props.selectedTeam !== prevProps.selectedTeam) {
 			this.updateTeam(this.props.selectedTeam)
 		}
@@ -189,13 +174,6 @@ export default class Roster extends React.Component {
 			decrementTwitterAccount,
 			handleLengthInfo } = this.props;
 
-		const { twitterIDCount } = this.state;
-
-		console.log(handle)
-
-		// const { handle, phandle } = this.state;
-		// console.log(handle);
-
 		const rosterDisplayStat = [];
 		rosterDisplay.forEach(player => {
 
@@ -210,114 +188,114 @@ export default class Roster extends React.Component {
 		rosterDisplayStat.sort((a,b)=>b[0]-a[0]);
 
 		return(
-					<table width="100%" border="0">
-						<tr>
-							<td width="25%">
-								{teams.map((team, index) =>(
-									<li key={team}>
-										<button
-										className='btn-clear nav-link'
-										style={selectedTeam && team === selectedTeam[1] ? { color: 'rgb(187, 46, 31)' } : null}
-										onClick={() => this.updateTeam([index, team])}>
-										{team}
-										</button>
-									</li>
-								))}
-								<br/>
-								{rosterDisplayStat.map((playerId) => (
-									<li key={playerId}>
-										{playerId[1]}
-										<button
+			<table width="100%" border="0">
+				<tr>
+					<td width="25%">
+						{teams.map((team, index) =>(
+							<li key={team}>
+								<button
+								className='btn-clear nav-link'
+								style={selectedTeam && team === selectedTeam[1] ? { color: 'rgb(187, 46, 31)' } : null}
+								onClick={() => this.updateTeam([index, team])}>
+								{team}
+								</button>
+							</li>
+						))}
+						<br/>
+							{rosterDisplayStat.map((playerId) => (
+								<li key={playerId}>
+									{playerId[1]}
+									<button
 										className='btn-clear nav-link'
 										style={playerId[2] === selectedPlayer ? { color: 'rgb(187, 46, 31)' } : null}
 										onClick={() => this.updatePlayer(playerId[2])}>
 										{playerId[3] 
 											? playerId[2] + playerId[3]
 											: playerId[2]}
-										</button>
-									</li>
-								))}
-								{scratchesDisplay && scratchesDisplay.length > 0
-									? <p>Scratches</p>
-									: null}
-								{scratchesDisplay
-									? scratchesDisplay.map((playerId) => (
-									<li key={playerId}>
-										{playerId[0]}&nbsp;
-										<b>{playerId[2] 
-											? playerId[1] + playerId[2]
-											: playerId[1]}</b>
-									</li>
-								))
-									: null}								
-								<br/>
-							</td>
-							<td>
-								{stats === null
-									?	
+									</button>
+								</li>
+							))}
+							{scratchesDisplay && scratchesDisplay.length > 0
+								? <p>Scratches</p>
+								: null}
+							{scratchesDisplay
+								? scratchesDisplay.map((playerId) => (
+								<li key={playerId}>
+									{playerId[0]}&nbsp;
+									<b>{playerId[2] 
+										? playerId[1] + playerId[2]
+										: playerId[1]}</b>
+								</li>
+							))
+								: null}								
+						<br/>
+					</td>
+					<td>
+						{stats === null
+							?	
+							<center>
+								<Score
+							  		allData={allData}
+							  		scoringPlays={scoringPlays}
+							  		gameID={gameID}
+							  		content={content}
+							  		onVidClose={onVidClose}
+							  		onUpdateVid={onUpdateVid}
+							  		vidVis={vidVis}
+							  		vidUrl={vidUrl}
+							  		width={803}
+							  		height={430}
+							  	/>
+						  	</center>
+							: <RenderStats 
+										selectedStat={selectedStat}
+										stats={stats}
+										rosterDisplay={rosterDisplay}
+									/>}
+					</td>
+					<td width="20%">
+						{handle != phandle && handle != null
+							? <React.Fragment>
+								<div class='twidget'>
 									<center>
-										<Score
-									  		allData={allData}
-									  		scoringPlays={scoringPlays}
-									  		gameID={gameID}
-									  		content={content}
-									  		onVidClose={onVidClose}
-									  		onUpdateVid={onUpdateVid}
-									  		vidVis={vidVis}
-									  		vidUrl={vidUrl}
-									  		width={803}
-									  		height={430}
-									  	/>
-								  	</center>
-
-									: <RenderStats 
-												selectedStat={selectedStat}
-												stats={stats}
-												rosterDisplay={rosterDisplay}
-											/>}
-							</td>
-							<td width="25%">
-								{handle != phandle && handle != null
-									? <React.Fragment>
-										<div class='twidget'>
-											<center>
-												{handleLengthInfo[0] > 0
-													? <button
-															onClick={() => this.decrementTwitterAccount()}
-															className='btn-clear nav-link'>
-														<FaAngleDoubleLeft size='14'/>
-														</button>
-													: <button
-															className='btn-clear nav-link'>
-														<FaAngleDoubleLeft size='14' color='grey'/>
-														</button>}
-												{selectedTeam[1]} Twitter
-												{handleLengthInfo[0] < handleLengthInfo[1]
-													? <button
-															onClick={() => this.incrementTwitterAccount()}
-															className='btn-clear nav-link'>
-														<FaAngleDoubleRight size='14'/>
-														</button>
-												: <button
-														className='btn-clear nav-link'>
-													<FaAngleDoubleRight size='14' color='grey'/>
-													</button>}
-											</center>
-											<Timeline
-											  dataSource={{
-											    sourceType: 'profile',
-											    screenName: handle
-											  }}
-											  options={{
-											    height: '400'
-											  }}
-											/>
-										</div>
-										</React.Fragment>
-									: null}
-							</td>
-						</tr>
-					</table>
+										{handleLengthInfo[0] > 0
+											? <button
+													onClick={() => this.decrementTwitterAccount()}
+													className='btn-clear nav-link'>
+												<FaAngleDoubleLeft size='14'/>
+												</button>
+											: <button
+													className='btn-clear nav-link'>
+												<FaAngleDoubleLeft size='14' color='grey'/>
+												</button>}
+										{selectedTeam[1]} Twitter
+										{handleLengthInfo[0] < handleLengthInfo[1]
+											? <button
+													onClick={() => this.incrementTwitterAccount()}
+													className='btn-clear nav-link'>
+												<FaAngleDoubleRight size='14'/>
+												</button>
+											: <button
+													className='btn-clear nav-link'>
+												<FaAngleDoubleRight size='14' color='grey'/>
+												</button>}
+									<Timeline
+									  dataSource={{
+									    sourceType: 'profile',
+									    screenName: handle
+									  }}
+									  options={{
+									    height: '800',
+									    width: '250'
+									  }}
+									/>
+									</center>
+								</div>
+								</React.Fragment>
+							: null}
+					</td>
+				</tr>
+			</table>
 		)
 	}
 }
