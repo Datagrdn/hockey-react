@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Score from './Score'
 import { fetchStats } from '../utils/api'
 import { Timeline } from 'react-twitter-widgets'
-import { FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa'
+import { FaAngleDoubleLeft, FaAngleDoubleRight, FaWindowMaximize } from 'react-icons/fa'
 
 
 
@@ -117,6 +117,7 @@ export default class Roster extends React.Component {
 		this.updateTeam = this.updateTeam.bind(this)
 		this.incrementTwitterAccount = this.incrementTwitterAccount.bind(this)
 		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
+		this.makeTwitMain = this.makeTwitMain.bind(this)
 
 	}
 
@@ -130,6 +131,10 @@ export default class Roster extends React.Component {
 		this.props.onTeamChange({
 			selectedTeam: newTeam
 		})
+	}
+
+	makeTwitMain(){
+		this.props.makeTwitMain()
 	}
 
 	incrementTwitterAccount(){
@@ -172,7 +177,8 @@ export default class Roster extends React.Component {
 			phandle,
 			incrementTwitterAccount,
 			decrementTwitterAccount,
-			handleLengthInfo } = this.props;
+			handleLengthInfo,
+			twitMain } = this.props;
 
 		const rosterDisplayStat = [];
 		rosterDisplay.forEach(player => {
@@ -188,7 +194,7 @@ export default class Roster extends React.Component {
 		rosterDisplayStat.sort((a,b)=>b[0]-a[0]);
 
 		return(
-			<table width="100%" border="0">
+			<table width="100%" border="0" bgcolor="#eeeeee">
 				<tr>
 					<td width="25%">
 						{teams.map((team, index) =>(
@@ -231,7 +237,7 @@ export default class Roster extends React.Component {
 						<br/>
 					</td>
 					<td>
-						{stats === null
+						{stats == null && twitMain == false
 							?	
 							<center>
 								<Score
@@ -243,21 +249,71 @@ export default class Roster extends React.Component {
 							  		onUpdateVid={onUpdateVid}
 							  		vidVis={vidVis}
 							  		vidUrl={vidUrl}
-							  		width={803}
-							  		height={430}
+							  		width={843}
+							  		height={470}
 							  	/>
 						  	</center>
-							: <RenderStats 
-										selectedStat={selectedStat}
-										stats={stats}
-										rosterDisplay={rosterDisplay}
-									/>}
+							: stats == null && twitMain == true
+								?<React.Fragment>
+									<div class='twidget'>
+									<center>
+										<button
+										onClick={() => this.makeTwitMain()}
+											className='btn-clear nav-link'>
+										<FaWindowMaximize/>
+										</button>
+										<br/>
+										{handleLengthInfo[0] > 0
+											? <button
+													onClick={() => this.decrementTwitterAccount()}
+													className='btn-clear nav-link'>
+												<FaAngleDoubleLeft size='14'/>
+												</button>
+											: <button
+													className='btn-clear nav-link'>
+												<FaAngleDoubleLeft size='14' color='grey'/>
+												</button>}
+										{selectedTeam[1]} Twitter
+										{handleLengthInfo[0] < handleLengthInfo[1]
+											? <button
+													onClick={() => this.incrementTwitterAccount()}
+													className='btn-clear nav-link'>
+												<FaAngleDoubleRight size='14'/>
+												</button>
+											: <button
+													className='btn-clear nav-link'>
+												<FaAngleDoubleRight size='14' color='grey'/>
+												</button>}
+												</center>
+												</div>
+											<Timeline
+									  dataSource={{
+									    sourceType: 'profile',
+									    screenName: handle
+									  }}
+									  options={{
+									    height: '800',
+									    width: '550'
+									  }}
+									/>
+								</React.Fragment>
+							:	<RenderStats 
+									selectedStat={selectedStat}
+									stats={stats}
+									rosterDisplay={rosterDisplay}
+								/>}
 					</td>
 					<td width="20%">
-						{handle != phandle && handle != null
+						{handle != phandle && handle != null && twitMain != true && vidVis != true
 							? <React.Fragment>
 								<div class='twidget'>
 									<center>
+										<button
+										onClick={() => this.makeTwitMain()}
+											className='btn-clear nav-link'>
+										<FaWindowMaximize/>
+										</button>
+										<br/>
 										{handleLengthInfo[0] > 0
 											? <button
 													onClick={() => this.decrementTwitterAccount()}

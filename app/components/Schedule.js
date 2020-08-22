@@ -83,6 +83,7 @@ export default class Schedule extends React.Component {
 								? schedule.dates[0].games.map((game) => (
 										<li key={game}>
 											<button
+												id='gameID'
 												className='btn-clear onIce-link'
 												onClick={() => this.handleSubmit(game.gamePk)}>
 												{game.teams.away.team.name}<br/>

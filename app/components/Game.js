@@ -56,12 +56,10 @@ export default class Game extends React.Component {
 
 		this.updateStat = this.updateStat.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
-		// this.gameChanged = this.gameChanged.bind(this)
 		this.playerChanged = this.playerChanged.bind(this)
 		this.teamChanged = this.teamChanged.bind(this)
 		this.clearStats = this.clearStats.bind(this)
 		this.setTeams = this.setTeams.bind(this)
-		// this.updatePlayer = this.updatePlayer.bind(this)
 		this.scheduleState = this.scheduleState.bind(this)
 		this.incrementDate = this.incrementDate.bind(this)
 		this.decrementDate = this.decrementDate.bind(this)
@@ -70,6 +68,7 @@ export default class Game extends React.Component {
 		this.vidClose = this.vidClose.bind(this)
 		this.incrementTwitterAccount = this.incrementTwitterAccount.bind(this)
 		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
+		this.makeTwitMain = this.makeTwitMain.bind(this)
 	}
 
 
@@ -89,6 +88,18 @@ export default class Game extends React.Component {
 		this.setState({
 			twitterIDCount: twitterIDCount - 1,
 			// handle: handleArray[twitterIDCount],
+		})
+	}
+
+	makeTwitMain(){
+		this.setState(prevState => {
+			const newState = {};
+			if(prevState.twitMain != true){
+				newState.twitMain = true
+			} else {
+				newState.twitMain = false
+			}
+			return newState
 		})
 	}
 
@@ -171,11 +182,13 @@ export default class Game extends React.Component {
 			 'JHallNBCS',
 			 'brad_keffer',
 			 'Kurt_BSH',
-			 'BroadStBull'],
+			 'BroadStBull',
+			 'ronlextall'],
 			NYItwitter: [
 			 'LHHockey',
 			 'stapeathletic',
 			 'AndyGraz_WFAN',
+			 'cultureoflosing',
 			 'Shannon_Hogan',
 			 'BComptonNHL',
 			 'IslesBlog',
@@ -210,7 +223,8 @@ export default class Game extends React.Component {
 			VANtwitter: ['nucksmisconduct', 'ThomasDrance', 'patersonjeff', 'TrevBeggs', 'harmandayal2'],
 			VGKtwitter: ['knightsonice'],
 			CHItwitter: ['2ndCityHockey'],
-			TORtwitter: ['PPPLeafs']
+			TORtwitter: ['PPPLeafs'],
+			NHLtwitter: ['rayferrarotsn', 'mike_p_johnson', '10PSharp']
 		};
 
 		const handleArray = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
@@ -234,6 +248,20 @@ export default class Game extends React.Component {
 		stats: null,
 	})
 }
+
+handleSubmit(gameID) {
+	// console.log('Refresh')
+	this.setState(prevState => {
+		const newState = {}
+			newState.gameID = gameID;
+			newState.gameIDP = prevState.gameID;
+			if(gameID != prevState.gameID){
+				newState.twitterIDCount = 0;
+				newState.twitMain = false;
+			}
+			return newState
+		}, () => this.apiCall())
+	}
 
 	apiCall() {
 		fetchAllData(this.state.gameID)
@@ -301,19 +329,6 @@ export default class Game extends React.Component {
 		})
 	}
 
-	handleSubmit(gameID) {
-		// console.log('Refresh')
-		this.setState(prevState => {
-			const newState = {}
-				newState.gameID = gameID
-				newState.gameIDP = prevState.gameID
-				if(gameID != prevState.gameID){
-					newState.twitterIDCount = 0
-				}
-				return newState
-			}, () => this.apiCall())
-	}
-
 	incrementDate(){
 		this.setState({
 			increment: this.state.increment + 1
@@ -346,7 +361,9 @@ export default class Game extends React.Component {
 			content, 
 			increment, 
 			gfVis,
-			handleArray } = this.state
+			vidVis,
+			handleArray,
+			twitMain } = this.state
 
 		return (
 			<React.Fragment>
@@ -363,7 +380,7 @@ export default class Game extends React.Component {
 		  	closeVid={this.vidClose}				
 			/>
 			</table>
-			<table border='0' width='100%'>
+			<table border='0' width='100%' bgcolor='#eeeeee'>
 			<tr>
 			<td width="20%">
 			<center>
@@ -436,14 +453,9 @@ export default class Game extends React.Component {
 					selected={selectedStat}
 					onUpdateStat={this.updateStat}
 				/>
-				<GameInput
-					label=''
-					gameID={this.state.gameID}
-					onGameChange={this.gameChanged}
-					onSubmit={(gameID) => this.handleSubmit(gameID)}
-					value={this.state.gameID}
-					onChange={this.handleChange}
-				/>
+				<table width='100%' border='0'>
+				<tr>
+				<td>
 				<Roster 
 		  		teams={teams ? [teams[0], teams[1]] : []}
 		  		rosterDisplay={rosterDisplay}
@@ -461,81 +473,38 @@ export default class Game extends React.Component {
 					content={content}
 		  		onVidClose={this.vidClose}
 		  		onUpdateVid={this.updateVid}
-		  		vidVis={this.state.vidVis}
+		  		vidVis={vidVis}
 		  		vidUrl={this.state.vidUrl}
 		  		handle={handleArray != null ? handleArray[this.state.twitterIDCount] : null}
 		  		phandle={this.state.phandle != null ? this.state.phandleArray[this.state.twitterIDCount] : null}
 		  		incrementTwitterAccount={this.incrementTwitterAccount}
 		  		decrementTwitterAccount={this.decrementTwitterAccount}
+		  		makeTwitMain={this.makeTwitMain}
+		  		twitMain={twitMain}
 		  		handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
 		  		/>
 		  	{stats !== null
-		  		? <Score
-		  		allData={allData}
-		  		scoringPlays={scoringPlays}
-		  		gameID={gameID}
-		  		content={content}
-		  		onVidClose={this.vidClose}
-		  		onUpdateVid={this.updateVid}
-		  		vidVis={this.state.vidVis}
-		  		vidUrl={this.state.vidUrl}
-		  		width={1003}
-		  		height={630}
-		  	/>
+		  		? <center>
+			  		<Score
+				  		allData={allData}
+				  		scoringPlays={scoringPlays}
+				  		gameID={gameID}
+				  		content={content}
+				  		onVidClose={this.vidClose}
+				  		onUpdateVid={this.updateVid}
+				  		vidVis={vidVis}
+				  		vidUrl={this.state.vidUrl}
+				  		width={1003}
+				  		height={630}
+			  		/>
+			  		</center>
 		  		: null}
 				{error && <p>{error}</p>}
+				</td>
+				</tr>
+				</table>
 				</center>
 			</React.Fragment>
 		)
 	}
-}
-
-class GameInput extends React.Component {
-	constructor(props) {
-		super(props)
-
-		this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleChange = this.handleChange.bind(this)
-	}
-
-	handleSubmit(event) {
-		event.preventDefault()
-
-		this.props.onSubmit(this.props.gameID)
-	}
-
-	handleChange(event) {
-		this.props.onGameChange({
-			gameID: event.target.value
-		})
-	}
-
-	render() {
-		return (
-			<form onSubmit={this.handleSubmit}>
-				<label htmlFor='gameID'>
-					{this.props.label}
-				</label>
-				<div>
-					<input
-						type='text'
-						id='gameID'
-						placeholder='Enter Game ID Number'
-						onChange={this.handleChange}
-					/>
-					<button
-						type='submit'
-						disabled={!this.props.gameID}
-					>
-						Refresh
-					</button>
-				</div>
-			</form>
-		)
-	}
-}
-
-GameInput.propTypes = {
-	onSubmit: PropTypes.func.isRequired,
-	label: PropTypes.string.isRequired
 }
