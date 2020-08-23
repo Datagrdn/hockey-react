@@ -197,10 +197,23 @@ export default class Game extends React.Component {
 			 'NYIslesNation',
 			 'islandermania'],
 			WSHtwitter: ['JapersRink', 'Tarik_ElBashir'],
-			DALtwitter: ['DefendingBigD', 'seanshapiro'],
+			DALtwitter: [
+			 'DefendingBigD',
+			 'seanshapiro',
+			 'Matthew_N_Day',
+			 'MikeHeika',
+			 'OwenNewkirk',
+			 'StarsNationDAL',
+			 'StarsAsylum'],
 			CGYtwitter: ['MatchsticksCGY', 'ByCruickshank'],
 			MTLtwitter: ['HabsEOTP', 'ArponBasu', 'EricEngels', 'RinksideView', 'jaredbook', 'AZadarski'],
-			COLtwitter: ['MileHighHockey'],
+			COLtwitter: [
+			 'MileHighHockey',
+			 'adater',
+			 'ColHockeyNow',
+			 '0ffScottFree',
+			 'GeorgeTalksAvs',
+			 'hoosierjm26'],
 			ARItwitter: ['Five4Howling'],
 			BOStwitter: [
 			 'cupofchowdah',
@@ -467,6 +480,7 @@ handleSubmit(gameID) {
 		  		onGameChange={this.clearStats}
 		  		stats={stats}
 		  		gameID={gameID}
+		  		gameState={gameState}
 		  		selectedPlayer={selectedPlayer}
 		  		onPlayerChange={this.playerChanged}
 		  		scoringPlays={scoringPlays}

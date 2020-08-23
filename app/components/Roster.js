@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Score from './Score'
+import PreviewStats from './PreviewStats'
 import { fetchStats } from '../utils/api'
 import { Timeline } from 'react-twitter-widgets'
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaWindowMaximize } from 'react-icons/fa'
@@ -166,7 +167,9 @@ export default class Roster extends React.Component {
 			stats, 
 			rosterDisplay, 
 			scratchesDisplay, 
-			allData, 
+			allData,
+			gameState,
+			gameID, 
 			scoringPlays,
 			content,
 			onVidClose,
@@ -237,7 +240,7 @@ export default class Roster extends React.Component {
 						<br/>
 					</td>
 					<td>
-						{stats == null && twitMain == false
+						{stats == null && twitMain == false && gameState != 'Preview'
 							?	
 							<center>
 								<Score
@@ -253,7 +256,14 @@ export default class Roster extends React.Component {
 							  		height={470}
 							  	/>
 						  	</center>
-							: stats == null && twitMain == true
+							: gameState == 'NSTPreview' && twitMain != true
+								?	<center>
+									<h2>Corsi Differential Preview</h2>
+									<PreviewStats
+							  		gameID={gameID}
+							  	/>
+									</center>
+							: twitMain == true
 								?<React.Fragment>
 									<div class='twidget'>
 									<center>

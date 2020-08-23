@@ -49,7 +49,8 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						|| play.description.includes("scoring")						
 						|| play.description.includes("top shelf")
 						|| play.description.includes("lead")
-						|| play.description.includes("past")												
+						|| play.description.includes("past")			
+						|| play.description.includes("tying")																
 						|| play.description.includes("tie")						
 						|| play.description.includes("goal")){
 						scoreVidRaw.push(play);
