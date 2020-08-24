@@ -62,7 +62,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 			&& !play.title.includes("stop")
 			&& !play.title.includes("save")
 			&& !play.title.includes("Pens score two PPGs in 59 seconds")
-			&& !play.description.includes("save"));
+			&& !play.description.includes("save")
 			&& !play.description.includes("stop"));		
 
 		scoreVid.sort((a, b) => {
