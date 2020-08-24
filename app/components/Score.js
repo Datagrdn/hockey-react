@@ -43,7 +43,6 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						|| play.title.includes("buries")
 						|| play.title.includes("winner")
 						|| play.title.includes("ties")																								
-						|| play.description.includes("home")
 						|| play.description.includes("shot in")						
 						|| play.description.includes("buries")						
 						|| play.description.includes("winner")						
@@ -64,6 +63,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 			&& !play.title.includes("save")
 			&& !play.title.includes("Pens score two PPGs in 59 seconds")
 			&& !play.description.includes("save"));
+			&& !play.description.includes("stop"));		
 
 		scoreVid.sort((a, b) => {
 			return a.id - b.id;
