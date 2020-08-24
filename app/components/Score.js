@@ -44,6 +44,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						|| play.title.includes("winner")
 						|| play.title.includes("ties")																								
 						|| play.description.includes("home")
+						|| play.description.includes("shot in")						
 						|| play.description.includes("buries")						
 						|| play.description.includes("winner")						
 						|| play.description.includes("scoring")						

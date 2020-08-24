@@ -30,7 +30,6 @@ export default class GameFlow extends React.Component {
 
 	render(){
 		const { gameID } = this.props;
-		console.log(gameID);
 		const asURL = `http://www.naturalstattrick.com/graphs/20192020-${gameID.toString().substring(5, 10)}-${this.state.selectedStat[1]}-${this.state.selectedSitch[1]}.png`
 		const scURL = `https://www.naturalstattrick.com/shiftcharts/games/20192020/20192020-${gameID.toString().substring(5, 10)}-shiftchart.png`
 		const { selectedSitch, selectedStat } = this.state;

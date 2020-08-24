@@ -118,7 +118,9 @@ export default class Roster extends React.Component {
 		this.updateTeam = this.updateTeam.bind(this)
 		this.incrementTwitterAccount = this.incrementTwitterAccount.bind(this)
 		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
+		this.toggleTwitMain = this.toggleTwitMain.bind(this)
 		this.makeTwitMain = this.makeTwitMain.bind(this)
+		// this.clearTwitMain = this.clearTwitMain.bind(this)
 
 	}
 
@@ -126,12 +128,17 @@ export default class Roster extends React.Component {
 			this.props.onPlayerChange({
 			selectedPlayer: newPlayer
 		})
+			this.props.clearTwitMain()
 	}
 	
 	updateTeam(newTeam){
 		this.props.onTeamChange({
 			selectedTeam: newTeam
 		})
+	}
+
+	toggleTwitMain(){
+		this.props.toggleTwitMain()
 	}
 
 	makeTwitMain(){
@@ -261,19 +268,28 @@ export default class Roster extends React.Component {
 									<h2>Corsi Differential Preview</h2>
 									<PreviewStats
 							  		gameID={gameID}
+							  		makeTwitMain={this.makeTwitMain}
 							  	/>
+									</center>
+							: gameState == 'Preview' && twitMain != true
+								?	<center>
+									<h2>Game Preview</h2>
+										<PreviewStats
+							  			gameID={gameID}
+							  			makeTwitMain={this.makeTwitMain}							  			
+							  		/>
 									</center>
 							: twitMain == true
 								?<React.Fragment>
 									<div class='twidget'>
 									<center>
 										<button
-										onClick={() => this.makeTwitMain()}
+										onClick={() => this.toggleTwitMain()}
 											className='btn-clear nav-link'>
 										<FaWindowMaximize/>
 										</button>
 										<br/>
-										{handleLengthInfo[0] > 0
+										{handleLengthInfo && handleLengthInfo[0] > 0
 											? <button
 													onClick={() => this.decrementTwitterAccount()}
 													className='btn-clear nav-link'>
@@ -284,7 +300,7 @@ export default class Roster extends React.Component {
 												<FaAngleDoubleLeft size='14' color='grey'/>
 												</button>}
 										{selectedTeam[1]} Twitter
-										{handleLengthInfo[0] < handleLengthInfo[1]
+										{handleLengthInfo && handleLengthInfo[0] < handleLengthInfo[1]
 											? <button
 													onClick={() => this.incrementTwitterAccount()}
 													className='btn-clear nav-link'>
@@ -319,12 +335,12 @@ export default class Roster extends React.Component {
 								<div class='twidget'>
 									<center>
 										<button
-										onClick={() => this.makeTwitMain()}
+										onClick={() => this.toggleTwitMain()}
 											className='btn-clear nav-link'>
 										<FaWindowMaximize/>
 										</button>
 										<br/>
-										{handleLengthInfo[0] > 0
+										{handleLengthInfo && handleLengthInfo[0] > 0
 											? <button
 													onClick={() => this.decrementTwitterAccount()}
 													className='btn-clear nav-link'>
@@ -335,7 +351,7 @@ export default class Roster extends React.Component {
 												<FaAngleDoubleLeft size='14' color='grey'/>
 												</button>}
 										{selectedTeam[1]} Twitter
-										{handleLengthInfo[0] < handleLengthInfo[1]
+										{handleLengthInfo && handleLengthInfo[0] < handleLengthInfo[1]
 											? <button
 													onClick={() => this.incrementTwitterAccount()}
 													className='btn-clear nav-link'>

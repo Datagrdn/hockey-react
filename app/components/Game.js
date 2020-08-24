@@ -68,7 +68,9 @@ export default class Game extends React.Component {
 		this.vidClose = this.vidClose.bind(this)
 		this.incrementTwitterAccount = this.incrementTwitterAccount.bind(this)
 		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
+		this.toggleTwitMain = this.toggleTwitMain.bind(this)
 		this.makeTwitMain = this.makeTwitMain.bind(this)
+		this.clearTwitMain = this.clearTwitMain.bind(this)
 	}
 
 
@@ -91,7 +93,7 @@ export default class Game extends React.Component {
 		})
 	}
 
-	makeTwitMain(){
+	toggleTwitMain(){
 		this.setState(prevState => {
 			const newState = {};
 			if(prevState.twitMain != true){
@@ -100,6 +102,18 @@ export default class Game extends React.Component {
 				newState.twitMain = false
 			}
 			return newState
+		})
+	}
+
+	makeTwitMain(){
+		this.setState({
+			twitMain: true
+		})
+	}
+
+	clearTwitMain(){
+		this.setState({
+			twitMain: false
 		})
 	}
 
@@ -212,6 +226,8 @@ export default class Game extends React.Component {
 			 'adater',
 			 'ColHockeyNow',
 			 '0ffScottFree',
+			 'RTSmithSports',
+			 'AshGloverHockey',
 			 'GeorgeTalksAvs',
 			 'hoosierjm26'],
 			ARItwitter: ['Five4Howling'],
@@ -237,7 +253,8 @@ export default class Game extends React.Component {
 			VGKtwitter: ['knightsonice'],
 			CHItwitter: ['2ndCityHockey'],
 			TORtwitter: ['PPPLeafs'],
-			NHLtwitter: ['rayferrarotsn', 'mike_p_johnson', '10PSharp']
+			NHLtwitter: ['rayferrarotsn', 'mike_p_johnson', '10PSharp'],
+			STAtwitter: ['EvolvingHockey', 'FauxCentre', 'MoneyPuckdotcom', 'CapFriendly', 'JFreshHockey']
 		};
 
 		const handleArray = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
@@ -278,11 +295,13 @@ handleSubmit(gameID) {
 
 	apiCall() {
 		fetchAllData(this.state.gameID)
-				.then((allData) => this.setState({
-					allData,
-					scoringPlays: allData.liveData.plays.scoringPlays,
-					gameState: allData.gameData.status.abstractGameState,
-					erorr: null,
+				.then((allData) => this.setState(prevState => {
+					const newState= {}
+					newState.allData = allData;
+					newState.scoringPlays = allData.liveData.plays.scoringPlays;
+					newState.gameState = allData.gameData.status.abstractGameState;
+					newState.erorr = null;
+					return newState;
 				}, () => this.setState({
 					scoreBoard: fetchScoreboard(this.state.allData, this.state.gameState)
 					}, this.setTeams(this.state.gameID))
@@ -493,7 +512,9 @@ handleSubmit(gameID) {
 		  		phandle={this.state.phandle != null ? this.state.phandleArray[this.state.twitterIDCount] : null}
 		  		incrementTwitterAccount={this.incrementTwitterAccount}
 		  		decrementTwitterAccount={this.decrementTwitterAccount}
+		  		toggleTwitMain={this.toggleTwitMain}
 		  		makeTwitMain={this.makeTwitMain}
+		  		clearTwitMain={this.clearTwitMain}		  		
 		  		twitMain={twitMain}
 		  		handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
 		  		/>
