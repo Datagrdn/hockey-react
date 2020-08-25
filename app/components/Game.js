@@ -297,16 +297,14 @@ handleSubmit(gameID) {
 	apiCall() {
 		fetchAllData(this.state.gameID)
 				.then((allData) => this.setState(prevState => {
-					const newState= {}
+					const newState = {}
 					newState.allData = allData;
 					newState.scoringPlays = allData.liveData.plays.scoringPlays;
 					newState.gameState = allData.gameData.status.abstractGameState;
 					newState.erorr = null;
+					newState.scoreBoard = fetchScoreboard(allData, allData.gameData.status.abstractGameState)
 					return newState;
-				}, () => this.setState({
-					scoreBoard: fetchScoreboard(this.state.allData, this.state.gameState)
-					}, this.setTeams(this.state.gameID))
-				))
+				}, () => this.setTeams(this.state.gameID)))
 				.catch(() => {
 					console.warn('Error fetching game data', error)
 					this.setState({
@@ -332,26 +330,25 @@ handleSubmit(gameID) {
 	setTeams (newID) {
 		const teams = fetchTeams(this.state.allData);
 		if(this.state.rendered === false){
-			this.setState({
-				teams,
-				selectedTeam: [0,teams[0]],
-				rendered: true,
-				erorr: null,
-			}, () => this.setState({
-				onIce: onIce(this.state.allData)}
-			))
-			this.teamChanged([0,teams[0]])
+			this.setState(prevState => {
+				const newState = {}
+					newState.teams = teams;
+					newState.selectedTeam = [0,teams[0]];
+					newState.rendered = true;
+					newState.erorr = null;
+					newState.onIce = onIce(this.state.allData);
+					return newState;
+			}, () =>  this.teamChanged([0,teams[0]]))
 		} else if(this.state.gameID !== this.state.gameIDP) {
-			this.setState({
-					teams,
-					selectedTeam: [0, teams[0]],
-					erorr: null
-				}, () => this.setState({
-					onIce: onIce(this.state.allData)}, () => this.setState({
-					gfVis: false,
-				})
-			))
-			this.teamChanged([0,teams[0]])
+			this.setState(prevState => {
+				const newState = {}
+					newState.teams = teams;
+					newState.selectedTeam = [0, teams[0]];
+					newState.erorr = null;
+					newState.onIce = onIce(this.state.allData);
+					newState.gfVis = false;
+					return newState;
+			}, () => this.teamChanged([0, teams[0]]))
 		}
 	}
 
