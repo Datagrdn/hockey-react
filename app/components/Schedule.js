@@ -75,7 +75,7 @@ export default class Schedule extends React.Component {
 	}
 
 	render(){
-		const { schedule, incrementFunc, decrementFunc } = this.props
+		const { schedule, incrementFunc, decrementFunc, currentGameID } = this.props
 		return(
 			<React.Fragment>
 						<div class='schedule'>
@@ -85,6 +85,7 @@ export default class Schedule extends React.Component {
 											<button
 												id='gameID'
 												className='btn-clear onIce-link'
+												style={currentGameID === game.gamePk ? { color: 'rgb(187, 46, 31)' } : null}
 												onClick={() => this.handleSubmit(game.gamePk)}>
 												{game.teams.away.team.name}<br/>
 												{game.teams.home.team.name}<br/>

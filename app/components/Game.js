@@ -185,6 +185,10 @@ export default class Game extends React.Component {
 				scratchesDisplay: this.state.teams[5],
 				twitterIDCount: 0,
 			})
+		} else if(this.state.selectedTeam[0] === 3){
+			this.setState({
+				twitterIDCount: 0
+			})
 		}
 
 		const handles = {
@@ -255,7 +259,7 @@ export default class Game extends React.Component {
 			CHItwitter: ['2ndCityHockey'],
 			TORtwitter: ['PPPLeafs'],
 			NHLtwitter: ['rayferrarotsn', 'mike_p_johnson', '10PSharp'],
-			STAtwitter: ['EvolvingHockey', 'FauxCentre', 'MoneyPuckdotcom', 'CapFriendly', 'JFreshHockey']
+			Statstwitter: ['EvolvingHockey', 'FauxCentre', 'MoneyPuckdotcom', 'CapFriendly', 'JFreshHockey']
 		};
 
 		const handleArray = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
@@ -395,6 +399,13 @@ handleSubmit(gameID) {
 			handleArray,
 			twitMain } = this.state
 
+			if(gameID === null){
+				this.setState({
+					selectedTeam: [3, "NHL"],
+					gameID: 'Waiting'
+				})
+			}
+
 		return (
 			<React.Fragment>
 			<center>
@@ -436,6 +447,17 @@ handleSubmit(gameID) {
 				<h2>{scoreBoard[1]}</h2>
 				{scoreBoard[2]
 					?<h4>{scoreBoard[2]} - {scoreBoard[3]}</h4>
+					: gameID === 'Waiting' 
+						? <Twidget
+								handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
+								toggleTwitMain={this.toggleTwitMain}
+								incrementTwitterAccount={this.incrementTwitterAccount}
+								decrementTwitterAccount={this.decrementTwitterAccount}
+								handle={handleArray != null ? handleArray[this.state.twitterIDCount] : null}
+								selectedTeam={selectedTeam}
+								height={400}
+								width={550}
+							/>
 					: null
 				}				
 				{allData && gameState !== "Preview"

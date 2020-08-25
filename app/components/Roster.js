@@ -204,8 +204,6 @@ export default class Roster extends React.Component {
 		});
 
 		rosterDisplayStat.sort((a,b)=>b[0]-a[0]);
-		console.log(rosterDisplayStat);
-		console.log(rosterDisplay);
 
 		return(
 			<table width="100%" border="0" bgcolor="#eeeeee">
@@ -282,6 +280,7 @@ export default class Roster extends React.Component {
 									incrementTwitterAccount={this.incrementTwitterAccount}
 									decrementTwitterAccount={this.decrementTwitterAccount}
 									handle={handle}
+									moveButton={true}
 									selectedTeam={selectedTeam}
 									height={800}
 									width={550}
@@ -298,13 +297,14 @@ export default class Roster extends React.Component {
 								</React.Fragment>}
 					</td>
 					<td width="20%">
-						{handle != phandle && handle != null && twitMain != true && vidVis != true
+						{handle != phandle && handle != null && twitMain != true && vidVis != true && gameID != 'Waiting'
 							? <Twidget 
 									handleLengthInfo={handleLengthInfo}
 									toggleTwitMain={this.toggleTwitMain}
 									incrementTwitterAccount={this.incrementTwitterAccount}
 									decrementTwitterAccount={this.decrementTwitterAccount}									
 									handle={handle}
+									moveButton={true}
 									selectedTeam={selectedTeam}
 									height={800}
 									width={550}

@@ -32,15 +32,18 @@ export default class Twidget extends React.Component {
 						handle,
 						height,
 						width,
-						selectedTeam } = this.props
+						selectedTeam,
+						moveButton } = this.props
 		return(
 			<div class='twidget'>
 				<center>
-					<button
-					onClick={() => this.toggleTwitMain()}
-						className='btn-clear nav-link'>
-					<FaWindowMaximize/>
-					</button>
+					{moveButton === true
+						? <button
+								onClick={() => this.toggleTwitMain()}
+									className='btn-clear nav-link'>
+								<FaWindowMaximize/>
+								</button>
+						: null}
 					<br/>
 					{handleLengthInfo && handleLengthInfo[0] > 0
 						? <button
