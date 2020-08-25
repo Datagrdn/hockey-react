@@ -5,6 +5,7 @@ import Score from './Score'
 import Schedule from './Schedule'
 import OnIce from './OnIce'
 import GameFlow from './GameFlow'
+import Twidget from './Twidget'
 import { FaTimesCircle } from 'react-icons/fa'
 import { setURL, fetchTeams, fetchScoreboard, fetchSchedule, fetchContent, fetchStats, fetchAllData, onIce, shots } from '../utils/api'
 
@@ -250,7 +251,7 @@ export default class Game extends React.Component {
 			CBJtwitter: ['cbjcannon'],
 			STLtwitter: ['StLouisGameTime', 'jprutherford'],
 			VANtwitter: ['nucksmisconduct', 'ThomasDrance', 'patersonjeff', 'TrevBeggs', 'harmandayal2'],
-			VGKtwitter: ['knightsonice'],
+			VGKtwitter: ['knightsonice', 'SinBinVegas'],
 			CHItwitter: ['2ndCityHockey'],
 			TORtwitter: ['PPPLeafs'],
 			NHLtwitter: ['rayferrarotsn', 'mike_p_johnson', '10PSharp'],
@@ -280,7 +281,7 @@ export default class Game extends React.Component {
 }
 
 handleSubmit(gameID) {
-	// console.log('Refresh')
+	console.log('Refresh')
 	this.setState(prevState => {
 		const newState = {}
 			newState.gameID = gameID;
@@ -439,7 +440,7 @@ handleSubmit(gameID) {
 				{scoreBoard[2]
 					?<h4>{scoreBoard[2]} - {scoreBoard[3]}</h4>
 					: null
-				}
+				}				
 				{allData && gameState !== "Preview"
 					? [<h3>Current Play</h3>, <p>{allData.liveData.plays.currentPlay.result.description}</p>]
 					: allData && gameState === "Preview" ? [<h3>Current Play</h3>, <p>{gameState}</p>]

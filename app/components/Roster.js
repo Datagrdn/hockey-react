@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Score from './Score'
 import PreviewStats from './PreviewStats'
+import PlayerCard from './PlayerCard'
 import { fetchStats } from '../utils/api'
+import Twidget from './Twidget'
 import { Timeline } from 'react-twitter-widgets'
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaWindowMaximize } from 'react-icons/fa'
 
@@ -202,6 +204,8 @@ export default class Roster extends React.Component {
 		});
 
 		rosterDisplayStat.sort((a,b)=>b[0]-a[0]);
+		console.log(rosterDisplayStat);
+		console.log(rosterDisplay);
 
 		return(
 			<table width="100%" border="0" bgcolor="#eeeeee">
@@ -263,14 +267,6 @@ export default class Roster extends React.Component {
 							  		height={470}
 							  	/>
 						  	</center>
-							: gameState == 'NSTPreview' && twitMain != true
-								?	<center>
-									<h2>Corsi Differential Preview</h2>
-									<PreviewStats
-							  		gameID={gameID}
-							  		makeTwitMain={this.makeTwitMain}
-							  	/>
-									</center>
 							: gameState == 'Preview' && twitMain != true
 								?	<center>
 									<h2>Game Preview</h2>
@@ -280,100 +276,39 @@ export default class Roster extends React.Component {
 							  		/>
 									</center>
 							: twitMain == true
-								?<React.Fragment>
-									<div class='twidget'>
-									<center>
-										<button
-										onClick={() => this.toggleTwitMain()}
-											className='btn-clear nav-link'>
-										<FaWindowMaximize/>
-										</button>
-										<br/>
-										{handleLengthInfo && handleLengthInfo[0] > 0
-											? <button
-													onClick={() => this.decrementTwitterAccount()}
-													className='btn-clear nav-link'>
-												<FaAngleDoubleLeft size='14'/>
-												</button>
-											: <button
-													className='btn-clear nav-link'>
-												<FaAngleDoubleLeft size='14' color='grey'/>
-												</button>}
-										{selectedTeam[1]} Twitter
-										{handleLengthInfo && handleLengthInfo[0] < handleLengthInfo[1]
-											? <button
-													onClick={() => this.incrementTwitterAccount()}
-													className='btn-clear nav-link'>
-												<FaAngleDoubleRight size='14'/>
-												</button>
-											: <button
-													className='btn-clear nav-link'>
-												<FaAngleDoubleRight size='14' color='grey'/>
-												</button>}
-												</center>
-												</div>
-											<Timeline
-									  dataSource={{
-									    sourceType: 'profile',
-									    screenName: handle
-									  }}
-									  options={{
-									    height: '800',
-									    width: '550'
-									  }}
+								?<Twidget 
+									handleLengthInfo={handleLengthInfo}
+									toggleTwitMain={this.toggleTwitMain}
+									incrementTwitterAccount={this.incrementTwitterAccount}
+									decrementTwitterAccount={this.decrementTwitterAccount}
+									handle={handle}
+									selectedTeam={selectedTeam}
+									height={800}
+									width={550}
+								/>
+							:	<React.Fragment>
+									<PlayerCard 
+										selectedPlayer={selectedPlayer}
 									/>
-								</React.Fragment>
-							:	<RenderStats 
-									selectedStat={selectedStat}
-									stats={stats}
-									rosterDisplay={rosterDisplay}
-								/>}
+									<RenderStats 
+										selectedStat={selectedStat}
+										stats={stats}
+										rosterDisplay={rosterDisplay}
+									/>
+								</React.Fragment>}
 					</td>
 					<td width="20%">
 						{handle != phandle && handle != null && twitMain != true && vidVis != true
-							? <React.Fragment>
-								<div class='twidget'>
-									<center>
-										<button
-										onClick={() => this.toggleTwitMain()}
-											className='btn-clear nav-link'>
-										<FaWindowMaximize/>
-										</button>
-										<br/>
-										{handleLengthInfo && handleLengthInfo[0] > 0
-											? <button
-													onClick={() => this.decrementTwitterAccount()}
-													className='btn-clear nav-link'>
-												<FaAngleDoubleLeft size='14'/>
-												</button>
-											: <button
-													className='btn-clear nav-link'>
-												<FaAngleDoubleLeft size='14' color='grey'/>
-												</button>}
-										{selectedTeam[1]} Twitter
-										{handleLengthInfo && handleLengthInfo[0] < handleLengthInfo[1]
-											? <button
-													onClick={() => this.incrementTwitterAccount()}
-													className='btn-clear nav-link'>
-												<FaAngleDoubleRight size='14'/>
-												</button>
-											: <button
-													className='btn-clear nav-link'>
-												<FaAngleDoubleRight size='14' color='grey'/>
-												</button>}
-									<Timeline
-									  dataSource={{
-									    sourceType: 'profile',
-									    screenName: handle
-									  }}
-									  options={{
-									    height: '800',
-									    width: '250'
-									  }}
-									/>
-									</center>
-								</div>
-								</React.Fragment>
+							? <Twidget 
+									handleLengthInfo={handleLengthInfo}
+									toggleTwitMain={this.toggleTwitMain}
+									incrementTwitterAccount={this.incrementTwitterAccount}
+									decrementTwitterAccount={this.decrementTwitterAccount}									
+									handle={handle}
+									selectedTeam={selectedTeam}
+									height={800}
+									width={550}
+								/>
 							: null}
 					</td>
 				</tr>
