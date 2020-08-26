@@ -16,9 +16,11 @@ export default class Schedule extends React.Component {
 		this.props.onSubmit(gameID);
 		this.props.closeVid();
 
-		this.interval = setInterval(() => {
-			this.props.onSubmit(gameID)
-		}, 5000)
+		if(gameID != 'Waiting'){
+			this.interval = setInterval(() => {
+				this.props.onSubmit(gameID)
+			}, 5000)
+		}
 	}
 
 	componentDidMount(){
@@ -86,7 +88,7 @@ export default class Schedule extends React.Component {
 												id='gameID'
 												className='btn-clear onIce-link'
 												style={currentGameID === game.gamePk ? { color: 'rgb(187, 46, 31)' } : null}
-												onClick={() => this.handleSubmit(game.gamePk)}>
+												onClick={currentGameID === game.gamePk ? () => this.handleSubmit('Waiting') : () => this.handleSubmit(game.gamePk)}>
 												{game.teams.away.team.name}<br/>
 												{game.teams.home.team.name}<br/>
 												{game.status.detailedState === "Scheduled" ? this.convertTime(game.gameDate)

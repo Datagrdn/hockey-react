@@ -6,8 +6,8 @@ import Schedule from './Schedule'
 import OnIce from './OnIce'
 import GameFlow from './GameFlow'
 import Twidget from './Twidget'
+import Scoreboard from './Scoreboard'
 import NHLNews from './NHLNews'
-import { FaTimesCircle } from 'react-icons/fa'
 import { setURL, fetchTeams, fetchScoreboard, fetchSchedule, fetchContent, fetchStats, fetchAllData, onIce, shots } from '../utils/api'
 
 function RenderStatBar ({ selected, onUpdateStat}) {
@@ -169,7 +169,7 @@ export default class Game extends React.Component {
 
 	teamChanged(newTeam) {
 		const { selectedTeam } = this.state
-
+		console.log(newTeam)
 		this.setState(
 			newTeam,
 		)
@@ -188,7 +188,7 @@ export default class Game extends React.Component {
 			})
 		} else if(this.state.selectedTeam[0] === 3){
 			this.setState({
-				twitterIDCount: 0
+				twitterIDCount: 0,
 			})
 		}
 
@@ -263,7 +263,8 @@ export default class Game extends React.Component {
 			Statstwitter: ['EvolvingHockey', 'FauxCentre', 'MoneyPuckdotcom', 'CapFriendly', 'JFreshHockey']
 		};
 
-		const handleArray = selectedTeam && selectedTeam.length == 2 ? handles[`${selectedTeam[1]}twitter`] : null;
+		const handleArray = handles[`${selectedTeam[1]}twitter`];
+		console.log(selectedTeam)
 
 		this.setState(prevState =>{
 			const newState = {};
@@ -295,6 +296,11 @@ handleSubmit(gameID) {
 				newState.twitterIDCount = 0;
 				newState.twitMain = false;
 			}
+			if(gameID == 'Waiting'){
+				this.setState({
+					selectedTeam: [3, "NHL"]
+				}, () => this.teamChanged(this.state.selectedTeam))
+			}
 			return newState
 		}, () => this.apiCall())
 	}
@@ -308,6 +314,7 @@ handleSubmit(gameID) {
 					newState.gameState = allData.gameData.status.abstractGameState;
 					newState.erorr = null;
 					newState.scoreBoard = fetchScoreboard(allData, allData.gameData.status.abstractGameState)
+					newState.shots = shots(allData)
 					return newState;
 				}, () => this.setTeams(this.state.gameID)))
 				.catch(() => {
@@ -318,8 +325,7 @@ handleSubmit(gameID) {
 				})
 		fetchContent(this.state.gameID)
 		.then((content) => this.setState({
-			content,
-			shots: shots(this.state.allData)
+			content
 		}))
 	}
 
@@ -400,11 +406,11 @@ handleSubmit(gameID) {
 			handleArray,
 			twitMain } = this.state
 
-			if(gameID === null){
+			if(gameID == null){
 				this.setState({
-					selectedTeam: [3, ["NHL"]],
-					gameID: 'Waiting'
-				})
+					gameID: 'Waiting',
+					selectedTeam: [3, "NHL"]
+				}, () => this.teamChanged(this.state.selectedTeam))
 			}
 
 		return (
@@ -422,86 +428,32 @@ handleSubmit(gameID) {
 		  	closeVid={this.vidClose}				
 			/>
 			</table>
-			<table border='0' width='100%' bgcolor='#eeeeee'>
-			<tr>
-			<td width="20%">
-			<center>
-				<OnIce
-					teamUp='Away'
-					teamLow='away'
-					teams={teams}
-					onIce={onIce}
-					allData={allData}
-					selectedPlayer={selectedPlayer}
-					onPlayerChange={this.playerChanged}
-					tri='0'
-				/>
-			<br/>
-				{shots && gameState !== "Preview"
-					? <p>SOG {shots[0]}</p>
-					: null}
-			</center>
-			</td>
-			<td width="60%">
-			<center>
-				<h1>{scoreBoard[0]}</h1>
-				<h2>{scoreBoard[1]}</h2>
-				{scoreBoard[2]
-					?<h4>{scoreBoard[2]} - {scoreBoard[3]}</h4>
-					: gameID === 'Waiting' 
-						? <NHLNews
-								handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
-								toggleTwitMain={this.toggleTwitMain}
-								incrementTwitterAccount={this.incrementTwitterAccount}
-								decrementTwitterAccount={this.decrementTwitterAccount}
-								handle={handleArray != null ? handleArray[this.state.twitterIDCount] : null}
-								onUpdateTwitter={this.teamChanged}
-								selectedTeam={selectedTeam}
-								height={400}
-								width={650}
-							/>
-					: null
-				}				
-				{allData && gameState !== "Preview"
-					? [<h3>Current Play</h3>, <p>{allData.liveData.plays.currentPlay.result.description}</p>]
-					: allData && gameState === "Preview" ? [<h3>Current Play</h3>, <p>{gameState}</p>]
-					: null }
-				{scoreBoard.length !== 0 && gameState !== "Preview"
-				? <button
-						className='btn-clear nav-link'
-						onClick={() => this.updateGF(gameID)}>
-					{gfVis === false
-						?<p>Advanced Stats</p>
-						:<p><FaTimesCircle /></p>}
-					</button>
-				: null }
-				{gfVis === true
-					?<GameFlow
+			{gameID != 'Waiting'
+				? <Scoreboard 
+						teams={teams}
+						onIce={onIce}
+						allData={allData}
+						selectedPlayer={selectedPlayer}
+						playerChanged={this.playerChanged}
+						shots={shots}
+						gameState={gameState}
+						scoreBoard={scoreBoard}
 						gameID={gameID}
+						updateGF={this.updateGF}
+						gfVis={gfVis}
 					/>
-					: null}
-				</center>
-				</td>
-				<td width="20%">
-				<center>
-				<OnIce
-					teamUp='Home'
-					teamLow='home'
-					teams={teams}
-					onIce={onIce}
-					allData={allData}
-					selectedPlayer={selectedPlayer}
-					onPlayerChange={this.playerChanged}
-					tri='1'
-				/>
-						<br/>
-						{shots && gameState !== "Preview"
-							? <p>SOG {shots[1]}</p>
-							: null}
-				</center>
-				</td>
-				</tr>
-				</table>
+				: <NHLNews
+						handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
+						toggleTwitMain={this.toggleTwitMain}
+						incrementTwitterAccount={this.incrementTwitterAccount}
+						decrementTwitterAccount={this.decrementTwitterAccount}
+						handle={handleArray != null ? handleArray[this.state.twitterIDCount] : null}
+				  	phandle={this.state.phandle != null ? this.state.phandleArray[this.state.twitterIDCount] : null}
+						onUpdateTwitter={this.teamChanged}
+						selectedTeam={selectedTeam}
+						height={850}
+						width={650}
+					/>}
 				<br/>
 				{gameID != 'Waiting'
 				? <RenderStatBar 
@@ -512,37 +464,39 @@ handleSubmit(gameID) {
 				<table width='100%' border='0'>
 				<tr>
 				<td>
-				<Roster 
-		  		teams={teams ? [teams[0], teams[1]] : []}
-		  		rosterDisplay={rosterDisplay}
-		  		scratchesDisplay={scratchesDisplay}		  		
-		  		allData={allData}
-		  		selectedTeam={selectedTeam}
-		  		onTeamChange={this.teamChanged} 
-		  		selectedStat={selectedStat}
-		  		onGameChange={this.clearStats}
-		  		stats={stats}
-		  		gameID={gameID}
-		  		gameState={gameState}
-		  		selectedPlayer={selectedPlayer}
-		  		onPlayerChange={this.playerChanged}
-		  		scoringPlays={scoringPlays}
-					content={content}
-		  		onVidClose={this.vidClose}
-		  		onUpdateVid={this.updateVid}
-		  		vidVis={vidVis}
-		  		vidUrl={this.state.vidUrl}
-		  		handle={handleArray != null ? handleArray[this.state.twitterIDCount] : null}
-		  		phandle={this.state.phandle != null ? this.state.phandleArray[this.state.twitterIDCount] : null}
-		  		incrementTwitterAccount={this.incrementTwitterAccount}
-		  		decrementTwitterAccount={this.decrementTwitterAccount}
-		  		toggleTwitMain={this.toggleTwitMain}
-		  		makeTwitMain={this.makeTwitMain}
-		  		clearTwitMain={this.clearTwitMain}		  		
-		  		twitMain={twitMain}
-		  		handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
-		  		/>
-		  	{stats !== null
+				{gameID != "Waiting"
+					?	<Roster 
+				  		teams={teams ? [teams[0], teams[1]] : []}
+				  		rosterDisplay={rosterDisplay}
+				  		scratchesDisplay={scratchesDisplay}		  		
+				  		allData={allData}
+				  		selectedTeam={selectedTeam}
+				  		onTeamChange={this.teamChanged} 
+				  		selectedStat={selectedStat}
+				  		onGameChange={this.clearStats}
+				  		stats={stats}
+				  		gameID={gameID}
+				  		gameState={gameState}
+				  		selectedPlayer={selectedPlayer}
+				  		onPlayerChange={this.playerChanged}
+				  		scoringPlays={scoringPlays}
+							content={content}
+				  		onVidClose={this.vidClose}
+				  		onUpdateVid={this.updateVid}
+				  		vidVis={vidVis}
+				  		vidUrl={this.state.vidUrl}
+				  		handle={handleArray != null ? handleArray[this.state.twitterIDCount] : null}
+				  		phandle={this.state.phandle != null ? this.state.phandleArray[this.state.twitterIDCount] : null}
+				  		incrementTwitterAccount={this.incrementTwitterAccount}
+				  		decrementTwitterAccount={this.decrementTwitterAccount}
+				  		toggleTwitMain={this.toggleTwitMain}
+				  		makeTwitMain={this.makeTwitMain}
+				  		clearTwitMain={this.clearTwitMain}		  		
+				  		twitMain={twitMain}
+				  		handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
+		  			/>
+		  		: null}
+		  	{stats != null && gameID != "Waiting"
 		  		? <center>
 			  		<Score
 				  		allData={allData}

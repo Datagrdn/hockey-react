@@ -42,10 +42,12 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						|| play.title.includes("home")
 						|| play.title.includes("buries")
 						|| play.title.includes("winner")
-						|| play.title.includes("ties")																								
+						|| play.title.includes("ties")
+						|| play.title.includes("winner")																																
 						|| play.description.includes("shot in")						
 						|| play.description.includes("buries")						
-						|| play.description.includes("winner")						
+						|| play.description.includes("winner")
+						|| play.description.includes("winning")												
 						|| play.description.includes("scoring")						
 						|| play.description.includes("top shelf")
 						|| play.description.includes("home")						
@@ -70,7 +72,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 		scoreVid.sort((a, b) => {
 			return a.id - b.id;
 		});
-		// console.log(scoreVid);
+		console.log(scoreVid);
 
 		const scoringPlaysDescription = [];
 		scoringPlays.forEach((play, index) => (
