@@ -48,6 +48,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 						|| play.description.includes("winner")						
 						|| play.description.includes("scoring")						
 						|| play.description.includes("top shelf")
+						|| play.description.includes("home")						
 						|| play.description.includes("lead")
 						|| play.description.includes("past")			
 						|| play.description.includes("tying")																
@@ -60,6 +61,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 		const scoreVid = scoreVidRaw.filter(play => 
 			!play.blurb.includes("deny") 
 			&& !play.title.includes("stop")
+			&& !play.blurb.includes("stop")			
 			&& !play.title.includes("save")
 			&& !play.title.includes("Pens score two PPGs in 59 seconds")
 			&& !play.description.includes("save")

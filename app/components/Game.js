@@ -6,6 +6,7 @@ import Schedule from './Schedule'
 import OnIce from './OnIce'
 import GameFlow from './GameFlow'
 import Twidget from './Twidget'
+import NHLNews from './NHLNews'
 import { FaTimesCircle } from 'react-icons/fa'
 import { setURL, fetchTeams, fetchScoreboard, fetchSchedule, fetchContent, fetchStats, fetchAllData, onIce, shots } from '../utils/api'
 
@@ -401,7 +402,7 @@ handleSubmit(gameID) {
 
 			if(gameID === null){
 				this.setState({
-					selectedTeam: [3, "NHL"],
+					selectedTeam: [3, ["NHL"]],
 					gameID: 'Waiting'
 				})
 			}
@@ -448,15 +449,16 @@ handleSubmit(gameID) {
 				{scoreBoard[2]
 					?<h4>{scoreBoard[2]} - {scoreBoard[3]}</h4>
 					: gameID === 'Waiting' 
-						? <Twidget
+						? <NHLNews
 								handleLengthInfo={handleArray != null ? [this.state.twitterIDCount, handleArray.length - 1] : null}
 								toggleTwitMain={this.toggleTwitMain}
 								incrementTwitterAccount={this.incrementTwitterAccount}
 								decrementTwitterAccount={this.decrementTwitterAccount}
 								handle={handleArray != null ? handleArray[this.state.twitterIDCount] : null}
+								onUpdateTwitter={this.teamChanged}
 								selectedTeam={selectedTeam}
 								height={400}
-								width={550}
+								width={650}
 							/>
 					: null
 				}				
@@ -501,10 +503,12 @@ handleSubmit(gameID) {
 				</tr>
 				</table>
 				<br/>
-				<RenderStatBar 
-					selected={selectedStat}
-					onUpdateStat={this.updateStat}
-				/>
+				{gameID != 'Waiting'
+				? <RenderStatBar 
+						selected={selectedStat}
+						onUpdateStat={this.updateStat}
+					/>
+				: null}
 				<table width='100%' border='0'>
 				<tr>
 				<td>
