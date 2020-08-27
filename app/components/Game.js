@@ -78,7 +78,7 @@ export default class Game extends React.Component {
 
 	incrementTwitterAccount(){
 		const { handleArray, twitterIDCount } = this.state
-		console.log(twitterIDCount)
+		// console.log(twitterIDCount)
 
 		this.setState({
 			twitterIDCount: twitterIDCount + 1,
@@ -169,29 +169,6 @@ export default class Game extends React.Component {
 
 	teamChanged(newTeam) {
 		const { selectedTeam } = this.state
-		console.log(newTeam)
-		this.setState(
-			newTeam,
-		)
-
-		if(this.state.selectedTeam[0] === 0){
-			this.setState({
-				rosterDisplay: this.state.teams[2],
-				scratchesDisplay: this.state.teams[4],
-				twitterIDCount: 0,
-			})
-		} else if(this.state.selectedTeam[0] === 1) {
-			this.setState({
-				rosterDisplay: this.state.teams[3],
-				scratchesDisplay: this.state.teams[5],
-				twitterIDCount: 0,
-			})
-		} else if(this.state.selectedTeam[0] === 3){
-			this.setState({
-				twitterIDCount: 0,
-			})
-		}
-
 		const handles = {
 			PHItwitter: [
 			 'BroadStHockey',
@@ -259,12 +236,34 @@ export default class Game extends React.Component {
 			VGKtwitter: ['knightsonice', 'SinBinVegas'],
 			CHItwitter: ['2ndCityHockey'],
 			TORtwitter: ['PPPLeafs'],
-			NHLtwitter: ['rayferrarotsn', 'mike_p_johnson', '10PSharp'],
-			Statstwitter: ['EvolvingHockey', 'FauxCentre', 'MoneyPuckdotcom', 'CapFriendly', 'JFreshHockey']
+			NHLtwitter: ['JShannonhl', 'rayferrarotsn', 'mike_p_johnson', '10PSharp'],
+			Statstwitter: ['EvolvingHockey', 'FauxCentre', 'MoneyPuckdotcom', 'NatStatTrick', 'CapFriendly', 'JFreshHockey']
 		};
 
-		const handleArray = handles[`${selectedTeam[1]}twitter`];
-		console.log(selectedTeam)
+		this.setState(
+			newTeam,
+		)
+
+
+		if(this.state.selectedTeam[0] === 0){
+			this.setState({
+				rosterDisplay: this.state.teams[2],
+				scratchesDisplay: this.state.teams[4],
+				twitterIDCount: 0,
+			})
+		} else if(this.state.selectedTeam[0] === 1) {
+			this.setState({
+				rosterDisplay: this.state.teams[3],
+				scratchesDisplay: this.state.teams[5],
+				twitterIDCount: 0,
+			})
+		} else if(this.state.selectedTeam[0] === 3){
+			this.setState({
+				twitterIDCount: 0,
+			})
+		}
+
+		const handleArray = newTeam.selectedTeam ? handles[`${newTeam.selectedTeam[1]}twitter`] : handles[`${selectedTeam[1]}twitter`];
 
 		this.setState(prevState =>{
 			const newState = {};
@@ -287,7 +286,7 @@ export default class Game extends React.Component {
 }
 
 handleSubmit(gameID) {
-	console.log('Refresh')
+	// console.log('Refresh')
 	this.setState(prevState => {
 		const newState = {}
 			newState.gameID = gameID;

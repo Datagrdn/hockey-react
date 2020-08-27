@@ -63,7 +63,8 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 		const scoreVid = scoreVidRaw.filter(play => 
 			!play.blurb.includes("deny") 
 			&& !play.title.includes("stop")
-			&& !play.blurb.includes("stop")			
+			&& !play.blurb.includes("stop")		
+			&& !play.blurb.includes("apart")					
 			&& !play.title.includes("save")
 			&& !play.title.includes("Pens score two PPGs in 59 seconds")
 			&& !play.description.includes("save")
@@ -72,7 +73,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 		scoreVid.sort((a, b) => {
 			return a.id - b.id;
 		});
-		console.log(scoreVid);
+		// console.log(scoreVid);
 
 		const scoringPlaysDescription = [];
 		scoringPlays.forEach((play, index) => (
@@ -255,21 +256,12 @@ export default class Score extends React.Component {
 
 		updateVid(burl) {
 			this.props.onUpdateVid(burl)
-
-			// this.setState({
-			// 	url,
-			// 	vidVis: true,
-			// })
 	}
 
 		handleVidClose() {
 			this.props.onVidClose({
 				vidVis: false
 			})
-
-			// this.setState({
-			// 	vidVis: false
-			// })
 		}
 
 	render(){

@@ -53,7 +53,7 @@ export default class NHLNews extends React.Component{
 			</td>
 			<td>
 				<RenderTwitterOptions 
-					selected={selectedTeam[1]}
+					selected={selectedTeam ? selectedTeam[1] : null}
 					onUpdateTwitter={this.updateTwitter}
 				/>
 			<Twidget

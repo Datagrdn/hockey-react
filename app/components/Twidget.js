@@ -55,7 +55,7 @@ export default class Twidget extends React.Component {
 								className='btn-clear nav-link'>
 							<FaAngleDoubleLeft size='14' color='grey'/>
 							</button>}
-					{selectedTeam[1]} Twitter
+					{selectedTeam ? selectedTeam[1] : null} Twitter
 					{handleLengthInfo && handleLengthInfo[0] < handleLengthInfo[1]
 						? <button
 								onClick={() => this.incrementTwitterAccount()}
