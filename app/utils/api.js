@@ -60,11 +60,11 @@ export function fetchTeams (allData) {
 			const awayRoster = playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.away.triCode && !scratchedIDs[0].includes(player.id));
 			awayRoster.forEach(function(team) {
 				if(team.alternateCaptain === true) {
-					playerNamesAway.push([team.primaryNumber, team.fullName, ' (A) '])
+					playerNamesAway.push([team.id, team.primaryNumber, team.fullName, ' (A) '])
 				} else if(team.captain === true) {
-					playerNamesAway.push([team.primaryNumber, team.fullName, ' (C) '])
+					playerNamesAway.push([team.id, team.primaryNumber, team.fullName, ' (C) '])
 				} else {
-					playerNamesAway.push([team.primaryNumber, team.fullName])
+					playerNamesAway.push([team.id, team.primaryNumber, team.fullName])
 				}
 				});
 			teams.push(playerNamesAway);
@@ -73,11 +73,11 @@ export function fetchTeams (allData) {
 			const homeRoster = playerArray.filter(player => player.currentTeam.triCode == allData.gameData.teams.home.triCode && !scratchedIDs[1].includes(player.id));
 			homeRoster.forEach(function(team) { 
 				if(team.alternateCaptain === true) {
-					playerNamesHome.push([team.primaryNumber, team.fullName, ' (A) '])
+					playerNamesHome.push([team.id, team.primaryNumber, team.fullName, ' (A) '])
 				} else if(team.captain === true){
-					playerNamesHome.push([team.primaryNumber, team.fullName, ' (C) '])
+					playerNamesHome.push([team.id, team.primaryNumber, team.fullName, ' (C) '])
 				} else {
-					playerNamesHome.push([team.primaryNumber, team.fullName])
+					playerNamesHome.push([team.id, team.primaryNumber, team.fullName])
 				}
 			});
 			teams.push(playerNamesHome);

@@ -37,7 +37,7 @@ export default class GameFlow extends React.Component {
 		const situationsArray = [['All','all'], ['EV', 'ev'], ['5v5', '5v5'], ['5v5 SVA', 'sva']];
 		return (
 		<React.Fragment>
-			<table>
+			<table width="100%" border='0'>
 				<tr>
 					<td>
 						<ul className='flex-center'>
@@ -70,7 +70,9 @@ export default class GameFlow extends React.Component {
 				</tr>
 				<tr>
 					<td>
+						<center>
 						<img src={ selectedStat[0] !== 2? asURL : scURL } />
+						</center>
 					</td>
 				</tr>
 			</table>

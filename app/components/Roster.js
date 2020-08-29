@@ -126,9 +126,11 @@ export default class Roster extends React.Component {
 
 	}
 
-	updatePlayer(newPlayer){
+	updatePlayer(newPlayer, newPlayerID){
+		console.log(newPlayerID)
 			this.props.onPlayerChange({
-			selectedPlayer: newPlayer
+			selectedPlayer: newPlayer,
+			selectedPlayerID: newPlayerID
 		})
 			this.props.clearTwitMain()
 	}
@@ -170,6 +172,7 @@ export default class Roster extends React.Component {
 		const { teams, 
 			selectedStat, 
 			selectedPlayer, 
+			selectedPlayerID,
 			rosterAway, 
 			rosterHome, 
 			selectedTeam, 
@@ -194,13 +197,12 @@ export default class Roster extends React.Component {
 
 		const rosterDisplayStat = [];
 		rosterDisplay.forEach(player => {
-
-			const fetchedStats = fetchStats(allData, player[1]);
+			const fetchedStats = fetchStats(allData, player[2]);
 			const statNumbers = selectedStat[0] === 0 
 				? fetchedStats.length 
 				: fetchedStats.filter(play => play[0] === selectedStat[1]).length;
 
-			rosterDisplayStat.push([statNumbers, player[0], player[1], player[2]])
+			rosterDisplayStat.push([statNumbers, player[0], player[1], player[2], player[3] != null ? player[3] : null])
 		});
 
 		rosterDisplayStat.sort((a,b)=>b[0]-a[0]);
@@ -222,14 +224,14 @@ export default class Roster extends React.Component {
 						<br/>
 							{rosterDisplayStat.map((playerId) => (
 								<li key={playerId}>
-									{playerId[1]}
+									{playerId[2]}
 									<button
 										className='btn-clear nav-link'
-										style={playerId[2] === selectedPlayer ? { color: 'rgb(187, 46, 31)' } : null}
-										onClick={() => this.updatePlayer(playerId[2])}>
-										{playerId[3] 
-											? playerId[2] + playerId[3]
-											: playerId[2]}
+										style={playerId[3] === selectedPlayer ? { color: 'rgb(187, 46, 31)' } : null}
+										onClick={() => this.updatePlayer(playerId[3], playerId[1])}>
+										{playerId[4] 
+											? playerId[3] + playerId[4]
+											: playerId[3]}
 									</button>
 								</li>
 							))}
@@ -288,6 +290,7 @@ export default class Roster extends React.Component {
 							:	<React.Fragment>
 									<PlayerCard 
 										selectedPlayer={selectedPlayer}
+										selectedPlayerID={selectedPlayerID}
 									/>
 									<RenderStats 
 										selectedStat={selectedStat}

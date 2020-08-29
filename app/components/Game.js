@@ -148,6 +148,7 @@ export default class Game extends React.Component {
 
 	playerChanged(newPlayer) {
 		const { allData, selectedPlayer, selectedPlayerP } = this.state
+		console.log(newPlayer.selectedPlayerID)
 
 		this.setState(prevState => {
 
@@ -156,6 +157,7 @@ export default class Game extends React.Component {
 
 			if(newPlayer.selectedPlayer != prevState.selectedPlayer){
 				newState.selectedPlayer = newPlayer.selectedPlayer;
+				newState.selectedPlayerID = newPlayer.selectedPlayerID;
 				newState.stats = fetchStats(allData, newPlayer.selectedPlayer);
 			} else {
 				newState.selectedPlayer = null;
@@ -236,7 +238,7 @@ export default class Game extends React.Component {
 			VGKtwitter: ['knightsonice', 'SinBinVegas'],
 			CHItwitter: ['2ndCityHockey'],
 			TORtwitter: ['PPPLeafs'],
-			NHLtwitter: ['JShannonhl', 'rayferrarotsn', 'mike_p_johnson', '10PSharp'],
+			NHLtwitter: ['JShannonhl', 'DarrenDreger', 'hockeynight', 'rayferrarotsn', 'mike_p_johnson', '10PSharp'],
 			Statstwitter: ['EvolvingHockey', 'FauxCentre', 'MoneyPuckdotcom', 'NatStatTrick', 'CapFriendly', 'JFreshHockey']
 		};
 
@@ -389,6 +391,7 @@ handleSubmit(gameID) {
 			scoreBoard, 
 			gameID, 
 			selectedPlayer, 
+			selectedPlayerID,
 			selectedTeam, 
 			rosterDisplay, 
 			scratchesDisplay, 
@@ -433,6 +436,7 @@ handleSubmit(gameID) {
 						onIce={onIce}
 						allData={allData}
 						selectedPlayer={selectedPlayer}
+						selectedPlayerID={selectedPlayerID}
 						playerChanged={this.playerChanged}
 						shots={shots}
 						gameState={gameState}
@@ -454,6 +458,11 @@ handleSubmit(gameID) {
 						width={650}
 					/>}
 				<br/>
+				{gfVis === true
+					?<GameFlow
+						gameID={gameID}
+					/>
+					: null}
 				{gameID != 'Waiting'
 				? <RenderStatBar 
 						selected={selectedStat}
@@ -477,6 +486,7 @@ handleSubmit(gameID) {
 				  		gameID={gameID}
 				  		gameState={gameState}
 				  		selectedPlayer={selectedPlayer}
+				  		selectedPlayerID={selectedPlayerID ? selectedPlayerID : null}
 				  		onPlayerChange={this.playerChanged}
 				  		scoringPlays={scoringPlays}
 							content={content}

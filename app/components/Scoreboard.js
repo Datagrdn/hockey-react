@@ -25,6 +25,7 @@ export default class Scoreboard extends React.Component {
 						onIce,
 						allData,
 						selectedPlayer,
+						selectedPlayerID,
 						shots,
 						gameState,
 						scoreBoard,
@@ -73,11 +74,6 @@ export default class Scoreboard extends React.Component {
 						:<p><FaTimesCircle /></p>}
 					</button>
 				: null }
-				{gfVis === true
-					?<GameFlow
-						gameID={gameID}
-					/>
-					: null}
 				</center>
 				</td>
 				<td width="20%">
@@ -89,6 +85,7 @@ export default class Scoreboard extends React.Component {
 					onIce={onIce}
 					allData={allData}
 					selectedPlayer={selectedPlayer}
+					selectedPlayerID={selectedPlayerID}
 					onPlayerChange={this.playerChanged}
 					tri='1'
 				/>

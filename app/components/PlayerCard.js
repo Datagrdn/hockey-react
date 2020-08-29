@@ -6,11 +6,11 @@ export default class PlayerCard extends React.Component {
 	}
 
 	render(){
-		const { selectedPlayer } = this.props;
+		const { selectedPlayer, selectedPlayerID } = this.props;
 		return(
-			<div>
+			<div className="hover">
 			{selectedPlayer
-				? <React.Fragment><br/><h3><center>{selectedPlayer}</center></h3></React.Fragment>
+				? <React.Fragment><br/><h3><center>{selectedPlayer} {selectedPlayerID ? selectedPlayerID : "ID will go here"}</center></h3></React.Fragment>
 				:null}
 			</div>
 		)
