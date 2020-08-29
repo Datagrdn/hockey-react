@@ -36,7 +36,7 @@ export default class Scoreboard extends React.Component {
 			<React.Fragment>
 			<table border='0' width='100%' bgcolor='#eeeeee'>
 			<tr>
-			<td width="20%">
+			<td width="20%" className='on-ice'>
 			<center>
 				<OnIce
 					teamUp='Away'
@@ -74,6 +74,11 @@ export default class Scoreboard extends React.Component {
 						:<p><FaTimesCircle /></p>}
 					</button>
 				: null }
+				{gfVis === true
+					?<GameFlow
+						gameID={gameID}
+					/>
+					: null}
 				</center>
 				</td>
 				<td width="20%">

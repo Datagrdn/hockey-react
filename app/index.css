@@ -58,6 +58,14 @@ td {
   align-items: center;
 }
 
+.on-ice{
+  padding: 8px;
+}
+
+/*.player-card{
+  padding: 20px;
+}*/
+
 .btn-clear {
   border: none;
   background: transparent;
@@ -105,7 +113,7 @@ a {
 
 .hover {
   background-color: #eeeeee;
-  width: 300px;
+  width: 250px;
   height: 150px;
 /*  border-style: dashed;
   border-color: chocolate;*/

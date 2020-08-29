@@ -78,7 +78,6 @@ export default class Game extends React.Component {
 
 	incrementTwitterAccount(){
 		const { handleArray, twitterIDCount } = this.state
-		// console.log(twitterIDCount)
 
 		this.setState({
 			twitterIDCount: twitterIDCount + 1,
@@ -148,7 +147,6 @@ export default class Game extends React.Component {
 
 	playerChanged(newPlayer) {
 		const { allData, selectedPlayer, selectedPlayerP } = this.state
-		console.log(newPlayer.selectedPlayerID)
 
 		this.setState(prevState => {
 
@@ -458,11 +456,6 @@ handleSubmit(gameID) {
 						width={650}
 					/>}
 				<br/>
-				{gfVis === true
-					?<GameFlow
-						gameID={gameID}
-					/>
-					: null}
 				{gameID != 'Waiting'
 				? <RenderStatBar 
 						selected={selectedStat}

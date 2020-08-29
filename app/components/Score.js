@@ -63,7 +63,8 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 		const scoreVid = scoreVidRaw.filter(play => 
 			!play.blurb.includes("deny") 
 			&& !play.title.includes("stop")
-			&& !play.blurb.includes("stop")		
+			&& !play.blurb.includes("stop")
+			&& !play.blurb.includes("robs")						
 			&& !play.blurb.includes("apart")					
 			&& !play.title.includes("save")
 			&& !play.title.includes("Pens score two PPGs in 59 seconds")

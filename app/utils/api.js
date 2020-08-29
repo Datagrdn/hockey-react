@@ -10,6 +10,19 @@ export function fetchAllData (gameID) {
 		})
 }
 
+export function fetchPlayerCard (playerID) {
+	// console.log(`https://statsapi.web.nhl.com/api/v1/people/${playerID}`);
+	return fetch(`https://statsapi.web.nhl.com/api/v1/people/${playerID}`)
+		.then((res) => res.json())
+		.then((playerData) => {
+			if(!playerData.copyright) {
+				throw new Error('Error fetching player card')
+			}
+			// console.log(playerData.people[0].currentAge);
+			return playerData;
+		})
+}
+
 export function fetchContent (gameID) {
 	return fetch(`https://statsapi.web.nhl.com/api/v1/game/${gameID}/content`)
 		.then((res) => res.json())
@@ -130,7 +143,7 @@ export function onIce (allData) {
 			const pAO = Object.entries(playerArray[j]);
 			if(pAO[0].includes(playersOnIceHome[i].playerId)){
 				if(pAO[pAO.length - 1][1].type === "Forward"){
-					onIceHome.push([pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceHome[i].stamina]);
+					onIceHome.push([pAO[0][1], pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceHome[i].stamina]);
 				}
 			}
 		}
@@ -142,7 +155,7 @@ for(let i = 0; i < playersOnIceHome.length; i++){
 		const pAO = Object.entries(playerArray[j]);
 		if(pAO[0].includes(playersOnIceHome[i].playerId)){
 			if(pAO[pAO.length - 1][1].type === "Defenseman"){
-				onIceHome.push([pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceHome[i].stamina]);
+				onIceHome.push([pAO[0][1], pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceHome[i].stamina]);
 			}
 		}
 	}
@@ -154,7 +167,7 @@ for(let i = 0; i < playersOnIceHome.length; i++){
 		const pAO = Object.entries(playerArray[j]);
 		if(pAO[0].includes(playersOnIceHome[i].playerId)){
 			if(pAO[pAO.length - 1][1].type === "Goalie"){
-				onIceHome.push([pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceHome[i].stamina]);
+				onIceHome.push([pAO[0][1], pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceHome[i].stamina]);
 			}
 		}
 	}
@@ -168,7 +181,7 @@ for(let i = 0; i < playersOnIceHome.length; i++){
 			const pAO = Object.entries(playerArray[j]);
 			if(pAO[0].includes(playersOnIceAway[i].playerId)){
 				if(pAO[pAO.length - 1][1].type === "Forward"){
-					onIceAway.push([pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceAway[i].stamina]);
+					onIceAway.push([pAO[0][1], pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceAway[i].stamina]);
 				}
 			}
 		}
@@ -180,7 +193,7 @@ for(let i = 0; i < playersOnIceAway.length; i++){
 		const pAO = Object.entries(playerArray[j]);
 		if(pAO[0].includes(playersOnIceAway[i].playerId)){
 			if(pAO[pAO.length - 1][1].type === "Defenseman"){
-				onIceAway.push([pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceAway[i].stamina]);
+				onIceAway.push([pAO[0][1], pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceAway[i].stamina]);
 			}
 		}
 	}
@@ -192,7 +205,7 @@ for(let i = 0; i < playersOnIceAway.length; i++){
 		const pAO = Object.entries(playerArray[j]);
 		if(pAO[0].includes(playersOnIceAway[i].playerId)){
 			if(pAO[pAO.length - 1][1].type === "Goalie"){
-				onIceAway.push([pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceAway[i].stamina]);
+				onIceAway.push([pAO[0][1], pAO[5][1], pAO[1][1], pAO[pAO.length - 1][1].code, ' - ' + playersOnIceAway[i].stamina]);
 			}
 		}
 	}
