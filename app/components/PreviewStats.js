@@ -137,7 +137,7 @@ export default class PreviewStats extends React.Component {
           </tr>
           <tr>
             <td>
-              	<img src={url} onError={() => this.regularPreview()} />
+              	<img src={url} onError={() => this.regularPreview()} width='710' height='332'/>
             </td>
           </tr>
         </table>

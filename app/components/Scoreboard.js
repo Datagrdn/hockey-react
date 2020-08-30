@@ -36,7 +36,7 @@ export default class Scoreboard extends React.Component {
 			<React.Fragment>
 			<table border='0' width='100%' bgcolor='#eeeeee'>
 			<tr>
-			<td width="20%" className='on-ice'>
+			<td width="25%" className='on-ice'>
 			<center>
 				<OnIce
 					teamUp='Away'
@@ -54,7 +54,7 @@ export default class Scoreboard extends React.Component {
 					: null}
 			</center>
 			</td>
-			<td width="60%">
+			<td width="50%">
 			<center>
 				<h1>{scoreBoard[0]}</h1>
 				<h2>{scoreBoard[1]}</h2>
@@ -81,7 +81,7 @@ export default class Scoreboard extends React.Component {
 					: null}
 				</center>
 				</td>
-				<td width="20%">
+				<td width="25%">
 				<center>
 				<OnIce
 					teamUp='Home'

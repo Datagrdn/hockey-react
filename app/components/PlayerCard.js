@@ -28,7 +28,7 @@ export default class PlayerCard extends React.Component {
 				cardInfo: playerData.people[0]
 			});
 		});
-		// console.log(allPlayer)
+		console.log(cardInfo ? cardInfo.fullName : null)
 		return(
 
 			<div className="hover">

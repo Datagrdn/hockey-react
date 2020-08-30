@@ -127,7 +127,7 @@ export default class Roster extends React.Component {
 	}
 
 	updatePlayer(newPlayer, newPlayerID){
-		console.log(newPlayerID)
+		// console.log(newPlayerID)
 			this.props.onPlayerChange({
 			selectedPlayer: newPlayer,
 			selectedPlayerID: newPlayerID
