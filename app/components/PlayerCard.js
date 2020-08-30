@@ -10,12 +10,16 @@ export default class PlayerCard extends React.Component {
 		}
 	}
 
-	// componentDidUpdate(){
-	// 	console.log(fetchPlayerCard(this.props.selectedPlayerID));
-	// 	console.log('player card updated')
-	// }
+	  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props === nextProps) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
 	render(){
+		// console.log("PlayerCard rendered from " + this.props.where)
 		const { selectedPlayer, selectedPlayerID } = this.props;
 		const { cardInfo } = this.state;
 		const allPlayer = fetchPlayerCard(selectedPlayerID)

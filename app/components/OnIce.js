@@ -1,13 +1,12 @@
 import React from 'react'
 import TriggerTest from './TriggerTest'
 import PlayerCard from './PlayerCard'
-import { fetchPlayerCard } from '../utils/api'
 import ReactHover, { Trigger, Hover } from 'react-hover'
 
 const optionsCursorTrueWithMargin = {
       followCursor:true,
-      shiftX: 0,
-      shiftY: -200
+      shiftX: -10,
+      shiftY: -170
 }
 
 export default class OnIce extends React.Component {
@@ -67,6 +66,7 @@ export default class OnIce extends React.Component {
                   <PlayerCard 
                   	selectedPlayer={player[2]}
                   	selectedPlayerID={player[0]}
+                  	where={'OnIce'}
                   />
                 </Hover>
 									</ReactHover>	

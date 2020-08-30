@@ -291,6 +291,7 @@ export default class Roster extends React.Component {
 									<PlayerCard 
 										selectedPlayer={selectedPlayer}
 										selectedPlayerID={selectedPlayerID}
+										where={'Roster'}
 									/>
 									<RenderStats 
 										selectedStat={selectedStat}

@@ -173,6 +173,7 @@ export default class Game extends React.Component {
 			PHItwitter: [
 			 'BroadStHockey',
 			 'charlieo_conn',
+			 'jasonmyrt',
 			 'TimRiday',
 			 'BILLadelphia1',
 			 '2Murphy8',
