@@ -11,7 +11,7 @@ export default class PlayerCard extends React.Component {
 	}
 
 	  shouldComponentUpdate(nextProps, nextState) {
-    if (this.props === nextProps) {
+    if (this.state === nextState) {
       return false;
     } else {
       return true;
@@ -28,7 +28,7 @@ export default class PlayerCard extends React.Component {
 				cardInfo: playerData.people[0]
 			});
 		});
-		console.log(cardInfo ? cardInfo.fullName : null)
+		// console.log(cardInfo ? cardInfo.fullName : null)
 		return(
 
 			<div className="hover">

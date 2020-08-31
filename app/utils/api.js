@@ -11,14 +11,12 @@ export function fetchAllData (gameID) {
 }
 
 export function fetchPlayerCard (playerID) {
-	// console.log(`https://statsapi.web.nhl.com/api/v1/people/${playerID}`);
 	return fetch(`https://statsapi.web.nhl.com/api/v1/people/${playerID}`)
 		.then((res) => res.json())
 		.then((playerData) => {
 			if(!playerData.copyright) {
 				throw new Error('Error fetching player card')
 			}
-			// console.log(playerData.people[0].currentAge);
 			return playerData;
 		})
 }

@@ -72,7 +72,7 @@ export default class GameFlow extends React.Component {
 					<td>
 						<center>
 						{selectedStat[1] != 'shiftchart'
-							? <img src={ selectedStat[0] !== 2? asURL : scURL } width='675' height='306'/>
+							? <img src={ selectedStat[0] !== 2? asURL : scURL } width='655' height='297'/>
 							: <img src={ selectedStat[0] !== 2? asURL : scURL } width='700' height='529'/>}
 						</center>
 					</td>

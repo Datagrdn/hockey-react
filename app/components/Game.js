@@ -175,6 +175,7 @@ export default class Game extends React.Component {
 			 'charlieo_conn',
 			 'jasonmyrt',
 			 'TimRiday',
+			 'AnthonyMingioni',
 			 'BILLadelphia1',
 			 '2Murphy8',
 			 'JHallNBCS',
@@ -313,8 +314,9 @@ handleSubmit(gameID) {
 					newState.scoringPlays = allData.liveData.plays.scoringPlays;
 					newState.gameState = allData.gameData.status.abstractGameState;
 					newState.erorr = null;
-					newState.scoreBoard = fetchScoreboard(allData, allData.gameData.status.abstractGameState)
-					newState.shots = shots(allData)
+					newState.scoreBoard = fetchScoreboard(allData, allData.gameData.status.abstractGameState);
+					newState.shots = shots(allData);
+					newState.onIce = onIce(allData);
 					return newState;
 				}, () => this.setTeams(this.state.gameID)))
 				.catch(() => {
@@ -347,7 +349,6 @@ handleSubmit(gameID) {
 					newState.selectedTeam = [0,teams[0]];
 					newState.rendered = true;
 					newState.erorr = null;
-					newState.onIce = onIce(this.state.allData);
 					return newState;
 			}, () =>  this.teamChanged([0,teams[0]]))
 		} else if(this.state.gameID !== this.state.gameIDP) {
@@ -356,7 +357,6 @@ handleSubmit(gameID) {
 					newState.teams = teams;
 					newState.selectedTeam = [0, teams[0]];
 					newState.erorr = null;
-					newState.onIce = onIce(this.state.allData);
 					newState.gfVis = false;
 					return newState;
 			}, () => this.teamChanged([0, teams[0]]))
