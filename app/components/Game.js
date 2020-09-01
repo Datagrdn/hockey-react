@@ -438,6 +438,7 @@ handleSubmit(gameID) {
 						selectedPlayerID={selectedPlayerID}
 						playerChanged={this.playerChanged}
 						shots={shots}
+						stats={stats}
 						gameState={gameState}
 						scoreBoard={scoreBoard}
 						gameID={gameID}

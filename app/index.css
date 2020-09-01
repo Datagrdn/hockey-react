@@ -112,9 +112,9 @@ a {
 }
 
 .hover {
-  background-color: #eeeeee;
+  background-color: #dddddd;
   width: 250px;
-  height: 150px;
+  height: 250px;
 /*  border-style: dashed;
   border-color: chocolate;*/
 }

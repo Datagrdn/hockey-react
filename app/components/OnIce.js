@@ -1,11 +1,12 @@
 import React from 'react'
 import TriggerTest from './TriggerTest'
 import PlayerCard from './PlayerCard'
+import { fetchStats } from '../utils/api'
 import ReactHover, { Trigger, Hover } from 'react-hover'
 
 const optionsCursorTrueWithMargin = {
       followCursor:true,
-      shiftX: -10,
+      shiftX: 20,
       shiftY: -170
 }
 
@@ -28,7 +29,7 @@ export default class OnIce extends React.Component {
 	}
 
 	render(){
-		const { teamUp, teamLow, teams, allData, onIce, selectedPlayer, tri } = this.props
+		const { teamUp, teamLow, teams, allData, onIce, selectedPlayer, tri, stats } = this.props
 		const onPP = allData ? allData.liveData.linescore.teams[teamLow].powerPlay : null;
 		const en = allData ? allData && allData.liveData.linescore.teams[teamLow].goaliePulled : null;
 
@@ -66,6 +67,7 @@ export default class OnIce extends React.Component {
                   <PlayerCard 
                   	selectedPlayer={player[2]}
                   	selectedPlayerID={player[0]}
+                  	stats={fetchStats(allData, player[2])}
                   	where={'OnIce'}
                   />
                 </Hover>

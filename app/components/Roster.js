@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Score from './Score'
 import PreviewStats from './PreviewStats'
 import PlayerCard from './PlayerCard'
-import { fetchStats } from '../utils/api'
+import { fetchStats, fetchPlayerCard } from '../utils/api'
 import Twidget from './Twidget'
 import { Timeline } from 'react-twitter-widgets'
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaWindowMaximize } from 'react-icons/fa'
@@ -288,11 +288,15 @@ export default class Roster extends React.Component {
 									width={550}
 								/>
 							:	<React.Fragment>
+									<center>
 									<PlayerCard 
 										selectedPlayer={selectedPlayer}
 										selectedPlayerID={selectedPlayerID}
 										where={'Roster'}
+                  	stats={allData ? fetchStats(allData, selectedPlayer) : null}
+                  	playerCard={fetchPlayerCard(selectedPlayerID)}
 									/>
+									</center>
 									<RenderStats 
 										selectedStat={selectedStat}
 										stats={stats}

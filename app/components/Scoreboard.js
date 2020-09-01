@@ -27,6 +27,7 @@ export default class Scoreboard extends React.Component {
 						selectedPlayer,
 						selectedPlayerID,
 						shots,
+						stats,
 						gameState,
 						scoreBoard,
 						gameID,
@@ -43,6 +44,7 @@ export default class Scoreboard extends React.Component {
 					teamLow='away'
 					teams={teams}
 					onIce={onIce}
+					stats={stats}
 					allData={allData}
 					selectedPlayer={selectedPlayer}
 					onPlayerChange={this.playerChanged}
@@ -88,6 +90,7 @@ export default class Scoreboard extends React.Component {
 					teamLow='home'
 					teams={teams}
 					onIce={onIce}
+					stats={stats}
 					allData={allData}
 					selectedPlayer={selectedPlayer}
 					selectedPlayerID={selectedPlayerID}
