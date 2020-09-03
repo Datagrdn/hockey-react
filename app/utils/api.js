@@ -39,6 +39,8 @@ export function fetchSchedule (increment) {
 	const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + increment}`;
 
 	const endpoint = window.encodeURI(`https://statsapi.web.nhl.com/api/v1/schedule?date=`+dateString);
+	// const endpoint = window.encodeURI(`https://statsapi.web.nhl.com/api/v1/schedule?date=2020-08-30`);
+
 	return fetch(endpoint)
 		.then((res) => res.json())
 		.then((schedule) => {

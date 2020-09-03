@@ -294,7 +294,6 @@ export default class Roster extends React.Component {
 										selectedPlayerID={selectedPlayerID}
 										where={'Roster'}
                   	stats={allData ? fetchStats(allData, selectedPlayer) : null}
-                  	playerCard={fetchPlayerCard(selectedPlayerID)}
 									/>
 									</center>
 									<RenderStats 

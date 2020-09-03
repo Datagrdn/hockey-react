@@ -11,57 +11,28 @@ export default class PlayerCard extends React.Component {
 		}
 	}
 
-	 //  shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.state === nextState) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
+	componentDidMount(){
+		fetchPlayerCard(this.props.selectedPlayerID)
+			.then(playerCard => {
+				this.setState({
+					cardInfo: playerCard.people[0]
+				});
+			})
+		}
 
-  //   if (this.props === nextProps) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
-
-  shouldComponentUpdate(prevProps){
-  	if(this.props !== prevProps){
-  		fetchPlayerCard(this.props.selectedPlayerID)
-				.then(playerData => {
-					this.setState({
-						cardInfo: playerData.people[0],
-						fetched: false
-					})
-				})
-			}
-  }
+	componentDidUpdate(prevProps){
+		
+		if(this.props.selectedPlayerID !== prevProps.selectedPlayerID){
+			fetchPlayerCard(this.props.selectedPlayerID)
+				.then(playerCard => {
+					this.setState({ cardInfo: playerCard.people[0]});
+			})
+		}
+	}
 
 	render(){
-		// console.log("PlayerCard rendered from " + this.props.where)
 		const { selectedPlayer, selectedPlayerID, stats, where, playerCard } = this.props;
 		const { cardInfo } = this.state;
-		
-			// fetchPlayerCard(selectedPlayerID)
-			// 	.then(playerData => {
-			// 		this.setState({
-			// 			cardInfo: playerData.people[0],
-			// 			fetched: true
-			// 		})
-			// 	})
-
-		// console.log(cardInfoParsed);
-
-
-		// if(this.state.fetched != true){
-		// 	const allPlayer = fetchPlayerCard(selectedPlayerID)
-		// 	.then(playerData => {
-		// 		this.setState({
-		// 			cardInfo: playerData.people[0],
-		// 			fetched: true
-		// 		});
-		// 	});
-		// }
 
 		const hsURL = `https://cms.nhl.bamgrid.com/images/headshots/current/168x168/${selectedPlayerID}.jpg`;
 		const shots = stats ? stats.filter(play => play[0] === "SHOT") : null;
