@@ -8,10 +8,10 @@ import GameFlow from './GameFlow'
 import Twidget from './Twidget'
 import Scoreboard from './Scoreboard'
 import NHLNews from './NHLNews'
-import { setURL, fetchTeams, fetchScoreboard, fetchSchedule, fetchContent, fetchStats, fetchAllData, onIce, shots } from '../utils/api'
+import { setURL, fetchTeams, fetchScoreboard, fetchSchedule, fetchContent, fetchStats, fetchAllData, onIce, shots, hits, fos } from '../utils/api'
 
 function RenderStatBar ({ selected, onUpdateStat}) {
-	const statArrays = [['All', 'All'], ['Goal', 'GOAL'], ['Assist', 'GOAL'], ['Hit', 'HIT'], ['Penalty', 'PENALTY'], ['Shot', 'SHOT'], ['Blocked Shot', 'BLOCKED_SHOT'], ['Missed Shot', 'MISSED_SHOT'], ['Giveaway', 'GIVEAWAY'], ['Takeaway', 'TAKEAWAY'], ['Faceoff', 'FACEOFF']]
+	const statArrays = [['All', 'All'], ['Goal', 'GOAL'], ['Assist', 'ASSIST'], ['Hit', 'HIT'], ['Penalty', 'PENALTY'], ['Shot', 'SHOT'], ['Blocked Shot', 'BLOCKED_SHOT'], ['Missed Shot', 'MISSED_SHOT'], ['Giveaway', 'GIVEAWAY'], ['Takeaway', 'TAKEAWAY'], ['Faceoff', 'FACEOFF']]
 	return (
 		<ul className='flex-center'>
 			{statArrays.map((stat, index) => (
@@ -316,6 +316,8 @@ handleSubmit(gameID) {
 					newState.erorr = null;
 					newState.scoreBoard = fetchScoreboard(allData, allData.gameData.status.abstractGameState);
 					newState.shots = shots(allData);
+					newState.hits = hits(allData);
+					newState.fos = fos(allData);
 					newState.onIce = onIce(allData);
 					return newState;
 				}, () => this.setTeams(this.state.gameID)))
@@ -398,7 +400,9 @@ handleSubmit(gameID) {
 			error, 
 			scoringPlays, 
 			onIce, 
-			shots, 
+			shots,
+			hits,
+			fos, 
 			schedule, 
 			content, 
 			increment, 
@@ -438,6 +442,8 @@ handleSubmit(gameID) {
 						selectedPlayerID={selectedPlayerID}
 						playerChanged={this.playerChanged}
 						shots={shots}
+						hits={hits}
+						fos={fos}
 						stats={stats}
 						gameState={gameState}
 						scoreBoard={scoreBoard}

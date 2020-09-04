@@ -35,6 +35,8 @@ export default class PlayerCard extends React.Component {
 		const { cardInfo } = this.state;
 
 		const hsURL = `https://cms.nhl.bamgrid.com/images/headshots/current/168x168/${selectedPlayerID}.jpg`;
+		const goals = stats? stats.filter(play => play[0] === "GOAL") : null;
+		const assts = stats? stats.filter(play => play[0] === "ASSIST") : null;
 		const shots = stats ? stats.filter(play => play[0] === "SHOT") : null;
 		const tka = stats ? stats.filter(play => play[0] === "TAKEAWAY") : null;
 		const gva = stats ? stats.filter(play => play[0] === "GIVEAWAY") : null;
@@ -50,7 +52,7 @@ export default class PlayerCard extends React.Component {
 		return(
 
 			<div className="hover">
-			<table border='0'>
+			<table border='0' width='100%'>
 			<tr>
 			<td className='player-card'>
 			{selectedPlayerID
@@ -75,7 +77,7 @@ export default class PlayerCard extends React.Component {
 					</td>
 					</tr>
 					</table>
-					<table border='0'>
+					<table border='0' width='100%'>
 					<tr>
 					<td>
 					<p>
@@ -88,10 +90,12 @@ export default class PlayerCard extends React.Component {
 					</td>
 					<td>
 						<p>
-							Shots: {shots != null ? shots.length : null}<br/>	
-							Takeaways: {shots != null ? tka.length : null}<br/>
-							Giveaways: {shots != null ? gva.length : null}<br/>
-							Hits: {shots != null ? filtHits.length : null}<br/>																							
+							{goals.length > 0 ? <React.Fragment>Goals: {goals != null ? goals.length : null}<br/> </React.Fragment> : null}
+							{assts.length > 0 ? <React.Fragment>Assists: {assts != null ? assts.length : null}<br/> </React.Fragment> : null}
+							{cardInfo && cardInfo.primaryPosition.code != "G" ? <React.Fragment>Shots: {shots != null ? shots.length : null}<br/></React.Fragment> : null}
+							Takeaways: {tka != null ? tka.length : null}<br/>
+							Giveaways: {gva != null ? gva.length : null}<br/>
+							Hits: {filtHits != null ? filtHits.length : null}<br/>																							
 						</p>
 					</td>
 					</tr>

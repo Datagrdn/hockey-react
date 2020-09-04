@@ -27,6 +27,8 @@ export default class Scoreboard extends React.Component {
 						selectedPlayer,
 						selectedPlayerID,
 						shots,
+						hits,
+						fos,
 						stats,
 						gameState,
 						scoreBoard,
@@ -51,10 +53,14 @@ export default class Scoreboard extends React.Component {
 					tri='0'
 				/>
 			<br/>
-				{shots && gameState !== "Preview"
-					? <p>SOG {shots[0]}</p>
+				{shots && hits && fos && gameState !== "Preview"
+					? <React.Fragment>
+						<b>SOG</b> {shots[0]}<br/>
+						<b>Hits</b> {hits[0]}<br/>
+						<b>FO%</b> {fos[0]}<br/>
+						</React.Fragment>
 					: null}
-			</center>
+			</center>					
 			</td>
 			<td width="50%">
 			<center>
@@ -98,10 +104,15 @@ export default class Scoreboard extends React.Component {
 					tri='1'
 				/>
 						<br/>
-						{shots && gameState !== "Preview"
-							? <p>SOG {shots[1]}</p>
-							: null}
+				{shots && hits && fos && gameState !== "Preview"
+					? <React.Fragment>
+						<b>SOG</b> {shots[1]}<br/>
+						<b>Hits</b> {hits[1]}<br/>
+						<b>FO%</b> {fos[1]}<br/>
+						</React.Fragment>
+					: null}
 				</center>
+					
 				</td>
 				</tr>
 				</table>			

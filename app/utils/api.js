@@ -39,7 +39,7 @@ export function fetchSchedule (increment) {
 	const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + increment}`;
 
 	const endpoint = window.encodeURI(`https://statsapi.web.nhl.com/api/v1/schedule?date=`+dateString);
-	// const endpoint = window.encodeURI(`https://statsapi.web.nhl.com/api/v1/schedule?date=2020-08-30`);
+	// const endpoint = window.encodeURI(`https://statsapi.web.nhl.com/api/v1/schedule?date=2020-08-10`);
 
 	return fetch(endpoint)
 		.then((res) => res.json())
@@ -220,6 +220,22 @@ export function shots (allData) {
 	return shots;
 }
 
+export function hits (allData) {
+	// console.log("Logging shots")
+	const hits = [];
+	hits.push(allData.liveData.boxscore.teams.away.teamStats.teamSkaterStats.hits, allData.liveData.boxscore.teams.home.teamStats.teamSkaterStats.hits);
+	console.log(hits);
+	return hits;
+}
+
+export function fos (allData) {
+	// console.log("Logging shots")
+	const fos = [];
+	fos.push(allData.liveData.boxscore.teams.away.teamStats.teamSkaterStats.faceOffWinPercentage, allData.liveData.boxscore.teams.home.teamStats.teamSkaterStats.faceOffWinPercentage);
+	console.log(fos)
+	return fos;
+}
+
 export function fetchScoreboard (allData, gameState) {
 
 			const teamData = allData.gameData.teams;
@@ -237,7 +253,7 @@ export function fetchScoreboard (allData, gameState) {
 			const formattedScore = `${awayScore} - ${homeScore}`;
 
 			const periodPath = gameState !== "Preview" ? allData.liveData.plays.currentPlay.about.period : null;
-			const currentPeriod = periodPath === 1 || periodPath === 2 || periodPath === 3 ? "Period " + periodPath : periodPath === 4  ? "OT" : periodPath === 5  ? "Shootout" : null;
+			const currentPeriod = periodPath === 1 || periodPath === 2 || periodPath === 3 ? "Period " + periodPath : periodPath === 4  ? "OT" : periodPath === 5  ? "OT 2" : null;
 			const currentTime = gameState !== "Preview" ? allData.liveData.plays.currentPlay.about.periodTimeRemaining : null;
 
 			const scoreBoard = [opponents, formattedScore, currentPeriod, currentTime];
@@ -245,7 +261,6 @@ export function fetchScoreboard (allData, gameState) {
 }
 
 export function fetchStats (allData, selectedPlayer) {
-
 			const allPlays = allData.liveData.plays.allPlays;
 			const justPlayers = [];
 
@@ -278,11 +293,26 @@ export function fetchStats (allData, selectedPlayer) {
 			results.forEach(play => {
 			// const firstShot = play.Description.indexOf('shot');
 			// const secondShot = play.Description.indexOf('shot', firstShot + 1);
-			allArrays.push([
-				play.EventID,
-				`Period ${play.Period} ${play.Description} @ ${play.PTimeRemaining}`
-			])
+			if(play.EventID == "GOAL" 
+					&& play.Description.substring(0, play.Description.indexOf('assists')).includes(selectedPlayer)){
+					allArrays.push([
+					"GOAL",
+					`Period ${play.Period} ${play.Description} @ ${play.PTimeRemaining}`
+					]);
+				} else if(play.EventID == "GOAL"
+					&& !play.Description.substring(0, play.Description.indexOf('assists')).includes(selectedPlayer)){
+					allArrays.push([
+					"ASSIST",
+					`Period ${play.Period} ${play.Description} @ ${play.PTimeRemaining}`
+					]);
+				} else {
+					allArrays.push([
+					play.EventID,
+					`Period ${play.Period} ${play.Description} @ ${play.PTimeRemaining}`
+					]);
+				}
 			});
+
 
 		return allArrays;
 	}

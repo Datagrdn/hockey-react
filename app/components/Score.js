@@ -232,7 +232,7 @@ function RenderGoals( {allData, scoringPlays, content, updateVid} ){
 			}
 		})
 
-		const period5GoalsReturn = period5GoalsFormatted.length !== 0 ? [<h3>Shootout</h3>, <p>{period5GoalsFormatted}</p>] : null;
+		const period5GoalsReturn = period5GoalsFormatted.length !== 0 ? [<h3>OT2</h3>, <p>{period5GoalsFormatted}</p>] : null;
 
 		return [
 			condensedGameButton,

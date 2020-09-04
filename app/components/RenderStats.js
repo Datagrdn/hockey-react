@@ -3,6 +3,7 @@ import React from 'react'
 function RenderStatFunction(selectedStat, stats) {
 if(stats){
 	const filteredStats = selectedStat[0] === 0 ? stats : stats.filter(play => play[0] === selectedStat[1]);
+	console.log(filteredStats);
 
 	const period1Plays = []
 	filteredStats.forEach((play) => {

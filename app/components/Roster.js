@@ -13,7 +13,7 @@ import { FaAngleDoubleLeft, FaAngleDoubleRight, FaWindowMaximize } from 'react-i
 function RenderStats( {selectedStat, stats} ){
 	
 	if(stats){
-		const filteredStats = selectedStat[0] === 0 ? stats : stats.filter(play => play[0] === selectedStat[1]);
+		const filteredStats = selectedStat[0] === 0 ? stats.filter(play => play[0] != "FACEOFF") : stats.filter(play => play[0] === selectedStat[1]);
 
 		const period1Plays = []
 		filteredStats.forEach((play) => {
@@ -83,7 +83,7 @@ function RenderStats( {selectedStat, stats} ){
 			<li key={play}>{play}</li>
 			))
 
-		const period5PlaysReturn = period5PlaysFormatted.length !== 0 ? [<h2>Shootout</h2>, <p>{period5PlaysFormatted}</p>] : null;
+		const period5PlaysReturn = period5PlaysFormatted.length !== 0 ? [<h2>OT 2</h2>, <p>{period5PlaysFormatted}</p>] : null;
 		
 		return [
 			<h2>Period 1</h2>,
