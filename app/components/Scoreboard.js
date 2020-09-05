@@ -29,6 +29,8 @@ export default class Scoreboard extends React.Component {
 						shots,
 						hits,
 						fos,
+						tka,
+						gva,
 						stats,
 						gameState,
 						scoreBoard,
@@ -58,6 +60,8 @@ export default class Scoreboard extends React.Component {
 						<b>SOG</b> {shots[0]}<br/>
 						<b>Hits</b> {hits[0]}<br/>
 						<b>FO%</b> {fos[0]}<br/>
+						<b>TKA</b> {tka[0]}<br/>						
+						<b>GVA</b> {gva[0]}<br/>
 						</React.Fragment>
 					: null}
 			</center>					
@@ -109,10 +113,12 @@ export default class Scoreboard extends React.Component {
 						<b>SOG</b> {shots[1]}<br/>
 						<b>Hits</b> {hits[1]}<br/>
 						<b>FO%</b> {fos[1]}<br/>
+						<b>TKA</b> {tka[1]}<br/>						
+						<b>GVA</b> {gva[1]}<br/>						
 						</React.Fragment>
 					: null}
 				</center>
-					
+
 				</td>
 				</tr>
 				</table>			

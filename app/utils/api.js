@@ -214,26 +214,43 @@ for(let i = 0; i < playersOnIceAway.length; i++){
 }
 
 export function shots (allData) {
-	// console.log("Logging shots")
 	const shots = [];
 	shots.push(allData.liveData.linescore.teams.away.shotsOnGoal, allData.liveData.linescore.teams.home.shotsOnGoal);
 	return shots;
 }
 
 export function hits (allData) {
-	// console.log("Logging shots")
 	const hits = [];
 	hits.push(allData.liveData.boxscore.teams.away.teamStats.teamSkaterStats.hits, allData.liveData.boxscore.teams.home.teamStats.teamSkaterStats.hits);
-	console.log(hits);
 	return hits;
 }
 
 export function fos (allData) {
-	// console.log("Logging shots")
 	const fos = [];
 	fos.push(allData.liveData.boxscore.teams.away.teamStats.teamSkaterStats.faceOffWinPercentage, allData.liveData.boxscore.teams.home.teamStats.teamSkaterStats.faceOffWinPercentage);
-	console.log(fos)
 	return fos;
+}
+
+export function gva (allData) {
+	const gva = [];
+	gva.push(allData.liveData.boxscore.teams.away.teamStats.teamSkaterStats.giveaways, allData.liveData.boxscore.teams.home.teamStats.teamSkaterStats.giveaways);
+	return gva;
+}
+
+export function tka (allData) {
+	const tka = [];
+	tka.push(allData.liveData.boxscore.teams.away.teamStats.teamSkaterStats.takeaways, allData.liveData.boxscore.teams.home.teamStats.teamSkaterStats.takeaways);
+	return tka;
+}
+
+export function coaches (allData) {
+	const coaches = [];
+	const awayCoach = allData.liveData.boxscore.teams.away.coaches[0] ? allData.liveData.boxscore.teams.away.coaches[0].person.fullName : null;
+	const homeCoach = allData.liveData.boxscore.teams.home.coaches[0] ? allData.liveData.boxscore.teams.home.coaches[0].person.fullName : null;
+	if(awayCoach != null){
+		coaches.push(allData.liveData.boxscore.teams.away.coaches[0].person.fullName, allData.liveData.boxscore.teams.home.coaches[0].person.fullName);
+	}
+	return coaches;
 }
 
 export function fetchScoreboard (allData, gameState) {

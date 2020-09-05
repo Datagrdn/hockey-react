@@ -8,7 +8,20 @@ import GameFlow from './GameFlow'
 import Twidget from './Twidget'
 import Scoreboard from './Scoreboard'
 import NHLNews from './NHLNews'
-import { setURL, fetchTeams, fetchScoreboard, fetchSchedule, fetchContent, fetchStats, fetchAllData, onIce, shots, hits, fos } from '../utils/api'
+import { setURL, 
+				fetchTeams, 
+				fetchScoreboard, 
+				fetchSchedule, 
+				fetchContent, 
+				fetchStats, 
+				fetchAllData, 
+				onIce, 
+				shots, 
+				hits, 
+				fos,
+				gva,
+				tka, 
+				coaches } from '../utils/api'
 
 function RenderStatBar ({ selected, onUpdateStat}) {
 	const statArrays = [['All', 'All'], ['Goal', 'GOAL'], ['Assist', 'ASSIST'], ['Hit', 'HIT'], ['Penalty', 'PENALTY'], ['Shot', 'SHOT'], ['Blocked Shot', 'BLOCKED_SHOT'], ['Missed Shot', 'MISSED_SHOT'], ['Giveaway', 'GIVEAWAY'], ['Takeaway', 'TAKEAWAY'], ['Faceoff', 'FACEOFF']]
@@ -318,6 +331,9 @@ handleSubmit(gameID) {
 					newState.shots = shots(allData);
 					newState.hits = hits(allData);
 					newState.fos = fos(allData);
+					newState.tka = tka(allData);
+					newState.gva = gva(allData);
+					newState.coaches = coaches(allData);
 					newState.onIce = onIce(allData);
 					return newState;
 				}, () => this.setTeams(this.state.gameID)))
@@ -402,7 +418,10 @@ handleSubmit(gameID) {
 			onIce, 
 			shots,
 			hits,
-			fos, 
+			fos,
+			tka,
+			gva,
+			coaches, 
 			schedule, 
 			content, 
 			increment, 
@@ -444,6 +463,8 @@ handleSubmit(gameID) {
 						shots={shots}
 						hits={hits}
 						fos={fos}
+						tka={tka}
+						gva={gva}
 						stats={stats}
 						gameState={gameState}
 						scoreBoard={scoreBoard}
@@ -491,6 +512,7 @@ handleSubmit(gameID) {
 				  		onPlayerChange={this.playerChanged}
 				  		scoringPlays={scoringPlays}
 							content={content}
+							coaches={coaches}
 				  		onVidClose={this.vidClose}
 				  		onUpdateVid={this.updateVid}
 				  		vidVis={vidVis}

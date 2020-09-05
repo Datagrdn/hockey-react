@@ -43,12 +43,10 @@ export default class PreviewStats extends React.Component {
   }
 
   makeTwitMain(){
-  	console.log('From PreviewStats makeTwitMain')
   	this.props.makeTwitMain()
   }
 
   render() {
-    // console.log(this.fetchImage('https://www.naturalstattrick.com/graphs/teams/20192020/20192020-30221-po-cfdiff-5v5.png'));
     const { gameID } = this.props;
     const { selectedTime, selectedSitch, selectedCum, gameState } = this.state;
     const timeArray = [

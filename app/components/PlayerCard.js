@@ -84,6 +84,7 @@ export default class PlayerCard extends React.Component {
 						Age: {cardInfo != null ? cardInfo.currentAge : null}<br/>								
 						Height: {cardInfo != null ? cardInfo.height : null}<br/>
 						Weight: {cardInfo != null ? cardInfo.weight : null} lbs<br/>
+						Position: {cardInfo != null ? cardInfo.primaryPosition.abbreviation : null}<br/>
 						Shoots: {cardInfo != null ? cardInfo.shootsCatches : null}<br/>
 						Nationality: {cardInfo != null ? cardInfo.birthCountry : null}<br/>								
 					</p>

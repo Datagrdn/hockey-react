@@ -181,7 +181,8 @@ export default class Roster extends React.Component {
 			scratchesDisplay, 
 			allData,
 			gameState,
-			gameID, 
+			gameID,
+			coaches, 
 			scoringPlays,
 			content,
 			onVidClose,
@@ -222,6 +223,13 @@ export default class Roster extends React.Component {
 							</li>
 						))}
 						<br/>
+						{coaches && coaches.length > 0
+							? <React.Fragment>
+									<p>HC 
+										<b className='nav-link'> {coaches[selectedTeam[0]]}</b>
+									</p>
+								</React.Fragment>
+							: null}					
 							{rosterDisplayStat.map((playerId) => (
 								<li key={playerId}>
 									{playerId[2]}
