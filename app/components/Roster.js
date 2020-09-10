@@ -124,6 +124,7 @@ export default class Roster extends React.Component {
 		this.incrementTwitterAccount = this.incrementTwitterAccount.bind(this)
 		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
 		this.toggleTwitMain = this.toggleTwitMain.bind(this)
+		this.toggleShowLines = this.toggleShowLines.bind(this)
 		this.makeTwitMain = this.makeTwitMain.bind(this)
 		// this.clearTwitMain = this.clearTwitMain.bind(this)
 
@@ -146,6 +147,14 @@ export default class Roster extends React.Component {
 
 	toggleTwitMain(){
 		this.props.toggleTwitMain()
+	}
+
+	toggleShowLines(){
+		this.props.toggleShowLines()
+	}
+
+	closeLines(){
+		this.props.closeLines()
 	}
 
 	makeTwitMain(){
@@ -197,7 +206,8 @@ export default class Roster extends React.Component {
 			incrementTwitterAccount,
 			decrementTwitterAccount,
 			handleLengthInfo,
-			twitMain } = this.props;
+			twitMain,
+			showLines } = this.props;
 
 		const rosterDisplayStat = [];
 		rosterDisplay.forEach(player => {
@@ -214,20 +224,6 @@ export default class Roster extends React.Component {
 		return(
 			<table width="100%" border="0" bgcolor="#eeeeee">
 				<tr>
-					<td>
-					</td>
-					<td>
-						<center>
-							<LineCombos 
-								teams={teamsFull}
-								selectedTeam={selectedTeam}
-							/>
-						</center>
-					</td>
-					<td>
-					</td>					
-				</tr>
-				<tr>
 					<td width="25%">
 						{teams.map((team, index) =>(
 							<li key={team}>
@@ -240,6 +236,12 @@ export default class Roster extends React.Component {
 							</li>
 						))}
 						<br/>
+						<button
+							className='btn-clear nav-link'
+							style={showLines == true ? { color: 'rgb(187, 46, 31)' } : null}
+							onClick={() => this.toggleShowLines()}>
+							Show Lines
+						</button>
 						{coaches && coaches.length > 0
 							? <React.Fragment>
 									<p>HC 
@@ -276,6 +278,18 @@ export default class Roster extends React.Component {
 						<br/>
 					</td>
 					<td>
+						{showLines == true
+							? <React.Fragment>
+								<center>
+									<LineCombos 
+										teams={teamsFull}
+										selectedTeam={selectedTeam}
+										toggleShowLines={this.toggleShowLines}
+									/>
+								<br/>
+								</center>	
+								</React.Fragment>
+							: null}
 						{stats == null && twitMain == false && gameState != 'Preview'
 							?	
 							<center>
@@ -326,7 +340,8 @@ export default class Roster extends React.Component {
 										stats={stats}
 										rosterDisplay={rosterDisplay}
 									/>
-								</React.Fragment>}
+								</React.Fragment>
+						}
 						
 					</td>
 					<td width="20%">

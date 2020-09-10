@@ -67,6 +67,7 @@ export default class Game extends React.Component {
 			vidUrl: null,
 			gfVis: false,
 			twitterIDCount: 0,
+			showLines: false
 		}
 
 		this.updateStat = this.updateStat.bind(this)
@@ -84,6 +85,7 @@ export default class Game extends React.Component {
 		this.incrementTwitterAccount = this.incrementTwitterAccount.bind(this)
 		this.decrementTwitterAccount = this.decrementTwitterAccount.bind(this)
 		this.toggleTwitMain = this.toggleTwitMain.bind(this)
+		this.toggleShowLines = this.toggleShowLines.bind(this)
 		this.makeTwitMain = this.makeTwitMain.bind(this)
 		this.clearTwitMain = this.clearTwitMain.bind(this)
 	}
@@ -114,6 +116,18 @@ export default class Game extends React.Component {
 				newState.twitMain = true
 			} else {
 				newState.twitMain = false
+			}
+			return newState
+		})
+	}
+
+	toggleShowLines(){
+		this.setState(prevState => {
+			const newState = {};
+			if(prevState.showLines != true){
+				newState.showLines = true
+			} else {
+				newState.showLines = false
 			}
 			return newState
 		})
@@ -309,6 +323,7 @@ handleSubmit(gameID) {
 			if(gameID != prevState.gameID){
 				newState.twitterIDCount = 0;
 				newState.twitMain = false;
+				newState.showLines = false;
 			}
 			if(gameID == 'Waiting'){
 				this.setState({
@@ -428,7 +443,8 @@ handleSubmit(gameID) {
 			gfVis,
 			vidVis,
 			handleArray,
-			twitMain } = this.state
+			twitMain,
+			showLines } = this.state
 
 			if(gameID == null){
 				this.setState({
@@ -523,6 +539,8 @@ handleSubmit(gameID) {
 				  		incrementTwitterAccount={this.incrementTwitterAccount}
 				  		decrementTwitterAccount={this.decrementTwitterAccount}
 				  		toggleTwitMain={this.toggleTwitMain}
+				  		toggleShowLines={this.toggleShowLines}
+				  		showLines={showLines}
 				  		makeTwitMain={this.makeTwitMain}
 				  		clearTwitMain={this.clearTwitMain}		  		
 				  		twitMain={twitMain}
