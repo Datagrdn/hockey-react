@@ -118,6 +118,10 @@ export function fetchTeams (allData) {
 				}
 				});
 			teams.push(scratchesHome);
+
+			teams.push(allData.gameData.teams.away.name);
+			teams.push(allData.gameData.teams.home.name);
+
 			
 			return teams;
 }

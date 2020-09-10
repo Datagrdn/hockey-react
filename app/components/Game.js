@@ -497,6 +497,7 @@ handleSubmit(gameID) {
 				{gameID != "Waiting"
 					?	<Roster 
 				  		teams={teams ? [teams[0], teams[1]] : []}
+				  		teamsFull={teams ? [teams[6], teams[7]] : []}
 				  		rosterDisplay={rosterDisplay}
 				  		scratchesDisplay={scratchesDisplay}		  		
 				  		allData={allData}

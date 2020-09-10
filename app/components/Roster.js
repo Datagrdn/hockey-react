@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 import Score from './Score'
 import PreviewStats from './PreviewStats'
 import PlayerCard from './PlayerCard'
+import LineCombos from './LineCombos'
 import { fetchStats, fetchPlayerCard } from '../utils/api'
 import Twidget from './Twidget'
 import { Timeline } from 'react-twitter-widgets'
+import rp from "request-promise";
+import cheerio from "cheerio"
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaWindowMaximize } from 'react-icons/fa'
 
 
@@ -113,7 +116,7 @@ export default class Roster extends React.Component {
 		super(props)
 
 		this.state = {
-			twitterIDCount: 0
+			twitterIDCount: 0,
 		}
 
 		this.updatePlayer = this.updatePlayer.bind(this)
@@ -165,11 +168,11 @@ export default class Roster extends React.Component {
 		if(this.props.gameID !== prevProps.gameID) {
 			this.props.onGameChange()
 		}
-
 	}
 
 	render(){
-		const { teams, 
+		const { teams,
+			teamsFull, 
 			selectedStat, 
 			selectedPlayer, 
 			selectedPlayerID,
@@ -210,6 +213,20 @@ export default class Roster extends React.Component {
 
 		return(
 			<table width="100%" border="0" bgcolor="#eeeeee">
+				<tr>
+					<td>
+					</td>
+					<td>
+						<center>
+							<LineCombos 
+								teams={teamsFull}
+								selectedTeam={selectedTeam}
+							/>
+						</center>
+					</td>
+					<td>
+					</td>					
+				</tr>
 				<tr>
 					<td width="25%">
 						{teams.map((team, index) =>(
@@ -310,20 +327,21 @@ export default class Roster extends React.Component {
 										rosterDisplay={rosterDisplay}
 									/>
 								</React.Fragment>}
+						
 					</td>
 					<td width="20%">
 						{handle != phandle && handle != null && twitMain != true && vidVis != true && gameID != 'Waiting'
 							? <Twidget 
-									handleLengthInfo={handleLengthInfo}
-									toggleTwitMain={this.toggleTwitMain}
-									incrementTwitterAccount={this.incrementTwitterAccount}
-									decrementTwitterAccount={this.decrementTwitterAccount}									
-									handle={handle}
-									moveButton={true}
-									selectedTeam={selectedTeam}
-									height={800}
-									width={550}
-								/>
+										handleLengthInfo={handleLengthInfo}
+										toggleTwitMain={this.toggleTwitMain}
+										incrementTwitterAccount={this.incrementTwitterAccount}
+										decrementTwitterAccount={this.decrementTwitterAccount}									
+										handle={handle}
+										moveButton={true}
+										selectedTeam={selectedTeam}
+										height={800}
+										width={550}
+									/>
 							: null}
 					</td>
 				</tr>
