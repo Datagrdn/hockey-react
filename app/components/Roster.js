@@ -285,6 +285,7 @@ export default class Roster extends React.Component {
 										teams={teamsFull}
 										selectedTeam={selectedTeam}
 										toggleShowLines={this.toggleShowLines}
+										updatePlayer={this.updatePlayer}
 									/>
 								<br/>
 								</center>	

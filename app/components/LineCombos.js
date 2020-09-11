@@ -12,6 +12,7 @@ export default class LineCombos extends React.Component {
 
 		this.fetchLines = this.fetchLines.bind(this);
 		this.toggleShowLines = this.toggleShowLines.bind(this);
+		this.updatePlayer = this.updatePlayer.bind(this);
 	}
 
 	fetchLines(){
@@ -89,6 +90,10 @@ export default class LineCombos extends React.Component {
 		this.props.toggleShowLines()
 	}
 
+	updatePlayer(name, id){
+		this.props.updatePlayer(name, id)
+	}
+
 	componentDidUpdate(prevProps) {
 		if(this.props.selectedTeam !== prevProps.selectedTeam){
 			this.fetchLines();
@@ -102,6 +107,7 @@ export default class LineCombos extends React.Component {
 	render(){
 
 	const { names } = this.state;
+	const { teams } = this.props;
 
 		return(
 			<React.Fragment>
@@ -115,79 +121,261 @@ export default class LineCombos extends React.Component {
 					</button>
 				</h2>
 			</center>
-			{names != null
+			{names != null && teams[2] != null
 			? <React.Fragment>
-					<table border='0' width='80%'>	
+					<table border='0' width='100%'>	
 						<tr>
 							<td>
-								{names ? names[0] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[0]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[0], player[0])}
+															className='line-link btn-clear'>
+																{names[0]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[1] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[1]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[1], player[0])}
+															className='line-link btn-clear'>
+																{names[1]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[2] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[2]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[2], player[0])}
+															className='line-link btn-clear'>
+																{names[2]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 						</tr>
 						<tr>
 							<td>
-								{names ? names[3] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[3]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[3], player[0])}
+															className='line-link btn-clear'>
+																{names[3]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[4] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[4]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[4], player[0])}
+															className='line-link btn-clear'>
+																{names[4]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[5] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[5]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[5], player[0])}
+															className='line-link btn-clear'>
+																{names[5]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 						</tr>
 						<tr>
 							<td>
-								{names ? names[6] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[6]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[6], player[0])}
+															className='line-link btn-clear'>
+																{names[6]}
+														</button>
+														</React.Fragment>
+									}
+									})}
 							</td>
 							<td>
-								{names ? names[7] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[7]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[7], player[0])}
+															className='line-link btn-clear'>
+																{names[7]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[8] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[8]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[8], player[0])}
+															className='line-link btn-clear'>
+																{names[8]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 						</tr>
 						<tr>
 							<td>
-								{names ? names[9] : null}
+								{teams[2].map(player => {
+									if(player[2].substr(player[2].length - 5) == names[9].substr(names[9].length - 5)){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(player[2], player[0])}
+															className='line-link btn-clear'>
+																{player[2]}
+														</button>
+														</React.Fragment>
+									}
+									})}
 							</td>
 							<td>
-								{names ? names[10] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[10]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[10], player[0])}
+															className='line-link btn-clear'>
+																{names[10]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[11] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[11]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[11], player[0])}
+															className='line-link btn-clear'>
+																{names[11]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 						</tr>
 						</table>
 						<br/>
 						<center>
-						<table border='0' width="45%">
+						<table border='0' width="70%">
 						<tr>
 							<td>
-								{names ? names[12] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[12]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[12], player[0])}
+															className='line-link btn-clear'>
+																{names[12]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[13] : null}					
+								{teams[2].map(player => {
+									if(player[2] == names[13]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[13], player[0])}
+															className='line-link btn-clear'>
+																{names[13]}
+														</button>
+														</React.Fragment>} 
+									})}				
 							</td>
 						</tr>																
 						<tr>
 							<td>
-								{names ? names[14] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[14]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[14], player[0])}
+															className='line-link btn-clear'>
+																{names[14]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[15] : null}					
+								{teams[2].map(player => {
+									if(player[2] == names[15]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[15], player[0])}
+															className='line-link btn-clear'>
+																{names[15]}
+														</button>
+														</React.Fragment>} 
+									})}				
 							</td>
 						</tr>	
 						<tr>
 							<td>
-								{names ? names[16] : null}
+								{teams[2].map(player => {
+									if(player[2] == names[16]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[16], player[0])}
+															className='line-link btn-clear'>
+																{names[16]}
+														</button>
+														</React.Fragment>} 
+									})}
 							</td>
 							<td>
-								{names ? names[17] : null}					
+								{teams[2].map(player => {
+									if(player[2] == names[17]){
+										return <React.Fragment>
+														{player[1]} 
+														<button
+															onClick={() => this.updatePlayer(names[17], player[0])}
+															className='line-link btn-clear'>
+																{names[17]}
+														</button>
+														</React.Fragment>} 
+									})}				
 							</td>
 						</tr>					
 					</table>

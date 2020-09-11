@@ -83,6 +83,13 @@ a {
   color: inherit;
 }
 
+.line-link {
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+}
+
 .twidget {
   font-size: 18px;
   font-weight: bold;
