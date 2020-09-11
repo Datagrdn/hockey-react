@@ -283,6 +283,7 @@ export default class Roster extends React.Component {
 								<center>
 									<LineCombos 
 										teams={teamsFull}
+										selectedPlayer={selectedPlayer}
 										selectedTeam={selectedTeam}
 										toggleShowLines={this.toggleShowLines}
 										updatePlayer={this.updatePlayer}
@@ -291,7 +292,7 @@ export default class Roster extends React.Component {
 								</center>	
 								</React.Fragment>
 							: null}
-						{stats == null && twitMain == false && gameState != 'Preview'
+						{stats == null && twitMain == false && gameState != 'Preview' && selectedPlayer == null
 							?	
 							<center>
 								<Score
@@ -327,21 +328,21 @@ export default class Roster extends React.Component {
 									height={800}
 									width={550}
 								/>
-							:	<React.Fragment>
-									<center>
-									<PlayerCard 
-										selectedPlayer={selectedPlayer}
-										selectedPlayerID={selectedPlayerID}
-										where={'Roster'}
-                  	stats={allData ? fetchStats(allData, selectedPlayer) : null}
-									/>
-									</center>
-									<RenderStats 
-										selectedStat={selectedStat}
-										stats={stats}
-										rosterDisplay={rosterDisplay}
-									/>
-								</React.Fragment>
+							: <React.Fragment>
+								<center>
+								<PlayerCard 
+									selectedPlayer={selectedPlayer}
+									selectedPlayerID={selectedPlayerID}
+									where={'Roster'}
+                	stats={allData ? fetchStats(allData, selectedPlayer) : null}
+								/>
+								</center>
+								<RenderStats 
+									selectedStat={selectedStat}
+									stats={stats}
+									rosterDisplay={rosterDisplay}
+								/>
+							</React.Fragment>
 						}
 						
 					</td>

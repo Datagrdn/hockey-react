@@ -273,6 +273,10 @@ export default class Game extends React.Component {
 			newTeam,
 		)
 
+		this.setState({
+			selectedPlayer: null,
+			stats: null,
+		})
 
 		if(this.state.selectedTeam[0] === 0){
 			this.setState({
