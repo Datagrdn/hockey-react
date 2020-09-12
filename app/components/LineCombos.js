@@ -158,7 +158,8 @@ export default class LineCombos extends React.Component {
 			if(player[2].substr(player[2].length - 5) == dfo.substr(dfo.length - 5) && player[0].toString().charAt(0) != 's'){
 				return <React.Fragment>
 					<center>
-					{player[1]} 
+					{player[1]}
+					<br/> 
 					<button
 						onClick={() => this.updatePlayer(player[2], player[0])}
 						style={player[2] === this.props.selectedPlayer ? { color: 'rgb(187, 46, 31)' } : null}						
@@ -175,12 +176,9 @@ export default class LineCombos extends React.Component {
 			} else if(player[2].substr(player[2].length - 5) == dfo.substr(dfo.length - 5)){
 				return <React.Fragment>
 					<center>
-					{player[1]} 
-					<button
-						onClick={() => this.updatePlayer(player[2], player[0])}
-						className='line-link scratch btn-clear'>
-							{player[2]}
-					</button>
+					{player[1]}
+					<br/>
+						<b className='line-link scratch'>{player[2]}</b>
 					<br/>
 					<font size='2'>
 						{rank}
