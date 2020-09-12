@@ -268,10 +268,10 @@ export default class Roster extends React.Component {
 							{scratchesDisplay
 								? scratchesDisplay.map((playerId) => (
 								<li key={playerId}>
-									{playerId[0]}&nbsp;
-									<b>{playerId[2] 
-										? playerId[1] + playerId[2]
-										: playerId[1]}</b>
+									{playerId[1]}&nbsp;
+									<b>{playerId[3] 
+										? playerId[2] + playerId[3]
+										: playerId[2]}</b>
 								</li>
 							))
 								: null}								
@@ -283,6 +283,7 @@ export default class Roster extends React.Component {
 								<center>
 									<LineCombos 
 										teams={teamsFull}
+										scratches={scratchesDisplay}
 										selectedPlayer={selectedPlayer}
 										selectedTeam={selectedTeam}
 										toggleShowLines={this.toggleShowLines}

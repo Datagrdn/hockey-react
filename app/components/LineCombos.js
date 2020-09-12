@@ -18,7 +18,6 @@ export default class LineCombos extends React.Component {
 
 	fetchLines(){
 		const { selectedTeam, teams } = this.props;
-		console.log(selectedTeam[0]);
 
 		const teamName = selectedTeam && teams && selectedTeam[0] === 0 ? teams[0] : teams[1];
 		const URLname = teamName != null ? teamName.replace(/ /g, '-') : null;
@@ -27,6 +26,7 @@ export default class LineCombos extends React.Component {
 		rp(`https://guarded-fjord-78483.herokuapp.com/https://www.dailyfaceoff.com/teams/${URLname}/line-combinations/`)
 			.then(html => {
 				let names = [];
+				let ranks = [];
 				let $ = cheerio.load(html);
 
 				$('.player-name', '#f1').each(function(i, element) {
@@ -36,12 +36,26 @@ export default class LineCombos extends React.Component {
 					names.push(name);
 				});
 
+				$('.rating-rank', '#f1').each(function(i, element) {
+					let rank = $(this)
+						.prepend()
+						.text();
+					ranks.push(rank);
+				});				
+
 				$('.player-name', '#f2').each(function(i, element) {
 					let name = $(this)
 						.prepend()
 						.text();
 					names.push(name);
 				});
+
+				$('.rating-rank', '#f2').each(function(i, element) {
+					let rank = $(this)
+						.prepend()
+						.text();
+					ranks.push(rank);
+				});				
 
 				$('.player-name', '#f3').each(function(i, element) {
 					let name = $(this)
@@ -50,6 +64,13 @@ export default class LineCombos extends React.Component {
 					names.push(name);
 				});
 
+				$('.rating-rank', '#f3').each(function(i, element) {
+					let rank = $(this)
+						.prepend()
+						.text();
+					ranks.push(rank);
+				});				
+
 				$('.player-name', '#f4').each(function(i, element) {
 					let name = $(this)
 						.prepend()
@@ -57,29 +78,66 @@ export default class LineCombos extends React.Component {
 					names.push(name);
 				});
 
+				$('.rating-rank', '#f4').each(function(i, element) {
+					let rank = $(this)
+						.prepend()
+						.text();
+					console.log(rank.charAt(0) == null)
+					if(rank.length > 2) {
+						ranks.push(rank)
+					} else{
+					 ranks.push('N/A');
+					}
+				});
+
+				console.log(ranks);				
+
 				$('.player-name', '#d1').each(function(i, element) {
 					let name = $(this)
 						.prepend()
 						.text();
 					names.push(name);
-				});				
+				});
+
+				$('.rating-rank', '#d1').each(function(i, element) {
+					let rank = $(this)
+						.prepend()
+						.text();
+					ranks.push(rank);
+				});								
 
 				$('.player-name', '#d2').each(function(i, element) {
 					let name = $(this)
 						.prepend()
 						.text();
 					names.push(name);
-				});	
+				});
+
+				$('.rating-rank', '#d2').each(function(i, element) {
+					let rank = $(this)
+						.prepend()
+						.text();
+					ranks.push(rank);
+				});					
 
 				$('.player-name', '#d3').each(function(i, element) {
 					let name = $(this)
 						.prepend()
 						.text();
 					names.push(name);
-				});	
+				});
 
-				this.setState({ names })
-			})
+				$('.rating-rank', '#d3').each(function(i, element) {
+					let rank = $(this)
+						.prepend()
+						.text();
+					ranks.push(rank);
+				});					
+
+				this.setState({ 
+					names,
+					ranks })
+				})
 
 			.catch(function(err) {
 				console.log("Crawl failed");
@@ -91,10 +149,18 @@ export default class LineCombos extends React.Component {
 		this.props.toggleShowLines()
 	}
 
-	renderLineButton(teams, dfo){
-		return teams.map(player => {
+	renderLineButton(dfo, rank){
+		const {teams, scratches } = this.props;
+		const combined = [];
+
+
+		combined.push(...teams[2]);
+		combined.push(...scratches);
+
+		return combined.map(player => {
 			if(player[2].substr(player[2].length - 5) == dfo.substr(dfo.length - 5)){
 				return <React.Fragment>
+					<center>
 					{player[1]} 
 					<button
 						onClick={() => this.updatePlayer(player[2], player[0])}
@@ -102,6 +168,12 @@ export default class LineCombos extends React.Component {
 						className='line-link btn-clear'>
 							{player[2]}
 					</button>
+					<br/>
+					<font size='2'>
+						{rank}
+					</font>
+					<br/><br/>
+					</center>
 				</React.Fragment>
 			}
 		})
@@ -123,8 +195,8 @@ export default class LineCombos extends React.Component {
 
 	render(){
 
-	const { names } = this.state;
-	const { teams } = this.props;
+	const { names, ranks } = this.state;
+	const { teams, scratches } = this.props;
 
 		return(
 			<React.Fragment>
@@ -143,46 +215,46 @@ export default class LineCombos extends React.Component {
 					<table border='0' width='100%'>	
 						<tr>
 							<td>
-								{this.renderLineButton(teams[2], names[0])}
+								{this.renderLineButton(names[0], ranks[0])}
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[1])}
+								{this.renderLineButton(names[1], ranks[1])}
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[2])}
-							</td>
-						</tr>
-						<tr>
-							<td>
-								{this.renderLineButton(teams[2], names[3])}
-							</td>
-							<td>
-								{this.renderLineButton(teams[2], names[4])}
-							</td>
-							<td>
-								{this.renderLineButton(teams[2], names[5])}
+								{this.renderLineButton(names[2], ranks[2])}
 							</td>
 						</tr>
 						<tr>
 							<td>
-								{this.renderLineButton(teams[2], names[6])}
+								{this.renderLineButton(names[3], ranks[3])}
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[7])}							
+								{this.renderLineButton(names[4], ranks[4])}
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[8])}
+								{this.renderLineButton(names[5], ranks[5])}
 							</td>
 						</tr>
 						<tr>
 							<td>
-								{this.renderLineButton(teams[2], names[9])}
+								{this.renderLineButton(names[6], ranks[6])}
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[10])}
+								{this.renderLineButton(names[7], ranks[7])}							
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[11])}
+								{this.renderLineButton(names[8], ranks[8])}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								{this.renderLineButton(names[9], ranks[9])}
+							</td>
+							<td>
+								{this.renderLineButton(names[10], ranks[10])}
+							</td>
+							<td>
+								{this.renderLineButton(names[11], ranks[11])}
 							</td>
 						</tr>
 						</table>
@@ -191,26 +263,26 @@ export default class LineCombos extends React.Component {
 						<table border='0' width="70%">
 						<tr>
 							<td>
-								{this.renderLineButton(teams[2], names[12])}
+								{this.renderLineButton(names[12], ranks[12])}
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[13])}			
+								{this.renderLineButton(names[13], ranks[13])}			
 							</td>
 						</tr>																
 						<tr>
 							<td>
-								{this.renderLineButton(teams[2], names[14])}
+								{this.renderLineButton(names[14], ranks[14])}
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[15])}		
+								{this.renderLineButton(names[15], ranks[15])}		
 							</td>
 						</tr>	
 						<tr>
 							<td>
-								{this.renderLineButton(teams[2], names[16])}
+								{this.renderLineButton(names[16], ranks[16])}
 							</td>
 							<td>
-								{this.renderLineButton(teams[2], names[17])}	
+								{this.renderLineButton(names[17], ranks[17])}	
 							</td>
 						</tr>					
 					</table>
