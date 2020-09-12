@@ -82,15 +82,12 @@ export default class LineCombos extends React.Component {
 					let rank = $(this)
 						.prepend()
 						.text();
-					console.log(rank.charAt(0) == null)
 					if(rank.length > 2) {
 						ranks.push(rank)
 					} else{
 					 ranks.push('N/A');
 					}
 				});
-
-				console.log(ranks);				
 
 				$('.player-name', '#d1').each(function(i, element) {
 					let name = $(this)
@@ -158,7 +155,7 @@ export default class LineCombos extends React.Component {
 		combined.push(...scratches);
 
 		return combined.map(player => {
-			if(player[2].substr(player[2].length - 5) == dfo.substr(dfo.length - 5)){
+			if(player[2].substr(player[2].length - 5) == dfo.substr(dfo.length - 5) && player[0].toString().charAt(0) != 's'){
 				return <React.Fragment>
 					<center>
 					{player[1]} 
@@ -175,6 +172,22 @@ export default class LineCombos extends React.Component {
 					<br/><br/>
 					</center>
 				</React.Fragment>
+			} else if(player[2].substr(player[2].length - 5) == dfo.substr(dfo.length - 5)){
+				return <React.Fragment>
+					<center>
+					{player[1]} 
+					<button
+						onClick={() => this.updatePlayer(player[2], player[0])}
+						className='line-link scratch btn-clear'>
+							{player[2]}
+					</button>
+					<br/>
+					<font size='2'>
+						{rank}
+					</font>
+					<br/><br/>
+					</center>
+				</React.Fragment>				
 			}
 		})
 	}
